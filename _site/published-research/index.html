@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Published Research | YayWebsiteYay (I suck at titles)</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Published Research" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Sometimes I want to publish stuff unfiltered." />
+<meta property="og:description" content="Sometimes I want to publish stuff unfiltered." />
+<link rel="canonical" href="http://localhost:4000/published-research/" />
+<meta property="og:url" content="http://localhost:4000/published-research/" />
+<meta property="og:site_name" content="YayWebsiteYay (I suck at titles)" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Published Research" />
+<script type="application/ld+json">
+{"@type":"WebPage","headline":"Published Research","url":"http://localhost:4000/published-research/","description":"Sometimes I want to publish stuff unfiltered.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="YayWebsiteYay (I suck at titles)" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">YayWebsiteYay (I suck at titles)</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/cves/">My CVEs</a><a class="page-link" href="/published-research/">Published Research</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Published Research</h1>
+  </header>
+
+  <div class="post-content">
+    <p>All of my research which were published on other sites are documented here.</p>
+
+<h2 id="faking-a-positive-covid-test">Faking A Positive COVID Test</h2>
+
+<p>I conducted research into the Ellume COVID-19 Home Test with the intention of finding methods to fake a COVID test result. This device was chosen specifically because of the Bluetooth device that is used as the analyzer for testing a nasal sample. As for the outcome of this research, F-Secure was successful in falsifying a COVID test result, and obtained a certificate verifying the COVID test result. This article will go over the technical details of how this research was conducted.</p>
+
+<p>Full write up: <a href="https://labs.f-secure.com/blog/faking-a-positive-covid-test">https://labs.f-secure.com/blog/faking-a-positive-covid-test</a></p>
+
+<p>News articles:</p>
+
+<ul>
+  <li><a href="https://www.engadget.com/ellume-covid-19-test-bluetooth-hack-153933652.html">https://www.engadget.com/ellume-covid-19-test-bluetooth-hack-153933652.html</a></li>
+  <li><a href="https://www.theverge.com/2021/12/21/22847222/ellume-at-home-covid-test-bluetooth-android-certification">https://www.theverge.com/2021/12/21/22847222/ellume-at-home-covid-test-bluetooth-android-certification</a></li>
+  <li><a href="https://techcrunch.com/2021/12/21/ellume-bug-covid-results">https://techcrunch.com/2021/12/21/ellume-bug-covid-results</a></li>
+</ul>
+
+<hr />
+
+<h2 id="samsung-s20---rce-via-samsung-galaxy-store-app">Samsung S20 - RCE via Samsung Galaxy Store App</h2>
+
+<p>I looked into exploiting the Samsung S20 device for Tokyo Pwn2Own 2020. An exploit chain was found for version 4.5.19.13 of the Galaxy Store application that could have allowed an attacker to install any application on the Galaxy Store without user consent. Samsung patched this vulnerability at the end of September 2020, no longer making it a viable entry for Pwn2Own. This blog post went over the technical details of this vulnerability and how I intended on exploiting this issue for Pwn2Own before it was patched.</p>
+
+<p>Full write up: <a href="https://labs.f-secure.com/blog/samsung-s20-rce-via-samsung-galaxy-store-app/">https://labs.f-secure.com/blog/samsung-s20-rce-via-samsung-galaxy-store-app/</a></p>
+
+<p>I also created a Docker image to more easily exploit this issue: <a href="https://github.com/Yogehi/pwn2own2020-mitmInstallApp-docker">https://github.com/Yogehi/pwn2own2020-mitmInstallApp-docker</a></p>
+
+<hr />
+
+<h2 id="uncommon-sql-database-alert---informix-sql-injection">Uncommon SQL Database Alert - Informix SQL Injection</h2>
+
+<p>A client was looking to upgrade their Cisco UCM software and wanted assurance that their implementation was configured securely. During the assessment, we had discovered an authenticated SQL Injection issue within the Cisco UCM administrator portal. This research goes over the process of discovering how Informix SQL works and developing a custom script to exploit this issue.</p>
+
+<p>Full write up: <a href="https://labs.f-secure.com/blog/uncommon-sql-database-alert-informix-sql-injection/">https://labs.f-secure.com/blog/uncommon-sql-database-alert-informix-sql-injection/</a></p>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">YayWebsiteYay (I suck at titles)</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">YayWebsiteYay (I suck at titles)</li><li><a class="u-email" href="mailto:yogehi@gmail.com">yogehi@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/yogehi"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">yogehi</span></a></li><li><a href="https://www.twitter.com/yogehi"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">yogehi</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Sometimes I want to publish stuff unfiltered.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
