@@ -6,9 +6,20 @@ permalink: /cves/
 
 All of my CVEs are documented here.
 
+## CVE-2022-22288
+
+Some versions of the Galaxy App Store could have been abused to install a malicious application.
+
+### References
+
+* [https://security.samsungmobile.com/serviceWeb.smsb](https://security.samsungmobile.com/serviceWeb.smsb) - January 2022
+* [https://labs.f-secure.com/advisories/samsung-galaxy-one-tap-install-malicious-application/](https://labs.f-secure.com/advisories/samsung-galaxy-one-tap-install-malicious-application/)
+
+--------------------------------------------------------
+
 ## CVE-2021-25374
 
-Some versions of Samsung Members Android application can be abused to access a victim's Samsung Account.
+Some versions of Samsung Members Android application could have been abused to access a victim's Samsung Account.
 
 ### References
 
@@ -24,7 +35,7 @@ Some versions of Samsung Members Android application can be abused to access a v
 
 ## CVE-2021-25367
 
-Some versions of Samsung Notes Android application can be abused to access local files without permission.
+Some versions of Samsung Notes Android application could have been abused to access local files without permission.
 
 ### References
 
@@ -39,7 +50,7 @@ Some versions of Samsung Notes Android application can be abused to access local
 
 ## CVE-2021-25354
 
-Some versions of Samsung Internet Android application can be abused to open non-exported activities via malicious deeplink.
+Some versions of Samsung Internet Android application could have been abused to open non-exported activities via malicious deeplink.
 
 ### References
 
