@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "CVE-2022-24002 - Samsung Link Sharing Start Any Activity"
-date:   2021-12-31 10:00:00 -0500
+date:   2022-02-11 10:00:00 -0500
 categories: research
 tags: bug collision
 ---
