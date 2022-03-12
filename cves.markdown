@@ -28,7 +28,7 @@ Some versions of Samsung Members Android application could have been abused to a
 
 ### PoC:
 
-* [https://github.com/FSecureLABS/CVE-2021-25374_Samsung-Account-Access](https://github.com/FSecureLABS/CVE-2021-25374_Samsung-Account-Access
+* [https://github.com/Yogehi/CVE-2021-25374_Samsung-Account-Access](https://github.com/Yogehi/CVE-2021-25374_Samsung-Account-Access
 )
 
 --------------------------------------------------------
@@ -42,10 +42,6 @@ Some versions of Samsung Notes Android application could have been abused to acc
 * [https://security.samsungmobile.com/serviceWeb.smsb](https://security.samsungmobile.com/serviceWeb.smsb) - February 2021
 * [https://labs.f-secure.com/advisories/samsung-s20-access-external-storage-files/](https://labs.f-secure.com/advisories/samsung-s20-access-external-storage-files/)
 
-### PoC:
-
-* [https://labs.f-secure.com/advisories/samsung-s20-access-external-storage-files/](https://labs.f-secure.com/advisories/samsung-s20-access-external-storage-files/)
-
 --------------------------------------------------------
 
 ## CVE-2021-25354
@@ -55,10 +51,6 @@ Some versions of Samsung Internet Android application could have been abused to 
 ### References
 
 * [https://security.samsungmobile.com/serviceWeb.smsb](https://security.samsungmobile.com/serviceWeb.smsb) - February 2021
-* [https://labs.f-secure.com/advisories/open-activities-via-samsung-browser/](https://labs.f-secure.com/advisories/open-activities-via-samsung-browser/)
-
-### PoC:
-
 * [https://labs.f-secure.com/advisories/open-activities-via-samsung-browser/](https://labs.f-secure.com/advisories/open-activities-via-samsung-browser/)
 
 --------------------------------------------------------
@@ -75,7 +67,7 @@ Some versions of Cisco Unified Communications Manager's admin portal had an auth
 
 ### PoC:
 
-* [https://github.com/FSecureLABS/Cisco-UCM-SQLi-Scripts](https://github.com/FSecureLABS/Cisco-UCM-SQLi-Scripts)
+* [https://github.com/Yogehi/Cisco-UCM-SQLi-Scripts](https://github.com/Yogehi/Cisco-UCM-SQLi-Scripts)
 
 --------------------------------------------------------
 
@@ -87,10 +79,6 @@ Some versions of macOS had a DoS issue on their login screen.
 
 * [https://support.apple.com/en-us/HT209193](https://support.apple.com/en-us/HT209193)
 * [https://support.apple.com/en-us/HT209139](https://support.apple.com/en-us/HT209139)
-* [https://labs.f-secure.com/advisories/macos-user-interface-denial-of-service/](https://labs.f-secure.com/advisories/macos-user-interface-denial-of-service/)
-
-### PoC:
-
 * [https://labs.f-secure.com/advisories/macos-user-interface-denial-of-service/](https://labs.f-secure.com/advisories/macos-user-interface-denial-of-service/)
 
 --------------------------------------------------------
