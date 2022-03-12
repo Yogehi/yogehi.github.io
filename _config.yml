@@ -28,7 +28,7 @@ twitter_username: yogehi
 github_username:  yogehi
 
 # Build settings
-theme: minima
+theme: midnight
 plugins:
   - jekyll-feed
 

