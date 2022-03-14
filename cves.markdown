@@ -13,7 +13,8 @@ Some versions of the Galaxy App Store could have been abused to install a malici
 ### References
 
 * [https://security.samsungmobile.com/serviceWeb.smsb](https://security.samsungmobile.com/serviceWeb.smsb) - January 2022
-* [https://labs.f-secure.com/advisories/samsung-galaxy-one-tap-install-malicious-application/](https://labs.f-secure.com/advisories/samsung-galaxy-one-tap-install-malicious-application/)
+* Advisory - [https://labs.f-secure.com/advisories/samsung-galaxy-one-tap-install-malicious-application/](https://labs.f-secure.com/advisories/samsung-galaxy-one-tap-install-malicious-application/)
+	* Backup advisory - [https://yogehi.github.io/cves/cve-2022-22288.html](/cves/cve-2022-22288.html)
 
 --------------------------------------------------------
 
@@ -24,7 +25,8 @@ Some versions of Samsung Members Android application could have been abused to a
 ### References
 
 * [https://security.samsungmobile.com/serviceWeb.smsb](https://security.samsungmobile.com/serviceWeb.smsb) - April 2021
-* [https://labs.f-secure.com/advisories/samsung-s20-gain-access-to-samsung-account/](https://labs.f-secure.com/advisories/samsung-s20-gain-access-to-samsung-account/)
+* Advisory - [https://labs.f-secure.com/advisories/samsung-s20-gain-access-to-samsung-account/](https://labs.f-secure.com/advisories/samsung-s20-gain-access-to-samsung-account/)
+	* Backup advisory - [https://yogehi.github.io/cves/cve-2021-25374.html](/cves/cve-2021-25374.html)
 
 ### PoC:
 
@@ -40,7 +42,8 @@ Some versions of Samsung Notes Android application could have been abused to acc
 ### References
 
 * [https://security.samsungmobile.com/serviceWeb.smsb](https://security.samsungmobile.com/serviceWeb.smsb) - February 2021
-* [https://labs.f-secure.com/advisories/samsung-s20-access-external-storage-files/](https://labs.f-secure.com/advisories/samsung-s20-access-external-storage-files/)
+* Advisory - [https://labs.f-secure.com/advisories/samsung-s20-access-external-storage-files/](https://labs.f-secure.com/advisories/samsung-s20-access-external-storage-files/)
+	* Backup advisory - [https://yogehi.github.io/cves/cve-2021-25367.html](/cves/cve-2021-25367.html)
 
 --------------------------------------------------------
 
@@ -51,7 +54,8 @@ Some versions of Samsung Internet Android application could have been abused to 
 ### References
 
 * [https://security.samsungmobile.com/serviceWeb.smsb](https://security.samsungmobile.com/serviceWeb.smsb) - February 2021
-* [https://labs.f-secure.com/advisories/open-activities-via-samsung-browser/](https://labs.f-secure.com/advisories/open-activities-via-samsung-browser/)
+* Advisory up - [https://labs.f-secure.com/advisories/open-activities-via-samsung-browser/](https://labs.f-secure.com/advisories/open-activities-via-samsung-browser/)
+	* Backup advisory - [https://yogehi.github.io/cves/cve-2021-25354.html](/cves/cve-2021-25354.html)
 
 --------------------------------------------------------
 
@@ -62,8 +66,10 @@ Some versions of Cisco Unified Communications Manager's admin portal had an auth
 ### References:
 
 * [https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20191120-cucm-sql](https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20191120-cucm-sql)
-* [https://labs.f-secure.com/advisories/cisco-ucm-informix-sql-injection/](https://labs.f-secure.com/advisories/cisco-ucm-informix-sql-injection/)
-* [https://labs.f-secure.com/blog/uncommon-sql-database-alert-informix-sql-injection/](https://labs.f-secure.com/blog/uncommon-sql-database-alert-informix-sql-injection/)
+* Advisory - [https://labs.f-secure.com/advisories/cisco-ucm-informix-sql-injection/](https://labs.f-secure.com/advisories/cisco-ucm-informix-sql-injection/)
+	* Backup advisory - [https://yogehi.github.io/cves/cve-2019-15972.html](/cves/cve-2019-15972.html)
+* Write up - [https://labs.f-secure.com/blog/uncommon-sql-database-alert-informix-sql-injection/](https://labs.f-secure.com/blog/uncommon-sql-database-alert-informix-sql-injection/)
+	* Backup write up - [https://yogehi.github.io/published-research/informix-sql-injection.html](/published-research/informix-sql-injection.html)
 
 ### PoC:
 
@@ -79,6 +85,7 @@ Some versions of macOS had a DoS issue on their login screen.
 
 * [https://support.apple.com/en-us/HT209193](https://support.apple.com/en-us/HT209193)
 * [https://support.apple.com/en-us/HT209139](https://support.apple.com/en-us/HT209139)
-* [https://labs.f-secure.com/advisories/macos-user-interface-denial-of-service/](https://labs.f-secure.com/advisories/macos-user-interface-denial-of-service/)
+* Advisory - [https://labs.f-secure.com/advisories/macos-user-interface-denial-of-service/](https://labs.f-secure.com/advisories/macos-user-interface-denial-of-service/)
+	* Backup advisory - [https://yogehi.github.io/cves/cve-2018-4348.html](/cves/cve-2018-4348.html)
 
 --------------------------------------------------------

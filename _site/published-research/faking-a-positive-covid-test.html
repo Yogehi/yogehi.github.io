@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Faking a Positive COVID Test | YayWebsiteYay (I suck at titles)</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Faking a Positive COVID Test" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Sometimes I want to publish stuff unfiltered." />
+<meta property="og:description" content="Sometimes I want to publish stuff unfiltered." />
+<link rel="canonical" href="http://localhost:4000/published-research/faking-a-positive-covid-test" />
+<meta property="og:url" content="http://localhost:4000/published-research/faking-a-positive-covid-test" />
+<meta property="og:site_name" content="YayWebsiteYay (I suck at titles)" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Faking a Positive COVID Test" />
+<script type="application/ld+json">
+{"@type":"WebPage","headline":"Faking a Positive COVID Test","url":"http://localhost:4000/published-research/faking-a-positive-covid-test","description":"Sometimes I want to publish stuff unfiltered.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="YayWebsiteYay (I suck at titles)" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">YayWebsiteYay (I suck at titles)</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/published-research/">Published Research</a><a class="page-link" href="/cves/">My CVEs</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Faking a Positive COVID Test</h1>
+  </header>
+
+  <div class="post-content">
+    <h4 id="original-post-httpslabsf-securecomblogfaking-a-positive-covid-test">Original post: <a href="https://labs.f-secure.com/blog/faking-a-positive-covid-test">https://labs.f-secure.com/blog/faking-a-positive-covid-test</a></h4>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>F-Secure conducted research into the Ellume COVID-19 Home Test with the intention of finding methods to fake a COVID test result. This device was chosen specifically because of the Bluetooth device that is used as the analyzer for testing a nasal sample. As for the outcome of this research, F-Secure was successful in falsifying a COVID test result, and obtained a certificate verifying the COVID test result.</p>
+
+<p>This article will go over the technical details of how this research was conducted.</p>
+
+<p><img src="/assets/published_research/faking-a-positive-covid-test_1.png" alt="yay" /></p>
+
+<h2 id="the-analyzer-and-bluetooth-traffic">The Analyzer And Bluetooth Traffic</h2>
+
+<p>The analyzer itself was a custom board and a standard Lateral Flow test, with the custom board determining if the user was COVID positive or negative. This determination is based on what the “two lines” look like on the Later Flow test strip. The analyzer would then inform the companion mobile app if the user was COVID positive or negative.</p>
+
+<p>On the board is some LEDs to light up the test strip and some lens to read the test strip result lines. A hole on the case itself can be used to put the nasal sample on the test strip.</p>
+
+<p><img src="/assets/published_research/faking-a-positive-covid-test_2.png" alt="yay" /></p>
+
+<p>The Android application contained an un-exported activity called <code class="language-plaintext highlighter-rouge">com.ellumehealth.homecovid.android/com.gsk.itreat.activities.BluetoothDebugActivity</code>. If you have root level access to your device, you can launch this activity to help interact with the analyzer over Bluetooth.</p>
+
+<p><img src="/assets/published_research/faking-a-positive-covid-test_3.png" alt="yay" /></p>
+
+<p>Using this activity, F-Secure deduced that there were two types of Bluetooth traffic that were most likely in charge of informing the mobile app if the user was COVID positive or negative:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">STATUS</code></li>
+  <li><code class="language-plaintext highlighter-rouge">MEASUREMENT_CONTROL_DATA</code></li>
+</ul>
+
+<p>Below is an example <code class="language-plaintext highlighter-rouge">STATUS</code> message:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>64,-102,4,13,-119,85,0,11,4,1,0,1,0,-1,127,-19,13,103,-122
+</code></pre></div></div>
+
+<p>Breaking down the above traffic, the following information can be seen (the key to converting <code class="language-plaintext highlighter-rouge">STATUS</code> traffic to human readable data was found in the Android app, class <code class="language-plaintext highlighter-rouge">au.com.ellume.estick_sdk.messaging.comms.payloads.StatusPayload</code>):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Array[0-1]     64, -102              start of traffic
+Array[2]       4                     the type of traffic (4 = STATUS)
+Array[3]       13                    length of data in number of bytes
+Array[4-7]     -119, 85, 0, 11       unique ID in unsigned byte values
+Array[8]       4                     status of the test
+Array[9]       1                     algorithm status
+Array[10]      0                     test result
+Array[11-12]   1, 0                  measurement count
+Array[13-14]   -1, 127               time until result in unsigned byte values
+Array[15-16]   -19, 13               time until the test is considered to be failed
+Array[17-18]   103, -122             crc value in unsigned byte values
+</code></pre></div></div>
+
+<p>Below is an example <code class="language-plaintext highlighter-rouge">MEASUREMENT_CONTROL_DATA</code> message:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>64,-102,12,24,-119,85,0,11,-98,0,-128,7,-81,36,0,4,80,24,0,0,62,2,0,19,25,-124,26,-119,-66,-43
+</code></pre></div></div>
+<p>Breaking down the above traffic, the following information can be seen (the key to converting <code class="language-plaintext highlighter-rouge">MEASUREMENT_CONTROL_DATA</code> traffic to human readable data was found in the Android app, class <code class="language-plaintext highlighter-rouge">au.com.ellume.estick_sdk.messaging.comms.payloads.MeasurementControlDataPayload</code>):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Array[0-1]     64, -102              start of traffic
+Array[2]       12                    the type of traffic (12 = MEASUREMENT_CONTROL_DATA)
+Array[3]       24                    length of data in number of bytes
+Array[4-7]     -119, 85, 0, 11       unique ID in unsigned byte values
+Array[8-9]     -98, 0                sequence number unsigned byte values
+Array[10-11]   -128, 7               timestamp in unsigned byte values
+Array[12-14]   -81, 36, 0            measurement of line 1
+Array[15]      4                     algorithm status
+Array[16-18]   80, 24, 0             measurement of line 2
+Array[19]      0                     hardware status
+Array[20-21]   62, 2                 dark frequency number in unsigned byte values
+Array[22]      0                     test result
+Array[23-24]   19, 25                c1 value in unsigned byte values
+Array[25-26]   -124, 26              c2 value in unsigned byte values
+Array[27]      -119                  checksum of measurement data in unsigned byte value
+Array[28-19]   -66, -43              crc value in unsigned byte value
+</code></pre></div></div>
+
+<p>CRC values and checksums are calculated using two different algorithms. First an integer is calculated from the following example Java code, taken from the Android app, class <code class="language-plaintext highlighter-rouge">c</code> method <code class="language-plaintext highlighter-rouge">b(byte[])</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// if request is MEASUREMENT_CONTROLDATA
+//     checksum value calculated from bArr[4-27]
+//     crc value calculated from bArr[0-(length-2)]
+// if request is STATUS
+//     crc value calculated from bArr[0-(length-2)]
+public static int b(byte[] bArr) {
+    int yayintyay = 0;
+    for (byte b : bArr) {
+        for (int i = 0; i &lt; 8; i++) {
+            boolean z = ((b &gt;&gt; (7 - i)) &amp; 1) == 1;
+            boolean z2 = ((yayintyay &gt;&gt; 15) &amp; 1) == 1;
+            yayintyay &lt;&lt;= 1;
+            if (z ^ z2) {
+                yayintyay ^= 4129;
+            }
+        }
+     }
+     yayintyay &amp;= 65535;
+     return yayintyay;
+}
+</code></pre></div></div>
+
+<p>Then the integer value is converted to a byte array. The below snippet is taken from the Android app, class <code class="language-plaintext highlighter-rouge">au.com.ellume.estick_sdk.util.IntegerExtensions</code> method <code class="language-plaintext highlighter-rouge">toBytes(int)</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public static byte[] toBytes(int i) {
+    return ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(i).array();
+}
+</code></pre></div></div>
+
+<p>If a checksum value is being calculated, then the first byte array value is used. Otherwise, if a CRC value is being calculated, then the first and second byte array values are used.</p>
+
+<h2 id="modifying-the-traffic">Modifying The Traffic</h2>
+
+<p>F-Secure determined that by changing only the byte value representing the “status of the test” in both <code class="language-plaintext highlighter-rouge">STATUS</code> and <code class="language-plaintext highlighter-rouge">MEASUREMENT_CONTROL_DATA</code> traffic, followed by calculating new CRC and checksum values, it was possible to alter the COVID test result before the Ellume app processes the data. There are multiple areas where you can hook into to modify BLE traffic. F-Secure created two PoC hooks for this research which hooks into the Android version of the Ellume app:</p>
+
+<ul>
+  <li>A Frida script which hooks into class <code class="language-plaintext highlighter-rouge">EV</code> method <code class="language-plaintext highlighter-rouge">equals(Object)</code></li>
+  <li>A Xposed module which hooks into class <code class="language-plaintext highlighter-rouge">android.bluetooth.BluetoothGattCharacteristic</code> method <code class="language-plaintext highlighter-rouge">getValue()</code></li>
+</ul>
+
+<p>Below is output using the Frida script showing F-Secure successfully changing a negative test to positive:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[#] MEASUREMENT_CONTROL_DATA:
+    [#] byte array: 64,-102,12,24,-119,85,0,11,88,2,-2,41,-105,48,0,7,-34,55,0,0,-66,1,1,93,34,58,35,-34,-5,-50
+    [#] test result: 1 NEGATIVE
+    [#] algorithm state: 7 RESULT_AVAILABLE
+    [#] timestamp: 10750
+    [#] unique id: 184571273 
+    [#] line 1: 12439
+    [#] line 2: 14302
+    [#] hardware status: OK
+    [#] sequence number: 600
+    [#] darkfrequency: 446
+    [#] given checksum: -34
+    [-] Test was NEGATIVE, changing to POSITIVE
+        [#] calculated new checksum and CRC value
+        [#] NEW byte array: 64,-102,12,24,-119,85,0,11,88,2,-2,41,-105,48,0,7,-34,55,0,0,-66,1,2,93,34,58,35,68,-24,34
+[#] STATUS: 
+    [#] byte array: 64,-102,4,13,-119,85,0,11,5,7,1,88,2,0,0,-1,127,69,-83
+    [#] result: 1 NEGATIVE
+    [#] status: RESULT
+    [#] algorithm state: 7 RESULT_AVAILABLE
+    [#] unique id: 184571273
+    [#] measure count: 600
+    [#] time to result: 0
+    [#] time to failure: 32767
+    [-] Test was NEGATIVE, changing to POSITIVE
+        [#] calculated new checksum and CRC value
+        [#] NEW byte array: 64,-102,4,13,-119,85,0,11,5,7,2,88,2,0,0,-1,127,-57,117
+</code></pre></div></div>
+
+<p>Below is a screenshot of an email from Ellume confirming that the above COVID test was a positive test:</p>
+
+<p><img src="/assets/published_research/faking-a-positive-covid-test_4.png" alt="yay" /></p>
+
+<h2 id="obtaining-an-azova-certificate">Obtaining an Azova Certificate</h2>
+
+<p>At the time of this post’s publication, the United States requires a negative COVID test, and the Ellume test is one option to provide proof of a negative test. If a customer chooses this option, they are required to have their test observed by the third party company Azova. To prove that F-Secure could fake a positive COVID test and obtain a certificate from Azova, the F-Secure Marketing Manager Alexandra Rinehimer took the COVID test while being supervised.</p>
+
+<p>When it was time to take the test under the supervision of Azova, Alexandra used F-Secure’s Xposed Module PoC. After launching the Ellume app with the Xposed Module, Alex proceeded to take the test. Below is the output log from the test, showing that while analyzer 151131494 reported a negative result, the Xposed Module changed the result to positive:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2021-07-30 14:39:07.837 11090-11108/? I/EdXposed-Bridge: [#yay#] MEASUREMENT_CONTROL_DATA:
+    [#yay#] byte array: [B@4899c09
+    [#yay#] test result: 1 NEGATIVE
+    [#yay#] algorithm state: 7 RESULT_AVAILABLE
+    [#yay#] timestamp: 10490
+    [#yay#] unique id: 151131494
+    [#yay#] line 1: 12564
+    [#yay#] line 2: 14354
+    [#yay#] c1 value: 8570
+    [#yay#] c2 value: 10169
+    [#yay#] hardware status: OK
+    [#yay#] sequence number: 573
+    [#yay#] darkfrequency: 655
+    [#yay#] given checksum: -99
+    [#yay#] crc value: -72 -58
+2021-07-30 14:39:07.837 11090-11108/? I/EdXposed-Bridge: [-yay-] Test was NEGATIVE, changing to POSITIVE
+2021-07-30 14:39:07.837 11090-11108/? I/EdXposed-Bridge: [#yay#] calculated new checksum and CRC value
+        [#yay#] NEW byte array: [B@4899c09
+2021-07-30 14:39:07.912 11090-11108/? I/EdXposed-Bridge: [#yay#] STATUS: 
+    [#yay#] byte array: [B@4185e0e
+    [#yay#] result: 1 NEGATIVE
+    [#yay#] status: RESULT
+    [#yay#] algorithm state: 7 RESULT_AVAILABLE
+    [#yay#] unique id: 151131494
+    [#yay#] measure count: 573
+    [#yay#] time to result: 0
+    [#yay#] time to failure: 32767
+    [#yay#] crc value: 111 17
+2021-07-30 14:39:07.912 11090-11108/? I/EdXposed-Bridge: [-yay-] Test was NEGATIVE, changing to POSITIVE
+2021-07-30 14:39:07.912 11090-11108/? I/EdXposed-Bridge: [#yay#] calculated new checksum and CRC value
+    [#yay#] NEW byte array: [B@4185e0e
+</code></pre></div></div>
+
+<p>Below is the certificate that Alexandra was given from Azova:</p>
+
+<p><img src="/assets/published_research/faking-a-positive-covid-test_5.png" alt="yay" /></p>
+
+<p>Files for this research can be found here: <a href="https://github.com/Yogehi/Ellume-COVID-Test_Research-Files">https://github.com/Yogehi/Ellume-COVID-Test_Research-Files</a></p>
+
+<h2 id="contacting-ellume">Contacting Ellume</h2>
+
+<p>F-Secure reached out to Ellume and presented the findings above. The following recommendations were made, which Ellume has stated have been implemented:</p>
+
+<ul>
+  <li>Implement further analysis of results to flag spoofed data</li>
+  <li>Implement additional obfuscation and OS checks in the Android app</li>
+</ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">YayWebsiteYay (I suck at titles)</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">YayWebsiteYay (I suck at titles)</li><li><a class="u-email" href="mailto:Fake_email_link">Fake_email_link</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/yogehi"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">yogehi</span></a></li><li><a href="https://www.twitter.com/yogehi"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">yogehi</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Sometimes I want to publish stuff unfiltered.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
