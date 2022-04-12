@@ -12,7 +12,7 @@ Some versions of the Galaxy App Store could have been abused to install a malici
 
 ### References
 
-* [https://security.samsungmobile.com/serviceWeb.smsb](https://security.samsungmobile.com/serviceWeb.smsb) - January 2022
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=1](https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=1) - January 2022
 * Advisory - [https://labs.f-secure.com/advisories/samsung-galaxy-one-tap-install-malicious-application/](https://labs.f-secure.com/advisories/samsung-galaxy-one-tap-install-malicious-application/)
 	* Backup advisory - [https://yogehi.github.io/cves/cve-2022-22288.html](/cves/cve-2022-22288.html)
 
@@ -24,7 +24,7 @@ Some versions of Samsung Members Android application could have been abused to a
 
 ### References
 
-* [https://security.samsungmobile.com/serviceWeb.smsb](https://security.samsungmobile.com/serviceWeb.smsb) - April 2021
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2021&month=4](https://security.samsungmobile.com/serviceWeb.smsb?year=2021&month=4) - April 2021
 * Advisory - [https://labs.f-secure.com/advisories/samsung-s20-gain-access-to-samsung-account/](https://labs.f-secure.com/advisories/samsung-s20-gain-access-to-samsung-account/)
 	* Backup advisory - [https://yogehi.github.io/cves/cve-2021-25374.html](/cves/cve-2021-25374.html)
 
@@ -41,7 +41,7 @@ Some versions of Samsung Notes Android application could have been abused to acc
 
 ### References
 
-* [https://security.samsungmobile.com/serviceWeb.smsb](https://security.samsungmobile.com/serviceWeb.smsb) - February 2021
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2021&month=2](https://security.samsungmobile.com/serviceWeb.smsb?year=2021&month=2) - February 2021
 * Advisory - [https://labs.f-secure.com/advisories/samsung-s20-access-external-storage-files/](https://labs.f-secure.com/advisories/samsung-s20-access-external-storage-files/)
 	* Backup advisory - [https://yogehi.github.io/cves/cve-2021-25367.html](/cves/cve-2021-25367.html)
 
@@ -53,7 +53,7 @@ Some versions of Samsung Internet Android application could have been abused to 
 
 ### References
 
-* [https://security.samsungmobile.com/serviceWeb.smsb](https://security.samsungmobile.com/serviceWeb.smsb) - February 2021
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2021&month=2](https://security.samsungmobile.com/serviceWeb.smsb?year=2021&month=2) - February 2021
 * Advisory up - [https://labs.f-secure.com/advisories/open-activities-via-samsung-browser/](https://labs.f-secure.com/advisories/open-activities-via-samsung-browser/)
 	* Backup advisory - [https://yogehi.github.io/cves/cve-2021-25354.html](/cves/cve-2021-25354.html)
 
