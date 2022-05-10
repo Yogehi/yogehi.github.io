@@ -1,211 +1,279 @@
 ---
 layout: page
 title: Faking a Positive COVID Test
-permalink: /published-research/faking-a-positive-covid-test
+permalink: /published-research/faking-another-positive-covid-test
 ---
 
-#### Original post: [https://labs.f-secure.com/blog/faking-a-positive-covid-test](https://labs.f-secure.com/blog/faking-a-positive-covid-test)
+#### Original post: [https://labs.f-secure.com/blog/faking-another-positive-covid-test/](https://labs.f-secure.com/blog/faking-another-positive-covid-test/)
 
 ## Introduction
 
-F-Secure conducted research into the Ellume COVID-19 Home Test with the intention of finding methods to fake a COVID test result. This device was chosen specifically because of the Bluetooth device that is used as the analyzer for testing a nasal sample. As for the outcome of this research, F-Secure was successful in falsifying a COVID test result, and obtained a certificate verifying the COVID test result.
+WithSecure conducted research into the Cue Health Home COVID-19 Test with the intention of finding methods to create fraudulent COVID-19 test results. This device was chosen because the reader unit used Bluetooth to send test results to the patient's phone. As for the outcome of this research, WithSecure was successful in falsifying a COVID-19 test result and obtaining a certificate verifying that this COVID-19 test result was valid.
 
-This article will go over the technical details of how this research was conducted.
+This article will go over the technical details of how this research was conducted against the following application and firmware versions:
 
-![yay](/assets/published_research/faking-a-positive-covid-test_1.png)
+* Cue Health Android application com.cuehealth.healthapp version 1.4.3.134
+* Cue Reader firmware version 0.17.6
 
-## The Analyzer And Bluetooth Traffic
+![yay](/assets/published_research/faking-another-positive-covid-test_1.jpg)
 
-The analyzer itself was a custom board and a standard Lateral Flow test, with the custom board determining if the user was COVID positive or negative. This determination is based on what the "two lines" look like on the Later Flow test strip. The analyzer would then inform the companion mobile app if the user was COVID positive or negative.
+## Overview: Reader and Cartridge
 
-On the board is some LEDs to light up the test strip and some lens to read the test strip result lines. A hole on the case itself can be used to put the nasal sample on the test strip.
+Before diving into the technical details, we will give a brief overview of the test components and how it works. Two components are required to take a COVID-19 test by Cue Health, the Cue Reader and the Test Cartridge.
 
-![yay](/assets/published_research/faking-a-positive-covid-test_2.png)
+The Cue Reader unit contains a heater, gyroscope, and the necessary hardware to communicate with a user's phone via Bluetooth. When taking a test, the Test Cartridge is inserted into the Cue Reader and the test itself is conducted within the Test Cartridge. The data is then passed to the reader, which is then transmitted to the user's phone.
 
-The Android application contained an un-exported activity called `com.ellumehealth.homecovid.android/com.gsk.itreat.activities.BluetoothDebugActivity`. If you have root level access to your device, you can launch this activity to help interact with the analyzer over Bluetooth.
+![yay](/assets/published_research/faking-another-positive-covid-test_2.jpg)
 
-![yay](/assets/published_research/faking-a-positive-covid-test_3.png)
+Each COVID-19 Test Cartridge comes with a nasal swab which is inserted into the cartridge. The Test Cartridge contains liquid which is released when the nasal swab is inserted, and gathers in one area in the cartridge where the test is conducted.
 
-Using this activity, F-Secure deduced that there were two types of Bluetooth traffic that were most likely in charge of informing the mobile app if the user was COVID positive or negative:
+![yay](/assets/published_research/faking-another-positive-covid-test_3.jpg)
 
-* `STATUS`
-* `MEASUREMENT_CONTROL_DATA`
+## Technical Details: Bluetooth Traffic and Protobuf
 
-Below is an example `STATUS` message:
-
-```
-64,-102,4,13,-119,85,0,11,4,1,0,1,0,-1,127,-19,13,103,-122
-```
-
-Breaking down the above traffic, the following information can be seen (the key to converting `STATUS` traffic to human readable data was found in the Android app, class `au.com.ellume.estick_sdk.messaging.comms.payloads.StatusPayload`):
+Now that we have established a brief overview of the device, now we can dig into how the Bluetooth traffic is structured. The Cue Reader communicated with the Android app via the Protobuf protocol over Bluetooth. This has the following general structure packet:
 
 ```
-Array[0-1]     64, -102              start of traffic
-Array[2]       4                     the type of traffic (4 = STATUS)
-Array[3]       13                    length of data in number of bytes
-Array[4-7]     -119, 85, 0, 11       unique ID in unsigned byte values
-Array[8]       4                     status of the test
-Array[9]       1                     algorithm status
-Array[10]      0                     test result
-Array[11-12]   1, 0                  measurement count
-Array[13-14]   -1, 127               time until result in unsigned byte values
-Array[15-16]   -19, 13               time until the test is considered to be failed
-Array[17-18]   103, -122             crc value in unsigned byte values
+08 XX XX XX YY ZZ ZZ ZZ ZZ ZZ ZZ ZZ
 ```
 
-Below is an example `MEASUREMENT_CONTROL_DATA` message:
+* XX – packet count in Protobuf
+* YY – the packet type (Cartridge Status, Test Result, etc)
+* ZZ – the data itself
+
+Cue Health implemented a Protobuf parser in class `b.l.h.o$b` method `y()`. This implementation can be seen below:
 
 ```
-64,-102,12,24,-119,85,0,11,-98,0,-128,7,-81,36,0,4,80,24,0,0,62,2,0,19,25,-124,26,-119,-66,-43
-```
-Breaking down the above traffic, the following information can be seen (the key to converting `MEASUREMENT_CONTROL_DATA` traffic to human readable data was found in the Android app, class `au.com.ellume.estick_sdk.messaging.comms.payloads.MeasurementControlDataPayload`):
+public int y() throws java.io.IOException {
+            int var3_bytePosition = this.i;
+            int var1_payloadLength = this.g;
+            if (var1_payloadLength != var3_bytePosition) {
+                byte[] var6 = this.e;
+                int var2_bytePositionPlus1 = var3_bytePosition + 1;
+                byte var7 = var6[var3_bytePosition];
+                if (var7 >= 0) {
+                    this.i = var2_bytePositionPlus1;
+                    return var7;
+                }
 
-```
-Array[0-1]     64, -102              start of traffic
-Array[2]       12                    the type of traffic (12 = MEASUREMENT_CONTROL_DATA)
-Array[3]       24                    length of data in number of bytes
-Array[4-7]     -119, 85, 0, 11       unique ID in unsigned byte values
-Array[8-9]     -98, 0                sequence number unsigned byte values
-Array[10-11]   -128, 7               timestamp in unsigned byte values
-Array[12-14]   -81, 36, 0            measurement of line 1
-Array[15]      4                     algorithm status
-Array[16-18]   80, 24, 0             measurement of line 2
-Array[19]      0                     hardware status
-Array[20-21]   62, 2                 dark frequency number in unsigned byte values
-Array[22]      0                     test result
-Array[23-24]   19, 25                c1 value in unsigned byte values
-Array[25-26]   -124, 26              c2 value in unsigned byte values
-Array[27]      -119                  checksum of measurement data in unsigned byte value
-Array[28-19]   -66, -43              crc value in unsigned byte value
-```
+                if (var1_payloadLength - var2_bytePositionPlus1 >= 9) {
+                    var1_payloadLength = var2_bytePositionPlus1 + 1;
+                    var3_bytePosition = var7 ^ var6[var2_bytePositionPlus1] << 7;
+                    if (var3_bytePosition < 0) {
+                        var2_bytePositionPlus1 = var3_bytePosition ^ -128;
+                    } else {
+                        var2_bytePositionPlus1 = var1_payloadLength + 1;
+                        var3_bytePosition ^= var6[var1_payloadLength] << 14;
+                        if (var3_bytePosition >= 0) {
+                            var3_bytePosition ^= 16256;
+                            var1_payloadLength = var2_bytePositionPlus1;
+                            var2_bytePositionPlus1 = var3_bytePosition;
+                        } else {
+                            var1_payloadLength = var2_bytePositionPlus1 + 1;
+                            var2_bytePositionPlus1 = var3_bytePosition ^ var6[var2_bytePositionPlus1] << 21;
+                            if (var2_bytePositionPlus1 < 0) {
+                                var2_bytePositionPlus1 ^= -2080896;
+                            } else {
+                                int var4 = var1_payloadLength + 1;
+                                byte var5 = var6[var1_payloadLength];
+                                var3_bytePosition = var2_bytePositionPlus1 ^ var5 << 28 ^ 266354560;
+                                var2_bytePositionPlus1 = var3_bytePosition;
+                                var1_payloadLength = var4;
+                                if (var5 < 0) {
+                                    int var8 = var4 + 1;
+                                    var2_bytePositionPlus1 = var3_bytePosition;
+                                    var1_payloadLength = var8;
+                                    if (var6[var4] < 0) {
+                                        var4 = var8 + 1;
+                                        var2_bytePositionPlus1 = var3_bytePosition;
+                                        var1_payloadLength = var4;
+                                        if (var6[var8] < 0) {
+                                            var8 = var4 + 1;
+                                            var2_bytePositionPlus1 = var3_bytePosition;
+                                            var1_payloadLength = var8;
+                                            if (var6[var4] < 0) {
+                                                var4 = var8 + 1;
+                                                var2_bytePositionPlus1 = var3_bytePosition;
+                                                var1_payloadLength = var4;
+                                                if (var6[var8] < 0) {
+                                                    var1_payloadLength = var4 + 1;
+                                                    var2_bytePositionPlus1 = var3_bytePosition;
+                                                    if (var6[var4] < 0) {
+                                                        return (int) this.O();
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
 
-CRC values and checksums are calculated using two different algorithms. First an integer is calculated from the following example Java code, taken from the Android app, class `c` method `b(byte[])`:
-
-```
-// if request is MEASUREMENT_CONTROLDATA
-//     checksum value calculated from bArr[4-27]
-//     crc value calculated from bArr[0-(length-2)]
-// if request is STATUS
-//     crc value calculated from bArr[0-(length-2)]
-public static int b(byte[] bArr) {
-    int yayintyay = 0;
-    for (byte b : bArr) {
-        for (int i = 0; i < 8; i++) {
-            boolean z = ((b >> (7 - i)) & 1) == 1;
-            boolean z2 = ((yayintyay >> 15) & 1) == 1;
-            yayintyay <<= 1;
-            if (z ^ z2) {
-                yayintyay ^= 4129;
+                    this.i = var1_payloadLength;
+                    return var2_bytePositionPlus1;
+                }
             }
+
+            return (int) this.O();
         }
-     }
-     yayintyay &= 65535;
-     return yayintyay;
-}
 ```
 
-Then the integer value is converted to a byte array. The below snippet is taken from the Android app, class `au.com.ellume.estick_sdk.util.IntegerExtensions` method `toBytes(int)`:
+Each received Bluetooth message is processed through the above parser, and the class `com.cuehealth.protobuf.reader.CueMessage` method `CueMessage()` contained the types of Bluetooth messages the Cue Health app recognized in decimal format. As an example, per the below code snippet, packet types in decimal `170` (`AA` in HEX) are Test Result type `data`:
 
 ```
-public static byte[] toBytes(int i) {
-    return ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(i).array();
-}
+private CueMessage(Abstracto oVar, g0 g0Var) throws a1 {
+...
+  case 170:
+    builder3 = this.msgCase_ == 21 ? ((TestResults) this.msg_).toBuilder() : builder3;
+    Abstractv1 w12 = oVar.w(TestResults.parser(), g0Var);
+    this.msg_ = w12;
+    if (builder3 != null) {
+      builder3.mergeFrom((TestResults) w12);
+      this.msg_ = builder3.buildPartial();
+    }
+    this.msgCase_ = 21;
+    continue;
 ```
 
-If a checksum value is being calculated, then the first byte array value is used. Otherwise, if a CRC value is being calculated, then the first and second byte array values are used.
-
-## Modifying The Traffic
-
-F-Secure determined that by changing only the byte value representing the "status of the test" in both `STATUS` and `MEASUREMENT_CONTROL_DATA` traffic, followed by calculating new CRC and checksum values, it was possible to alter the COVID test result before the Ellume app processes the data. There are multiple areas where you can hook into to modify BLE traffic. F-Secure created two PoC hooks for this research which hooks into the Android version of the Ellume app:
-
-* A Frida script which hooks into class `EV` method `equals(Object)`
-* A Xposed module which hooks into class `android.bluetooth.BluetoothGattCharacteristic` method `getValue()`
-
-Below is output using the Frida script showing F-Secure successfully changing a negative test to positive:
+By then referencing class `com.cuehealth.protobuf.reader.TestResults` method `TestResults()`, it was found that the data type value in decimal `34` (`22` in HEX) represented the "Assay Result":
 
 ```
-[#] MEASUREMENT_CONTROL_DATA:
-    [#] byte array: 64,-102,12,24,-119,85,0,11,88,2,-2,41,-105,48,0,7,-34,55,0,0,-66,1,1,93,34,58,35,-34,-5,-50
-    [#] test result: 1 NEGATIVE
-    [#] algorithm state: 7 RESULT_AVAILABLE
-    [#] timestamp: 10750
-    [#] unique id: 184571273 
-    [#] line 1: 12439
-    [#] line 2: 14302
-    [#] hardware status: OK
-    [#] sequence number: 600
-    [#] darkfrequency: 446
-    [#] given checksum: -34
-    [-] Test was NEGATIVE, changing to POSITIVE
-        [#] calculated new checksum and CRC value
-        [#] NEW byte array: 64,-102,12,24,-119,85,0,11,88,2,-2,41,-105,48,0,7,-34,55,0,0,-66,1,2,93,34,58,35,68,-24,34
-[#] STATUS: 
-    [#] byte array: 64,-102,4,13,-119,85,0,11,5,7,1,88,2,0,0,-1,127,69,-83
-    [#] result: 1 NEGATIVE
-    [#] status: RESULT
-    [#] algorithm state: 7 RESULT_AVAILABLE
-    [#] unique id: 184571273
-    [#] measure count: 600
-    [#] time to result: 0
-    [#] time to failure: 32767
-    [-] Test was NEGATIVE, changing to POSITIVE
-        [#] calculated new checksum and CRC value
-        [#] NEW byte array: 64,-102,4,13,-119,85,0,11,5,7,2,88,2,0,0,-1,127,-57,117
+private TestResults(final o o, final g0 g0) throws a1 {
+...
+  case 34: {
+    int n7 = n;
+    if ((n & 0x8) != 0x8) {
+      n2 = n;
+      n2 = n;
+      final ArrayList<AssayResult> assayResults_ = new ArrayList<AssayResult>();
+      n2 = n;
+      this.assayResults_ = assayResults_;
+      n7 = (n | 0x8);
+    }
+    n2 = n7;
+    this.assayResults_.add((AssayResult)o.w(AssayResult.parser(), g0));
+    n = n7;
+    continue;
+  }
 ```
 
-Below is a screenshot of an email from Ellume confirming that the above COVID test was a positive test:
+Following this to class `com.cuehealth.protobuf.reader.AssayResult` method `AssayResult()`, it was found that two types of data were used:
 
-![yay](/assets/published_research/faking-a-positive-covid-test_4.png)
-
-## Obtaining an Azova Certificate
-
-At the time of this post's publication, the United States requires a negative COVID test, and the Ellume test is one option to provide proof of a negative test. If a customer chooses this option, they are required to have their test observed by the third party company Azova. To prove that F-Secure could fake a positive COVID test and obtain a certificate from Azova, the F-Secure Marketing Manager Alexandra Rinehimer took the COVID test while being supervised.
-
-When it was time to take the test under the supervision of Azova, Alexandra used F-Secure’s Xposed Module PoC. After launching the Ellume app with the Xposed Module, Alex proceeded to take the test. Below is the output log from the test, showing that while analyzer 151131494 reported a negative result, the Xposed Module changed the result to positive:
+* `type` is represented by decimal value `8` (`8` in HEX)
+* `code` is represented by decimal value `16` (`10` in HEX)
 
 ```
-2021-07-30 14:39:07.837 11090-11108/? I/EdXposed-Bridge: [#yay#] MEASUREMENT_CONTROL_DATA:
-    [#yay#] byte array: [B@4899c09
-    [#yay#] test result: 1 NEGATIVE
-    [#yay#] algorithm state: 7 RESULT_AVAILABLE
-    [#yay#] timestamp: 10490
-    [#yay#] unique id: 151131494
-    [#yay#] line 1: 12564
-    [#yay#] line 2: 14354
-    [#yay#] c1 value: 8570
-    [#yay#] c2 value: 10169
-    [#yay#] hardware status: OK
-    [#yay#] sequence number: 573
-    [#yay#] darkfrequency: 655
-    [#yay#] given checksum: -99
-    [#yay#] crc value: -72 -58
-2021-07-30 14:39:07.837 11090-11108/? I/EdXposed-Bridge: [-yay-] Test was NEGATIVE, changing to POSITIVE
-2021-07-30 14:39:07.837 11090-11108/? I/EdXposed-Bridge: [#yay#] calculated new checksum and CRC value
-        [#yay#] NEW byte array: [B@4899c09
-2021-07-30 14:39:07.912 11090-11108/? I/EdXposed-Bridge: [#yay#] STATUS: 
-    [#yay#] byte array: [B@4185e0e
-    [#yay#] result: 1 NEGATIVE
-    [#yay#] status: RESULT
-    [#yay#] algorithm state: 7 RESULT_AVAILABLE
-    [#yay#] unique id: 151131494
-    [#yay#] measure count: 573
-    [#yay#] time to result: 0
-    [#yay#] time to failure: 32767
-    [#yay#] crc value: 111 17
-2021-07-30 14:39:07.912 11090-11108/? I/EdXposed-Bridge: [-yay-] Test was NEGATIVE, changing to POSITIVE
-2021-07-30 14:39:07.912 11090-11108/? I/EdXposed-Bridge: [#yay#] calculated new checksum and CRC value
-    [#yay#] NEW byte array: [B@4185e0e
+private AssayResult(Abstracto oVar, g0 g0Var) throws a1 {
+...
+  if (G == 8) {
+    this.type_ = oVar.p();
+  } else if (G == 16) {
+    this.code_ = oVar.p();
 ```
 
-Below is the certificate that Alexandra was given from Azova:
+The class `com.cuehealth.protobuf.reader.AssayResult` method `Code()` contained information regarding what `code` values were expected. `Negative` was represented by decimal value `3` (`3` in HEX):
 
-![yay](/assets/published_research/faking-a-positive-covid-test_5.png)
+```
+public enum Code implements z0.Abstractc {
+  INVALID(0),
+  CONCENTRATION_LEVEL(1),
+  POSITIVE(2),
+  NEGATIVE(3),
+  PASS(4),
+  FAIL(5),
+  UNRECOGNIZED(-1);
+```
 
-Files for this research can be found here: [https://github.com/Yogehi/Ellume-COVID-Test_Research-Files](https://github.com/Yogehi/Ellume-COVID-Test_Research-Files)
+Within the same class, method `Type()` contained information on what `type` values were expected. The value for `CORONAVIRUS` was decimal value `19` (`13` in HEX):
 
-## Contacting Ellume
+```
+public enum Type implements z0.Abstractc {
+  NONE(0),
+  INFLUENZA(1),
+  INFLAMMATION_CRP(2),
+  VITAMIN_D(3),
+  TESTOSTERONE(4),
+  FERTILITY(5),
+  HIV_1_VIRAL_LOAD(6),
+  ANC_PLUS_WBC(7),
+  ZIKA_IG_M(9),
+  ZIKA_VIRAL(10),
+  PREGNANCY(11),
+  CORTISOL(12),
+  CHOLESTEROL_LDL(13),
+  CHOLESTEROL_HDL(14),
+  HEMOGLOBIN_A1C(15),
+  RSV(17),
+  CORONAVIRUS(19),
+  RVC(20),
+  UNRECOGNIZED(-1);
+```
 
-F-Secure reached out to Ellume and presented the findings above. The following recommendations were made, which Ellume has stated have been implemented:
+Putting all of this together, a negative Coronavirus test result most likely looked like the following in HEX:
 
-* Implement further analysis of results to flag spoofed data
-* Implement additional obfuscation and OS checks in the Android app
+```
+08 XX XX XX AA YY YY YY YY 22 04 08 13 10 03 YY YY
+```
+
+* `08` is the start of the packet
+* `XX` is the packet count in protobuf
+* `AA` is a "Test Result" packet type
+* `YY` is other "Test Result" data
+* `22` is AssayResult data
+* `04` is that the proceeding data is 4 bytes
+* `08 13` is type: coronavirus
+* `10 03` is code: negative
+
+## Obtaining a Modified COVID-19 Test Result
+
+WithSecure developed a Frida script which hooked into the Java class class `b.a.a.h.v3.k0$a` method `onCharacteristicChanged`. This method was chosen to be hooked into due to it being one of the first methods called when processing Bluetooth traffic within the application. The script intercepted each Bluetooth packet sent to the application and performed the following steps:
+
+* The Bluetooth traffic is put through the Cue Health Protobuf parser to help determine what type of packet was received by the Cue Reader
+* If the data type is "Test Result", then search for either HEX `220408131002` or `220408131003`
+* Determine if the test result is positive or negative
+* Switch the result (negative to positive, positive to negative)
+* Put the modified data back into the app
+
+Using this script, it was possible to change the test result within the Bluetooth data while being proctored by a Cue Health representative. Below is the output of the Frida script, showing that it had detected a negative test result and changed it to a positive result:
+
+```
+[#] TestResults
+    hex payload: 08fefb02aa0188010a120a1000748a7ba3e34142bc4bd2f2a7494d9510021a2e0a1908918fbf30101320a382013080cff395063a0631383830334612119a010e080215008088c520012d0000c8c32204081310033a1097c89ec5abe5a7c40ee118c42f1291c240bcdeb190e22f48b6a8fb90e22f52120a104cd2f87ebf
+    raw bytes length: 125
+    bluetooth packet count: 48638
+    packet type: 170 TestResults
+    packet size: 136
+      
+    [#] COVID-19 NEGATIVE test found
+       [#] changed COVID-19 NEGATIVE to POSITIVE
+       [#] new hex payload: 08fefb02aa0188010a120a1000748a7ba3e34142bc4bd2f2a7494d9510021a2e0a1908918fbf30101320a382013080cff395063a0631383830334612119a010e080215008088c520012d0000c8c32204081310023a1097c89ec5abe5a7c40ee118c42f1291c240bcdeb190e22f48b6a8fb90e22f52120a104cd2f87ebf  
+ 
+[#] TestResults
+    hex payload: 08fffb02aa0188010a120a1000748a7ba3e34142bc4bd2f2a7494d9510021a2e0a1908918fbf30101320a382013080cff395063a0631383830334612119a010e080215008088c520012d0000c8c32204081310033a1097c89ec5abe5a7c40ee118c42f1291c240bcdeb190e22f48b6a8fb90e22f52120a104cd2f87ebf
+    raw bytes length: 125
+    bluetooth packet count: 48639
+    packet type: 170 TestResults
+    packet size: 136
+      
+    [#] COVID-19 NEGATIVE test found
+       [#] changed COVID-19 NEGATIVE to POSITIVE
+       [#] new hex payload: 08fffb02aa0188010a120a1000748a7ba3e34142bc4bd2f2a7494d9510021a2e0a1908918fbf30101320a382013080cff395063a0631383830334612119a010e080215008088c520012d0000c8c32204081310023a1097c89ec5abe5a7c40ee118c42f1291c240bcdeb190e22f48b6a8fb90e22f52120a104cd2f87ebf
+```
+
+Below is a picture of the certificate obtained by WithSecure after the test was taken:
+
+![yay](/assets/published_research/faking-another-positive-covid-test_4.png)
+
+Files for this research can be found here: [https://github.com/Yogehi/Cue-COVID-Test_Research-Files](https://github.com/Yogehi/Cue-COVID-Test_Research-Files)
+
+## Contacting Cue Health and Remediation
+
+WithSecure reached out to Cue Health and presented the findings above. Cue Health stated they have added checks server side which should detect manipulated test results.
+
+Users should update their Cue Health mobile application at least the following versions:
+
+* Android - 1.7.2
+* iOS - 1.7.1
+
+When using the latest versions of the mobile application, the user will be prompted to update their Cue Reader if it is not running at least the following firmware version: 0.17.8 (5)

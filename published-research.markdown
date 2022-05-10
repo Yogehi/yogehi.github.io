@@ -6,10 +6,29 @@ permalink: /published-research/
 
 All of my research which were published on other sites are documented here.
 
+## Faking Another Positive COVID Test
+
+I conducted research into the Cue COVID-19 Home Test with the intention of finding methods to fake a COVID test result. This device was chosen specifically because of the Bluetooth device that is used as the analyzer for testing a nasal sample. As for the outcome of this research, WithSecure was successful in falsifying a COVID test result, and obtained a certificate verifying the COVID test result. This article will go over the technical details of how this research was conducted.
+
+Links:
+
+* Full write up: [https://labs.f-secure.com/blog/faking-another-positive-covid-test/](https://labs.f-secure.com/blog/faking-another-positive-covid-test/)
+* Backup write up: [https://yogehi.github.io/published-research/faking-another-positive-covid-test.html](/published-research/faking-another-positive-covid-test.html)
+
+Press release:
+
+* [https://www.withsecure.com/en/whats-new/pressroom/withsecure-and-cue-health-collaborate-to-strengthen-the-integrity-of-covid-19-test-results](https://www.withsecure.com/en/whats-new/pressroom/withsecure-and-cue-health-collaborate-to-strengthen-the-integrity-of-covid-19-test-results)
+
+News articles:
+
+* [https://www.pcmag.com/news/flaw-in-covid-19-testing-gadget-couldve-been-exploited-to-change-results](https://www.pcmag.com/news/flaw-in-covid-19-testing-gadget-couldve-been-exploited-to-change-results)
+* [https://techcrunch.com/2022/04/21/cue-health-covid-security-false-results/](https://techcrunch.com/2022/04/21/cue-health-covid-security-false-results/)
+
+--------------------------------------------------------
+
 ## Faking A Positive COVID Test
 
 I conducted research into the Ellume COVID-19 Home Test with the intention of finding methods to fake a COVID test result. This device was chosen specifically because of the Bluetooth device that is used as the analyzer for testing a nasal sample. As for the outcome of this research, F-Secure was successful in falsifying a COVID test result, and obtained a certificate verifying the COVID test result. This article will go over the technical details of how this research was conducted.
-
 
 Links:
 
