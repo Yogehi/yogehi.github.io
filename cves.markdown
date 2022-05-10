@@ -6,6 +6,18 @@ permalink: /cves/
 
 All of my CVEs are documented here.
 
+## CVE-2022-28776
+
+Some versions of the Galaxy App Store could have been abused to install other applications available on the Galaxy Store.
+
+### References
+
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=4](https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=4) - April 2022
+* Advisory - [https://labs.f-secure.com/advisories/samsung-galaxy-any-app-can-install-any-app/](https://labs.f-secure.com/advisories/samsung-galaxy-any-app-can-install-any-app/)
+	* Backup advisory - [https://yogehi.github.io/cves/cve-2022-28776.html](/cves/cve-2022-28776.html)
+
+--------------------------------------------------------
+
 ## CVE-2022-22288
 
 Some versions of the Galaxy App Store could have been abused to install a malicious application.
