@@ -68,10 +68,11 @@ For me personally, when I do Android research:
 
 * An Android phone (lately its been either the S22 or Pixel 6a)
 * Drozer
+* Magisk
 * Android Studio
 * Jadx
 * ByteCode Viewer
-* Frida
+* Frida / Objection
 * XPosed / EdXposed / LSposed
 * Windows host OS with Python installed on the host OS
 * Ubuntu subsystem on the Windows host
