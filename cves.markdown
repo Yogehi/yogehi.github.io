@@ -6,6 +6,24 @@ permalink: /cves/
 
 All of my CVEs are documented here.
 
+## CVE-2023-21433
+
+Some versions of the Galaxy App Store on certain versions of Android could have been abused to install other applications available on the Galaxy App Store.
+
+### References
+
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2023&month=1](https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=4) - January 2023
+* Write ups coming soon
+
+## CVE-2023-21434
+
+Some versions of the Galaxy App Store could have been abused to launch a webview which would execute arbitrary JavaScript.
+
+### References
+
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2023&month=1](https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=4) - January 2023
+* Write ups coming soon
+
 ## CVE-2022-28775
 
 Some versions of the Samsung Flow application could have been abused to gain access to the external storage area of the device.
@@ -21,7 +39,7 @@ Some versions of the Samsung Flow application could have been abused to gain acc
 
 ## CVE-2022-28776
 
-Some versions of the Galaxy App Store could have been abused to install other applications available on the Galaxy Store.
+Some versions of the Galaxy App Store could have been abused to install other applications available on the Galaxy App Store.
 
 ### References
 
