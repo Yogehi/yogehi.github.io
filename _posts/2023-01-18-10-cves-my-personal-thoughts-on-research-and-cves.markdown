@@ -85,6 +85,6 @@ Security research is you examining an object built by someone else. You're there
 
 Every time I finish a research project, I examine what I did right, what I did wrong, what kind of tooling I could make / have ready for the next project, and what new coding concepts I learned throughout the research. Vulnerabilities just happen to appear once in a while, but only after endless "dead ends" of secure code.
 
-------------------------------------------------------------
+--------------------------------------------------------
 
 I think that's everything I wanted to say in this blog post. And I also suck at ending blog posts.
