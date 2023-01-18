@@ -15,6 +15,8 @@ Some versions of the Galaxy App Store on certain versions of Android could have 
 * [https://security.samsungmobile.com/serviceWeb.smsb?year=2023&month=1](https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=4) - January 2023
 * Write ups coming soon
 
+--------------------------------------------------------
+
 ## CVE-2023-21434
 
 Some versions of the Galaxy App Store could have been abused to launch a webview which would execute arbitrary JavaScript.
@@ -23,6 +25,8 @@ Some versions of the Galaxy App Store could have been abused to launch a webview
 
 * [https://security.samsungmobile.com/serviceWeb.smsb?year=2023&month=1](https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=4) - January 2023
 * Write ups coming soon
+
+--------------------------------------------------------
 
 ## CVE-2022-28775
 
