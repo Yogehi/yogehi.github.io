@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>10 CVEs! My Personal Thoughts On Research And CVEs | YayWebsiteYay (I suck at titles)</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="10 CVEs! My Personal Thoughts On Research And CVEs" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Samsung issued their January 2023 patch, which included 2 more CVEs assigned to me. That makes 10 CVEs so far in my security career." />
+<meta property="og:description" content="Samsung issued their January 2023 patch, which included 2 more CVEs assigned to me. That makes 10 CVEs so far in my security career." />
+<link rel="canonical" href="http://localhost:4000/research/2023/01/04/10-cves-my-personal-thoughts-on-research-and-cves.html" />
+<meta property="og:url" content="http://localhost:4000/research/2023/01/04/10-cves-my-personal-thoughts-on-research-and-cves.html" />
+<meta property="og:site_name" content="YayWebsiteYay (I suck at titles)" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-01-04T10:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="10 CVEs! My Personal Thoughts On Research And CVEs" />
+<script type="application/ld+json">
+{"headline":"10 CVEs! My Personal Thoughts On Research And CVEs","dateModified":"2023-01-04T10:00:00-05:00","datePublished":"2023-01-04T10:00:00-05:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/research/2023/01/04/10-cves-my-personal-thoughts-on-research-and-cves.html"},"description":"Samsung issued their January 2023 patch, which included 2 more CVEs assigned to me. That makes 10 CVEs so far in my security career.","url":"http://localhost:4000/research/2023/01/04/10-cves-my-personal-thoughts-on-research-and-cves.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="YayWebsiteYay (I suck at titles)" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">YayWebsiteYay (I suck at titles)</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/published-research/">Published Research</a><a class="page-link" href="/cves/">My CVEs</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">10 CVEs! My Personal Thoughts On Research And CVEs</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2023-01-04T10:00:00-05:00" itemprop="datePublished">Jan 4, 2023
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Samsung issued their January 2023 patch, which included 2 more CVEs assigned to me. That makes 10 CVEs so far in my security career.</p>
+
+<p>A coworker told me I should do a talk talking about my CVEs, but I already publish the details of all of my CVEs. I like bragging too much to not publicly disclose <em>everything</em>.</p>
+
+<p>So instead, I’ll use this platform to say some stuff that I think should be said. I often hear from people trying to get their first CVE, or trying to get into the security field, or just general research.</p>
+
+<h2 id="how-and-why-i-research">How And Why I Research</h2>
+
+<p>First, I should mention how I operate when it comes to doing security research:</p>
+
+<ul>
+  <li>I do security research because it is fun and enjoy the chaos that comes with finding shit</li>
+  <li>I report my findings because I genuinely get concerned about what I find</li>
+  <li>I publicly disclose findings because I like bragging about what I’ve found</li>
+</ul>
+
+<p>I think the first bullet point is the one thing that needs to be said the loudest:</p>
+
+<p>I DO SECURITY RESEARCH BECAUSE IT IS FUN AND ENJOY THE CHAOS THAT COMES WITH FINDING SHIT</p>
+
+<p>It is this one thing that drives me to get certifications, open up COVID tests, and try again and again at Mobile Pwn2Own (I’m 0/3 attempts now lmao). I genuinely have fun doing what I do.</p>
+
+<p>And it comes with failures and dead ends. LOTS of dead ends. Last year for Pwn2own 2023, I looked at around 60 Android applications on the Samsung S22, and I only found 2 reportable issues in one single application. This happens. A LOT.</p>
+
+<p>But I look back at the fun I had doing it all, and guess what, I’ll be back at it again this year. And that’s what I think really needs to be drilled into the people “looking to do research”.</p>
+
+<p><em>Research has to come from a place of fun and excitement. Otherwise it will be bad and shitty research. Its only when your heart is into the topic that you get good or usable output.</em></p>
+
+<h2 id="my-thoughts-on-cves">My Thoughts On CVEs</h2>
+
+<p>They’re awesome lmao. Don’t let anyone tell you otherwise.</p>
+
+<p>The coworker that asked me to do a talk also said that CVEs are like badges for security researchers.</p>
+
+<p>And they weren’t wrong. I’m literally writing a blog post because I got 10 badges to my name. Yeah there’s people with a LOT more badges. There’s a person at Project Zero who literally did a talk about “Here’s all the money Apple owes me because of how many CVEs I have from Apple specifically”. If I could find the talk, I would post it here, but I’m writing this in a single morning and I don’t feel like going through pages of Google to find the single talk.</p>
+
+<p>But back to my point on this, one thing I think gets lost in the talk about CVEs is that there are people out there who make it their “yearly goal” or something to get at least 1 CVE.</p>
+
+<p><em>Literally all of my CVEs were given to me because I was doing what I enjoy. I’ve never tried to actively look for vulnerabilities that would give me a CVE.</em></p>
+
+<p>My first CVE, the Apple DoS bug (<a href="/cves/cve-2018-4348.html">https://yogehi.github.io/cves/cve-2018-4348.html</a>), I was just randomly looking into macOS mechanics and behaviors with a co-worker. We both had the mindset “Dude macOS is kinda dumb. Let’s try to understand why its dumb.” We happened to stumble upon the issue during our “lets fuck around with macOS” journey, and we ended up repoting it to Apple because “why not?”.</p>
+
+<p>Apple comes back with a “here is a CVE for you” and both of us were excited. Our first CVE! OUR FIRST CVE! YEAH LETS GO OUT AND CELEBRATE! People go through their entire career without getting a CVE but we just got one! Yay!</p>
+
+<p>So what is my personal thought on all of this? What do I hope you, the reader, gets from all of this?</p>
+
+<p><em>If you want a CVE, the best thing you can do is just look into stuff you find interesting and fun. Hey look, this goes back directly to the first part of this blog, where you should do research into stuff that you find fun and interesting.</em></p>
+
+<h2 id="random-questions-and-random-answers">Random Questions And Random Answers</h2>
+
+<p>I’m going to close this blog out with answering random questions I get about the security field and doing security research.</p>
+
+<h3 id="how-do-i-get-started-into-security-research">How do I get started into security research?</h3>
+
+<p>Just do it. The only thing stopping most people is their mental block of where they don’t know where to start. But the truth is that research has so many places to start, its better to just start in a random place and see where that takes you. And as you get more experienced with research, you’ll learn what is considered a “good” starting point, and what is considered a “bad starting point”.</p>
+
+<h3 id="what-kind-of-software-or-equipment-should-i-use">What kind of software or equipment should I use?</h3>
+
+<p>Everyone is different. Google what other people use and experiement with what you’re comfortable with.</p>
+
+<p>For me personally, when I do Android research:</p>
+
+<ul>
+  <li>An Android phone (lately its been either the S22 or Pixel 6a)</li>
+  <li>Drozer</li>
+  <li>Android Studio</li>
+  <li>Jadx</li>
+  <li>ByteCode Viewer</li>
+  <li>Frida</li>
+  <li>XPosed / EdXposed / LSposed</li>
+  <li>Windows host OS with Python installed on the host OS</li>
+  <li>Ubuntu subsystem on the Windows host</li>
+  <li>BurpSuite</li>
+</ul>
+
+<h3 id="but-what-if-my-research-doesnt-get-any-good-vulnerabilities">But what if my research doesn’t get any good vulnerabilities?</h3>
+
+<p>Then you’re looking at research from the wrong angle.</p>
+
+<p>Security research is you examining an object built by someone else. You’re there to better understand what the object does, how it was coded, and <strong><em>IF</em></strong> there are any security issues.</p>
+
+<p>Every time I finish a research project, I examine what I did right, what I did wrong, what kind of tooling I could make / have ready for the next project, and what new coding concepts I learned throughout the research. Vulnerabilities just happen to appear once in a while, but only after endless “dead ends” of secure code.</p>
+
+<hr />
+
+<p>I think that’s everything I wanted to say in this blog post. And I also suck at ending blog posts.</p>
+
+  </div><a class="u-url" href="/research/2023/01/04/10-cves-my-personal-thoughts-on-research-and-cves.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">YayWebsiteYay (I suck at titles)</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">YayWebsiteYay (I suck at titles)</li><li><a class="u-email" href="mailto:Fake_email_link">Fake_email_link</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/yogehi"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">yogehi</span></a></li><li><a href="https://www.twitter.com/yogehi"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">yogehi</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Sometimes I want to publish stuff unfiltered.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
