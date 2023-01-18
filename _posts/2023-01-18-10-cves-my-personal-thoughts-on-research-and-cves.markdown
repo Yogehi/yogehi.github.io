@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "10 CVEs! My Personal Thoughts On Research And CVEs"
-date:   2023-01-18 10:00:00 -0500
+date:   2023-01-04 10:00:00 -0500
 categories: research
 tags: random
 ---
