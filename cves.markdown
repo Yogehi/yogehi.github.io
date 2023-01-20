@@ -14,7 +14,7 @@ Some versions of the Galaxy App Store on certain versions of Android could have 
 
 * [https://security.samsungmobile.com/serviceWeb.smsb?year=2023&month=1](https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=4) - January 2023
 * Advisory - [https://research.nccgroup.com/2023/01/20/technical-advisory-multiple-vulnerabilities-in-the-galaxy-app-store-cve-2023-21433-cve-2023-21434/](https://research.nccgroup.com/2023/01/20/technical-advisory-multiple-vulnerabilities-in-the-galaxy-app-store-cve-2023-21433-cve-2023-21434/)
-    * Backup advisory - [[https://yogehi.github.io/cves/cve-2023-21433.html](/cves/cve-2023-21433.html)]
+    * Backup advisory - [https://yogehi.github.io/cves/cve-2023-21433.html](/cves/cve-2023-21433.html)
 
 --------------------------------------------------------
 
@@ -26,7 +26,7 @@ Some versions of the Galaxy App Store could have been abused to launch a webview
 
 * [https://security.samsungmobile.com/serviceWeb.smsb?year=2023&month=1](https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=4) - January 2023
 * Advisory - [https://research.nccgroup.com/2023/01/20/technical-advisory-multiple-vulnerabilities-in-the-galaxy-app-store-cve-2023-21433-cve-2023-21434/](https://research.nccgroup.com/2023/01/20/technical-advisory-multiple-vulnerabilities-in-the-galaxy-app-store-cve-2023-21433-cve-2023-21434/)
-    * Backup advisory - [[https://yogehi.github.io/cves/cve-2023-21434.html](/cves/cve-2023-21434.html)]
+    * Backup advisory - [https://yogehi.github.io/cves/cve-2023-21434.html](/cves/cve-2023-21434.html)
 
 --------------------------------------------------------
 
