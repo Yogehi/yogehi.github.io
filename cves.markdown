@@ -6,6 +6,16 @@ permalink: /cves/
 
 All of my CVEs are documented here.
 
+## CVE-2024-4406
+
+This vulnerability allows remote attackers to execute arbitrary code on affected installations of Xiaomi Pro 13 smartphones. User interaction is required to exploit this vulnerability in that the target must visit a malicious page or open a malicious file.
+
+### References
+
+COMING SOON...
+
+--------------------------------------------------------
+
 ## CVE-2023-21433
 
 Some versions of the Galaxy App Store on certain versions of Android could have been abused to install other applications available on the Galaxy App Store.
