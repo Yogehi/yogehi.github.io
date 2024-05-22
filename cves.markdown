@@ -12,7 +12,7 @@ This vulnerability allows remote attackers to execute arbitrary code on affected
 
 ### References
 
-COMING SOON...
+* [https://www.zerodayinitiative.com/advisories/ZDI-24-419/](https://www.zerodayinitiative.com/advisories/ZDI-24-419/)
 
 --------------------------------------------------------
 
