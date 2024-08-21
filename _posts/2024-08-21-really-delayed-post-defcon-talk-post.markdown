@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  "Really Delayed Post Defcon Talk Post Yay"
-date:   2024-08-21 10:00:00 -0500
+title:  "Really Delayed Post Defcon Talk Post"
+date:   2024-08-21 9:00:00 -0500
 categories: research
-tags: story questions
+tags: random
 ---
 
 ![yay](/assets/2024-08-21-really-delayed-post-defcon-talk-post/yaydefconpicyay.jpg)
@@ -12,11 +12,11 @@ Wow we are awesome up on that stage!
 
 In case you didn't know, I did a talk with my friend Ilyes Beghdadi at Defcon 32. It was about our Pwn2Own Toronto 2023 exploit and what Xiaomi did during the event.
 
-![yay](/assets/2024-08-21-really-delayed-post-defcon-talk-post/yaydefconscheduleyay.jpg)
+![yay](/assets/2024-08-21-really-delayed-post-defcon-talk-post/yaydefconscheduleyay.png)
 
 The people at Zero Day Initiative (they run Pwn2Own) were also excited enough for the talk to actually give us a shoutout during their Pwn2Own Ireland announcement.
 
-![yay](/assets/2024-08-21-really-delayed-post-defcon-talk-post/yayzdiyay.jpg)
+![yay](/assets/2024-08-21-really-delayed-post-defcon-talk-post/yayzdiyay.png)
 
 And after the talk, we got some questions that I pretty much half answered. I needed a few days (a lot of a few days) to decompress and see if I could articulate actual good answers for those questions.
 
@@ -57,9 +57,7 @@ Just do it (trademark Nike)
 
 I already answered this in my previous blog post [10 CVEs! My Personal Thoughts On Research And CVEs](https://yogehi.github.io/research/2023/01/04/10-cves-my-personal-thoughts-on-research-and-cves.html):
 
-```
-Just do it. The only thing stopping most people is their mental block of where they don't know where to start. But the truth is that research has so many places to start, its better to just start in a random place and see where that takes you. And as you get more experienced with research, you'll learn what is considered a "good" starting point, and what is considered a "bad starting point".
-```
+*Just do it. The only thing stopping most people is their mental block of where they don't know where to start. But the truth is that research has so many places to start, its better to just start in a random place and see where that takes you. And as you get more experienced with research, you'll learn what is considered a "good" starting point, and what is considered a "bad starting point".*
 
 **I think this holds up. I think everyone is too held up on doing "good research" when they should just be worrying about starting research anyway.**
 
