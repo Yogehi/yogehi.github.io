@@ -81,6 +81,6 @@ First, I will never responsibly disclose issues to Xiaomi until:
 * They increase the payout price for their vulnerabilities
 * **They give me my fucking CVE**
 
-Second, because of the above, I will probably not find an incentive to hack a Xiaomi device anytime soon. 
+Second, because of the above, I will probably not find an incentive to hack a Xiaomi device anytime soon.
 
-**But if I do, I sure as fuck won't be helping Xiaomi fix it.**
+**And if I do, I'll need a really really good reason to try to help Xiaomi fix it.**
