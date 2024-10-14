@@ -6,6 +6,11 @@ categories: research
 tags: random
 ---
 
+| **Slide Deck** | [DEFCON 32 Media Server / DEF CON 32 / DEF CON 32 presentations / Presentation.pdf](https://media.defcon.org/DEF%20CON%2032/DEF%20CON%2032%20presentations/DEF%20CON%2032%20-%20Ken%20Gannon%20Ilyes%20Beghdadi%20-%20Xiaomi%20The%20Money%20Our%20Toronto%20Pwn2Own%20Exploit%20and%20Behind%20The%20Scenes%20Story.pdf) |
+| **Exploit Video** | [DEFCON 32 Media Server / DEF CON 32 / DEF CON 32 presentations / Exploit.mp4](https://media.defcon.org/DEF%20CON%2032/DEF%20CON%2032%20presentations/DEF%20CON%2032%20-%20Ken%20Gannon%20Ilyes%20Beghdadi%20-%20Xiaomi%20The%20Money%20Our%20Toronto%20Pwn2Own%20Exploit%20and%20Behind%20The%20Scenes%20Story-exploit.mp4) |
+| **Talk Video** | [DEFCON 32 Media Server / DEF CON 32 / DEF CON 32 video and slides / Talk.mp4](https://media.defcon.org/DEF%20CON%2032/DEF%20CON%2032%20video%20and%20slides/DEF%20CON%2032%20-%20Xiaomi%20The%20Money%20-%20Our%20Toronto%20Pwn2Own%20Exploit%20and%20BTS%20Story%20-%20Ken%20Gannon%2C%20Ilyes%20Beghdadi.mp4) |
+| **Write Up** | [https://yogehi.github.io/cves/cve-2024-4406.html](https://yogehi.github.io/cves/cve-2024-4406.html) |
+
 <div align="center">
     <img src="/assets/2024-08-21-really-delayed-post-defcon-talk-post/yaydefconpicyay.jpg">
 </div>
