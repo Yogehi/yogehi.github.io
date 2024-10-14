@@ -15,13 +15,13 @@ Wow we are awesome up on that stage!
 In case you didn't know, I did a talk with my friend Ilyes Beghdadi at Defcon 32. It was about our Pwn2Own Toronto 2023 exploit and what Xiaomi did during the event.
 
 <div align="center">
-    <img src="/assets/2024-08-21-really-delayed-post-defcon-talk-post/yaydefconscheduleyay.jpg">
+    <img src="/assets/2024-08-21-really-delayed-post-defcon-talk-post/yaydefconscheduleyay.png">
 </div>
 
 The people at Zero Day Initiative (they run Pwn2Own) were also excited enough for the talk to actually give us a shoutout during their Pwn2Own Ireland announcement.
 
 <div align="center">
-    <img src="/assets/2024-08-21-really-delayed-post-defcon-talk-post/yayzdiyay.jpg">
+    <img src="/assets/2024-08-21-really-delayed-post-defcon-talk-post/yayzdiyay.png">
 </div>
 
 And after the talk, we got some questions that I pretty much half answered. I needed a few days (a lot of a few days) to decompress and see if I could articulate actual good answers for those questions.
