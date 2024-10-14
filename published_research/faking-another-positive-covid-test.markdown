@@ -15,7 +15,9 @@ This article will go over the technical details of how this research was conduct
 * Cue Health Android application com.cuehealth.healthapp version 1.4.3.134
 * Cue Reader firmware version 0.17.6
 
-![yay](/assets/published_research/faking-another-positive-covid-test_1.jpg)
+<div align="center">
+    <img src="/assets/published_research/faking-another-positive-covid-test_1.jpg">
+</div>
 
 ## Overview: Reader and Cartridge
 
@@ -23,11 +25,15 @@ Before diving into the technical details, we will give a brief overview of the t
 
 The Cue Reader unit contains a heater, gyroscope, and the necessary hardware to communicate with a user's phone via Bluetooth. When taking a test, the Test Cartridge is inserted into the Cue Reader and the test itself is conducted within the Test Cartridge. The data is then passed to the reader, which is then transmitted to the user's phone.
 
-![yay](/assets/published_research/faking-another-positive-covid-test_2.jpg)
+<div align="center">
+    <img src="/assets/published_research/faking-another-positive-covid-test_2.jpg">
+</div>
 
 Each COVID-19 Test Cartridge comes with a nasal swab which is inserted into the cartridge. The Test Cartridge contains liquid which is released when the nasal swab is inserted, and gathers in one area in the cartridge where the test is conducted.
 
-![yay](/assets/published_research/faking-another-positive-covid-test_3.jpg)
+<div align="center">
+    <img src="/assets/published_research/faking-another-positive-covid-test_3.jpg">
+</div>
 
 ## Technical Details: Bluetooth Traffic and Protobuf
 
@@ -263,7 +269,9 @@ Using this script, it was possible to change the test result within the Bluetoot
 
 Below is a picture of the certificate obtained by WithSecure after the test was taken:
 
-![yay](/assets/published_research/faking-another-positive-covid-test_4.png)
+<div align="center">
+    <img src="/assets/published_research/faking-another-positive-covid-test_4.jpg">
+</div>
 
 Files for this research can be found here: [https://github.com/Yogehi/Cue-COVID-Test_Research-Files](https://github.com/Yogehi/Cue-COVID-Test_Research-Files)
 

@@ -12,7 +12,9 @@ F-Secure conducted research into the Ellume COVID-19 Home Test with the intentio
 
 This article will go over the technical details of how this research was conducted.
 
-![yay](/assets/published_research/faking-a-positive-covid-test_1.png)
+<div align="center">
+    <img src="/assets/published_research/faking-a-positive-covid-test_1.png">
+</div>
 
 ## The Analyzer And Bluetooth Traffic
 
@@ -20,11 +22,15 @@ The analyzer itself was a custom board and a standard Lateral Flow test, with th
 
 On the board is some LEDs to light up the test strip and some lens to read the test strip result lines. A hole on the case itself can be used to put the nasal sample on the test strip.
 
-![yay](/assets/published_research/faking-a-positive-covid-test_2.png)
+<div align="center">
+    <img src="/assets/published_research/faking-a-positive-covid-test_2.png">
+</div>
 
 The Android application contained an un-exported activity called `com.ellumehealth.homecovid.android/com.gsk.itreat.activities.BluetoothDebugActivity`. If you have root level access to your device, you can launch this activity to help interact with the analyzer over Bluetooth.
 
-![yay](/assets/published_research/faking-a-positive-covid-test_3.png)
+<div align="center">
+    <img src="/assets/published_research/faking-a-positive-covid-test_3.png">
+</div>
 
 Using this activity, F-Secure deduced that there were two types of Bluetooth traffic that were most likely in charge of informing the mobile app if the user was COVID positive or negative:
 
@@ -155,7 +161,9 @@ Below is output using the Frida script showing F-Secure successfully changing a 
 
 Below is a screenshot of an email from Ellume confirming that the above COVID test was a positive test:
 
-![yay](/assets/published_research/faking-a-positive-covid-test_4.png)
+<div align="center">
+    <img src="/assets/published_research/faking-a-positive-covid-test_4.png">
+</div>
 
 ## Obtaining an Azova Certificate
 
@@ -199,7 +207,9 @@ When it was time to take the test under the supervision of Azova, Alexandra used
 
 Below is the certificate that Alexandra was given from Azova:
 
-![yay](/assets/published_research/faking-a-positive-covid-test_5.png)
+<div align="center">
+    <img src="/assets/published_research/faking-a-positive-covid-test_5.png">
+</div>
 
 Files for this research can be found here: [https://github.com/Yogehi/Ellume-COVID-Test_Research-Files](https://github.com/Yogehi/Ellume-COVID-Test_Research-Files)
 
