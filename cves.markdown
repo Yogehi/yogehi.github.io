@@ -13,6 +13,9 @@ This vulnerability allows remote attackers to execute arbitrary code on affected
 ### References
 
 * [https://www.zerodayinitiative.com/advisories/ZDI-24-419/](https://www.zerodayinitiative.com/advisories/ZDI-24-419/)
+* [https://trust.mi.com/misrc/bulletins/advisory?cveId=545](https://trust.mi.com/misrc/bulletins/advisory?cveId=545)
+* Advisory: [https://www.nccgroup.com/us/research-blog/technical-advisory-xiaomi-13-pro-code-execution-via-getapps-dom-cross-site-scripting-xss/](https://www.nccgroup.com/us/research-blog/technical-advisory-xiaomi-13-pro-code-execution-via-getapps-dom-cross-site-scripting-xss/)
+    * Backup advisory - [https://yogehi.github.io/cves/cve-2024-4406.html](/cves/cve-2024-4406.html)
 
 --------------------------------------------------------
 
