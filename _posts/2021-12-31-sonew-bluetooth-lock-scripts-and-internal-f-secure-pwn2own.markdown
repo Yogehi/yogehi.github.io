@@ -273,7 +273,7 @@ After I had finished brute forcing all of the commands, I still had some time be
 <iframe width="560" height="315" src="https://www.youtube.com/embed/lznGZaM2G6M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 <div align="center">
-    <img src="/assets/2021-12-31-sonew-bluetooth-lock-scripts-and-internal-f-secure-pwn2own/image6.png">
+    <img src="/assets/2021-12-31-sonew-bluetooth-lock-scripts-and-internal-f-secure-pwn2own/image6.jpg">
 </div>
 
 Unfortunatley the competition layout was a giant counter, and having my little bot wonder around the counter with all the gadgets wasn't the best idea. So it just stood there while it hacked for me:

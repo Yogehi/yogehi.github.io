@@ -270,7 +270,7 @@ Using this script, it was possible to change the test result within the Bluetoot
 Below is a picture of the certificate obtained by WithSecure after the test was taken:
 
 <div align="center">
-    <img src="/assets/published_research/faking-another-positive-covid-test_4.jpg">
+    <img src="/assets/published_research/faking-another-positive-covid-test_4.png">
 </div>
 
 Files for this research can be found here: [https://github.com/Yogehi/Cue-COVID-Test_Research-Files](https://github.com/Yogehi/Cue-COVID-Test_Research-Files)
