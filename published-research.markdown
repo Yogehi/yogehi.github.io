@@ -26,6 +26,8 @@ Links:
 
 * Advisory: [https://www.nccgroup.com/us/research-blog/technical-advisory-xiaomi-13-pro-code-execution-via-getapps-dom-cross-site-scripting-xss/](https://www.nccgroup.com/us/research-blog/technical-advisory-xiaomi-13-pro-code-execution-via-getapps-dom-cross-site-scripting-xss/)
     * Backup advisory - [https://yogehi.github.io/cves/cve-2024-4406.html](/cves/cve-2024-4406.html)
+* Pwn2Own Success Tweet - [https://x.com/thezdi/status/1716936539345936682](https://x.com/thezdi/status/1716936539345936682)
+* YouTube Short - [https://www.youtube.com/shorts/WD1OgZI8Kh4](https://www.youtube.com/shorts/WD1OgZI8Kh4)
 
 --------------------------------------------------------
 
