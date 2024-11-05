@@ -6,6 +6,29 @@ permalink: /published-research/
 
 All of my research which were published on other sites are documented here.
 
+## DEF CON 32 Talk - Xiaomi The Money - Our Toronto Pwn2Own Exploit and Behind The Scenes Story
+
+At Pwn2Own Toronto 2023, NCC Group was one of the two teams that compromised the Xiaomi 13 Pro. The exploit chain involved using a malicious HTML hyperlink and uploading a potentially malicious application to the Xiaomi app store.
+
+However, this talk is not just about the technical details of the exploit. While researching the final exploit, NCC Group discovered how an exploit could work in one region of the world, but not in other regions, and how the researchers had to travel to Canada for a day just to test if the exploit would work in Canada. This talk also discusses just how far Xiaomi is willing to go to make sure their device isn't hacked at Pwn2Own, and why only two teams were able to successfully compromise the device during the competition.
+
+DEF CON Assets:
+
+* Slide Deck: [DEFCON 32 Media Server / DEF CON 32 / DEF CON 32 presentations / Presentation.pdf](https://media.defcon.org/DEF%20CON%2032/DEF%20CON%2032%20presentations/DEF%20CON%2032%20-%20Ken%20Gannon%20Ilyes%20Beghdadi%20-%20Xiaomi%20The%20Money%20Our%20Toronto%20Pwn2Own%20Exploit%20and%20Behind%20The%20Scenes%20Story.pdf)
+    * Backup Slide Deck: [https://yogehi.github.io/assets/defcon-32-talk-stuff/DEF CON 32 - Ken Gannon Ilyes Beghdadi - Xiaomi the money Our Toronto Pwn2own Exploit and Behind The Scenes Story.pdf](/assets/defcon-32-talk-stuff/DEF%20CON%2032%20-%20Ken%20Gannon%20Ilyes%20Beghdadi%20-%20Xiaomi%20The%20Money%20Our%20Toronto%20Pwn2Own%20Exploit%20and%20Behind%20The%20Scenes%20Story.pdf)
+* Exploit Video: [DEFCON 32 Media Server / DEF CON 32 / DEF CON 32 presentations / Exploit.mp4](https://media.defcon.org/DEF%20CON%2032/DEF%20CON%2032%20presentations/DEF%20CON%2032%20-%20Ken%20Gannon%20Ilyes%20Beghdadi%20-%20Xiaomi%20The%20Money%20Our%20Toronto%20Pwn2Own%20Exploit%20and%20Behind%20The%20Scenes%20Story-exploit.mp4)
+    * Backup Exploit Video: [httpS;//yogehi.github.io/assets/defcon-32-talk-stuff/DEf cON 32 - ken Gannon Ilyes Beghdadi - Xiaomi The Money Our Toronto Pwn2Own Exploit and Behind The Scenes Story-exploit.mp4](/assets/defcon-32-talk-stuff/DEF%20CON%2032%20-%20Ken%20Gannon%20Ilyes%20Beghdadi%20-%20Xiaomi%20The%20Money%20Our%20Toronto%20Pwn2Own%20Exploit%20and%20Behind%20The%20Scenes%20Story-exploit.mp4)
+* Talk MP4 Video: [DEFCON 32 Media Server / DEF CON 32 / DEF CON 32 video and slides / Talk.mp4](https://media.defcon.org/DEF%20CON%2032/DEF%20CON%2032%20video%20and%20slides/DEF%20CON%2032%20-%20Xiaomi%20The%20Money%20-%20Our%20Toronto%20Pwn2Own%20Exploit%20and%20BTS%20Story%20-%20Ken%20Gannon%2C%20Ilyes%20Beghdadi.mp4)
+    * Backup Talk Video: [https://yogehi.github.io/assets/defcon-32-talk-stuff/DEF CON 32 - Xiaomi The Money - Our Toronto Pwn2Own Exploit and BTS Story - Ken Gannon, Ilyes Beghdadi.mp4](/assets/defcon-32-talk-stuff/DEF%20CON%2032%20-%20Xiaomi%20The%20Money%20-%20Our%20Toronto%20Pwn2Own%20Exploit%20and%20BTS%20Story%20-%20Ken%20Gannon,%20Ilyes%20Beghdadi.mp4)
+* Talk YouTube Video: [https://www.youtube.com/watch?v=B0A8F_Izmj0](https://www.youtube.com/watch?v=B0A8F_Izmj0)
+
+Links: 
+
+* Advisory: [https://www.nccgroup.com/us/research-blog/technical-advisory-xiaomi-13-pro-code-execution-via-getapps-dom-cross-site-scripting-xss/](https://www.nccgroup.com/us/research-blog/technical-advisory-xiaomi-13-pro-code-execution-via-getapps-dom-cross-site-scripting-xss/)
+    * Backup advisory - [https://yogehi.github.io/cves/cve-2024-4406.html](/cves/cve-2024-4406.html)
+
+--------------------------------------------------------
+
 ## Faking Another Positive COVID Test
 
 I conducted research into the Cue COVID-19 Home Test with the intention of finding methods to fake a COVID test result. This device was chosen specifically because of the Bluetooth device that is used as the analyzer for testing a nasal sample. As for the outcome of this research, WithSecure was successful in falsifying a COVID test result, and obtained a certificate verifying the COVID test result. This article will go over the technical details of how this research was conducted.
