@@ -38,7 +38,7 @@ I conducted research into the Cue COVID-19 Home Test with the intention of findi
 Links:
 
 * Full write up: [https://labs.f-secure.com/blog/faking-another-positive-covid-test/](https://labs.f-secure.com/blog/faking-another-positive-covid-test/)
-* Backup write up: [https://yogehi.github.io/published-research/faking-another-positive-covid-test.html](/published-research/faking-another-positive-covid-test.html)
+    * Backup write up: [https://yogehi.github.io/published-research/faking-another-positive-covid-test.html](/published-research/faking-another-positive-covid-test.html)
 
 Press release:
 
@@ -58,7 +58,7 @@ I conducted research into the Ellume COVID-19 Home Test with the intention of fi
 Links:
 
 * Full write up: [https://labs.f-secure.com/blog/faking-a-positive-covid-test](https://labs.f-secure.com/blog/faking-a-positive-covid-test)
-* Backup write up: [https://yogehi.github.io/published-research/faking-a-positive-covid-test.html](/published-research/faking-a-positive-covid-test.html)
+    * Backup write up: [https://yogehi.github.io/published-research/faking-a-positive-covid-test.html](/published-research/faking-a-positive-covid-test.html)
 
 Press release:
 
@@ -79,7 +79,7 @@ I looked into exploiting the Samsung S20 device for Tokyo Pwn2Own 2020. An explo
 Links:
 
 * Full write up: [https://labs.f-secure.com/blog/samsung-s20-rce-via-samsung-galaxy-store-app/](https://labs.f-secure.com/blog/samsung-s20-rce-via-samsung-galaxy-store-app/)
-* Backup write up: [https://yogehi.github.io/published-research/samsung-s20-rce-galaxy-store.html](/published-research/samsung-s20-rce-galaxy-store.html)
+    * Backup write up: [https://yogehi.github.io/published-research/samsung-s20-rce-galaxy-store.html](/published-research/samsung-s20-rce-galaxy-store.html)
 
 I also created a Docker image to more easily exploit this issue: [https://github.com/Yogehi/pwn2own2020-mitmInstallApp-docker](https://github.com/Yogehi/pwn2own2020-mitmInstallApp-docker)
 
@@ -92,4 +92,4 @@ A client was looking to upgrade their Cisco UCM software and wanted assurance th
 Links: 
 
 * Full write up: [https://labs.f-secure.com/blog/uncommon-sql-database-alert-informix-sql-injection/](https://labs.f-secure.com/blog/uncommon-sql-database-alert-informix-sql-injection/)
-* Backup write up: [https://yogehi.github.io/published-research/informix-sql-injection.html](/published-research/informix-sql-injection.html)
+    * Backup write up: [https://yogehi.github.io/published-research/informix-sql-injection.html](/published-research/informix-sql-injection.html)
