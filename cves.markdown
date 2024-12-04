@@ -6,6 +6,61 @@ permalink: /cves/
 
 All of my CVEs are documented here.
 
+## CVE-2024-49421
+
+Path traversal in Quick Share Agent prior to version 3.5.14.47 in Android 12, 3.5.19.41 in Android 13, and 3.5.19.42 in Android 14 allows adjacent attackers to write file in arbitrary location.
+
+### References
+
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2024&month=12](https://security.samsungmobile.com/serviceWeb.smsb?year=2024&month=12) - December 2024 (SVE-2024-2042)
+* Technical details coming soon...
+
+--------------------------------------------------------
+
+## CVE-2024-49420
+
+Improper handling of responses in GamingHub prior to version 6.1.04.6 in Korea, 7.1.03.7 in Global allows remote attackers to launch arbitrary activity.
+
+### References
+
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2024&month=12](https://security.samsungmobile.com/serviceWeb.smsb?year=2024&month=12) - December 2024 (SVE-2024-2040)
+* Technical details coming soon...
+
+--------------------------------------------------------
+
+## CVE-2024-49419
+
+Insufficient verification of url authenticity in GamingHub prior to version 6.1.03.4 in Korea, 7.1.02.4 in Global allows remote attackers to load an arbitrary URL in its webview.
+
+### References
+
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2024&month=12](https://security.samsungmobile.com/serviceWeb.smsb?year=2024&month=12) - December 2024 (SVE-2024-2039)
+* Technical details coming soon...
+
+--------------------------------------------------------
+
+## CVE-2024-49418
+
+Insufficient verification of url authenticity in GamingHub prior to version 6.1.03.4 in Korea, 7.1.02.4 in Global allows remote attackers to enable JavaScript in its webview.
+
+### References
+
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2024&month=12](https://security.samsungmobile.com/serviceWeb.smsb?year=2024&month=12) - December 2024 (SVE-2024-2038)
+* Technical details coming soon...
+
+--------------------------------------------------------
+
+## CVE-2024-49413
+
+Improper Verification of Cryptographic Signature in SmartSwitch prior to SMR Dec-2024 Release 1 allows local attackers to install malicious applications.
+
+### References
+
+* [https://security.samsungmobile.com/securityUpdate.smsb?year=2024&month=12](https://security.samsungmobile.com/securityUpdate.smsb?year=2024&month=12) - December 2024 (SVE-2024-2044)
+* Technical details coming soon...
+
+--------------------------------------------------------
+
 ## CVE-2024-4406
 
 This vulnerability allows remote attackers to execute arbitrary code on affected installations of Xiaomi Pro 13 smartphones. User interaction is required to exploit this vulnerability in that the target must visit a malicious page or open a malicious file.
