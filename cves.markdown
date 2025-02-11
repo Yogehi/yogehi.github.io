@@ -6,7 +6,9 @@ permalink: /cves/
 
 All of my CVEs are documented here.
 
-**Wanna learn the skills needed to find these CVEs?** I've started making training coureses. More information here: [https://yogehi.github.io/training-courses/](https://yogehi.github.io/training-courses/)
+**Wanna learn the skills needed to find these CVEs?** I've started making training courses. More information here: [https://yogehi.github.io/training-courses/](https://yogehi.github.io/training-courses/)
+
+--------------------------------------------------------
 
 ## CVE-2024-49421
 
