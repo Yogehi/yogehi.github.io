@@ -6,9 +6,8 @@ permalink: /cves/
 
 All of my CVEs are documented here.
 
-<<<<<<< HEAD
-Wanna learn the skills needed to find these CVEs? I've started making training coureses. More information here: [https://yogehi.github.io/training-courses/](https://yogehi.github.io/training-courses/)
-=======
+**Wanna learn the skills needed to find these CVEs?** I've started making training coureses. More information here: [https://yogehi.github.io/training-courses/](https://yogehi.github.io/training-courses/)
+
 ## CVE-2024-49421
 
 Path traversal in Quick Share Agent prior to version 3.5.14.47 in Android 12, 3.5.19.41 in Android 13, and 3.5.19.42 in Android 14 allows adjacent attackers to write file in arbitrary location.
@@ -63,7 +62,6 @@ Improper Verification of Cryptographic Signature in SmartSwitch prior to SMR Dec
 * Technical details coming soon...
 
 --------------------------------------------------------
->>>>>>> 7eb813aae94fa525f35bdbad551156cb061afd2c
 
 ## CVE-2024-4406
 
