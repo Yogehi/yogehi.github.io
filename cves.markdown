@@ -6,7 +6,64 @@ permalink: /cves/
 
 All of my CVEs are documented here.
 
+<<<<<<< HEAD
 Wanna learn the skills needed to find these CVEs? I've started making training coureses. More information here: [https://yogehi.github.io/training-courses/](https://yogehi.github.io/training-courses/)
+=======
+## CVE-2024-49421
+
+Path traversal in Quick Share Agent prior to version 3.5.14.47 in Android 12, 3.5.19.41 in Android 13, and 3.5.19.42 in Android 14 allows adjacent attackers to write file in arbitrary location.
+
+### References
+
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2024&month=12](https://security.samsungmobile.com/serviceWeb.smsb?year=2024&month=12) - December 2024 (SVE-2024-2042)
+* Technical details coming soon...
+
+--------------------------------------------------------
+
+## CVE-2024-49420
+
+Improper handling of responses in GamingHub prior to version 6.1.04.6 in Korea, 7.1.03.7 in Global allows remote attackers to launch arbitrary activity.
+
+### References
+
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2024&month=12](https://security.samsungmobile.com/serviceWeb.smsb?year=2024&month=12) - December 2024 (SVE-2024-2040)
+* Technical details coming soon...
+
+--------------------------------------------------------
+
+## CVE-2024-49419
+
+Insufficient verification of url authenticity in GamingHub prior to version 6.1.03.4 in Korea, 7.1.02.4 in Global allows remote attackers to load an arbitrary URL in its webview.
+
+### References
+
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2024&month=12](https://security.samsungmobile.com/serviceWeb.smsb?year=2024&month=12) - December 2024 (SVE-2024-2039)
+* Technical details coming soon...
+
+--------------------------------------------------------
+
+## CVE-2024-49418
+
+Insufficient verification of url authenticity in GamingHub prior to version 6.1.03.4 in Korea, 7.1.02.4 in Global allows remote attackers to enable JavaScript in its webview.
+
+### References
+
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2024&month=12](https://security.samsungmobile.com/serviceWeb.smsb?year=2024&month=12) - December 2024 (SVE-2024-2038)
+* Technical details coming soon...
+
+--------------------------------------------------------
+
+## CVE-2024-49413
+
+Improper Verification of Cryptographic Signature in SmartSwitch prior to SMR Dec-2024 Release 1 allows local attackers to install malicious applications.
+
+### References
+
+* [https://security.samsungmobile.com/securityUpdate.smsb?year=2024&month=12](https://security.samsungmobile.com/securityUpdate.smsb?year=2024&month=12) - December 2024 (SVE-2024-2044)
+* Technical details coming soon...
+
+--------------------------------------------------------
+>>>>>>> 7eb813aae94fa525f35bdbad551156cb061afd2c
 
 ## CVE-2024-4406
 
@@ -27,7 +84,7 @@ Some versions of the Galaxy App Store on certain versions of Android could have 
 
 ### References
 
-* [https://security.samsungmobile.com/serviceWeb.smsb?year=2023&month=1](https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=4) - January 2023
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2023&month=1](https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=4) - January 2023 (SVE-2022-2766)
 * Advisory - [https://research.nccgroup.com/2023/01/20/technical-advisory-multiple-vulnerabilities-in-the-galaxy-app-store-cve-2023-21433-cve-2023-21434/](https://research.nccgroup.com/2023/01/20/technical-advisory-multiple-vulnerabilities-in-the-galaxy-app-store-cve-2023-21433-cve-2023-21434/)
     * Backup advisory - [https://yogehi.github.io/cves/cve-2023-21433.html](/cves/cve-2023-21433.html)
 
@@ -39,7 +96,7 @@ Some versions of the Galaxy App Store could have been abused to launch a webview
 
 ### References
 
-* [https://security.samsungmobile.com/serviceWeb.smsb?year=2023&month=1](https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=4) - January 2023
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2023&month=1](https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=4) - January 2023 (SVE-2022-2854)
 * Advisory - [https://research.nccgroup.com/2023/01/20/technical-advisory-multiple-vulnerabilities-in-the-galaxy-app-store-cve-2023-21433-cve-2023-21434/](https://research.nccgroup.com/2023/01/20/technical-advisory-multiple-vulnerabilities-in-the-galaxy-app-store-cve-2023-21433-cve-2023-21434/)
     * Backup advisory - [https://yogehi.github.io/cves/cve-2023-21434.html](/cves/cve-2023-21434.html)
 
@@ -51,7 +108,7 @@ Some versions of the Samsung Flow application could have been abused to gain acc
 
 ### References
 
-* [https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=4](https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=4) - April 2022
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=4](https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=4) - April 2022 (SVE-2021-23625)
 * [https://www.cvedetails.com/cve/CVE-2022-28775](https://www.cvedetails.com/cve/CVE-2022-28775)
 * Advisory - [https://labs.f-secure.com/advisories/samsung-flow-any-app-can-read-the-external-storage/](https://labs.f-secure.com/advisories/samsung-flow-any-app-can-read-the-external-storage/)
 	* Backup advisory - [https://yogehi.github.io/cves/cve-2022-28775.html](/cves/cve-2022-28775.html)
@@ -64,7 +121,7 @@ Some versions of the Galaxy App Store could have been abused to install other ap
 
 ### References
 
-* [https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=4](https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=4) - April 2022
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=4](https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=4) - April 2022 (SVE-2021-23627)
 * [https://www.cvedetails.com/cve/CVE-2022-28776](https://www.cvedetails.com/cve/CVE-2022-28776)
 * Advisory - [https://labs.f-secure.com/advisories/samsung-galaxy-any-app-can-install-any-app/](https://labs.f-secure.com/advisories/samsung-galaxy-any-app-can-install-any-app/)
 	* Backup advisory - [https://yogehi.github.io/cves/cve-2022-28776.html](/cves/cve-2022-28776.html)
@@ -77,7 +134,7 @@ Some versions of the Galaxy App Store could have been abused to install a malici
 
 ### References
 
-* [https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=1](https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=1) - January 2022
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=1](https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=1) - January 2022 (SVE-2021-23791)
 * [https://www.cvedetails.com/cve/CVE-2022-22288](https://www.cvedetails.com/cve/CVE-2022-22288)
 * Advisory - [https://labs.f-secure.com/advisories/samsung-galaxy-one-tap-install-malicious-application/](https://labs.f-secure.com/advisories/samsung-galaxy-one-tap-install-malicious-application/)
 	* Backup advisory - [https://yogehi.github.io/cves/cve-2022-22288.html](/cves/cve-2022-22288.html)
@@ -90,7 +147,7 @@ Some versions of Samsung Members Android application could have been abused to a
 
 ### References
 
-* [https://security.samsungmobile.com/serviceWeb.smsb?year=2021&month=4](https://security.samsungmobile.com/serviceWeb.smsb?year=2021&month=4) - April 2021
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2021&month=4](https://security.samsungmobile.com/serviceWeb.smsb?year=2021&month=4) - April 2021 (SVE-2021-19144)
 * [https://www.cvedetails.com/cve/CVE-2021-25374](https://www.cvedetails.com/cve/CVE-2021-25374)
 * Advisory - [https://labs.f-secure.com/advisories/samsung-s20-gain-access-to-samsung-account/](https://labs.f-secure.com/advisories/samsung-s20-gain-access-to-samsung-account/)
 	* Backup advisory - [https://yogehi.github.io/cves/cve-2021-25374.html](/cves/cve-2021-25374.html)
