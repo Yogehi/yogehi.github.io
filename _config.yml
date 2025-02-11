@@ -36,6 +36,7 @@ plugins:
 header_pages:
   - published-research.markdown
   - cves.markdown
+  - training-courses.markdown
 
 minima:
   - skin: dark

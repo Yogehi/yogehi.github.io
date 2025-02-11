@@ -6,6 +6,8 @@ permalink: /cves/
 
 All of my CVEs are documented here.
 
+Wanna learn the skills needed to find these CVEs? I've started making training coureses. More information here: [https://yogehi.github.io/training-courses/](https://yogehi.github.io/training-courses/)
+
 ## CVE-2024-4406
 
 This vulnerability allows remote attackers to execute arbitrary code on affected installations of Xiaomi Pro 13 smartphones. User interaction is required to exploit this vulnerability in that the target must visit a malicious page or open a malicious file.

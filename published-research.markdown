@@ -6,6 +6,8 @@ permalink: /published-research/
 
 All of my research which were published on other sites are documented here.
 
+Wanna learn the skills used in some of the below research? I've started making training coureses. More information here: [https://yogehi.github.io/training-courses/](https://yogehi.github.io/training-courses/)
+
 ## DEF CON 32 Talk - Xiaomi The Money - Our Toronto Pwn2Own Exploit and Behind The Scenes Story
 
 At Pwn2Own Toronto 2023, NCC Group was one of the two teams that compromised the Xiaomi 13 Pro. The exploit chain involved using a malicious HTML hyperlink and uploading a potentially malicious application to the Xiaomi app store.
