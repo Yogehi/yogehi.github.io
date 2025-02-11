@@ -6,7 +6,7 @@ permalink: /published-research/
 
 All of my research which were published on other sites are documented here.
 
-Wanna learn the skills used in some of the below research? I've started making training coureses. More information here: [https://yogehi.github.io/training-courses/](https://yogehi.github.io/training-courses/)
+**Wanna learn the skills used in some of the research below?** I've started making training coureses. More information here: [https://yogehi.github.io/training-courses/](https://yogehi.github.io/training-courses/)
 
 ## DEF CON 32 Talk - Xiaomi The Money - Our Toronto Pwn2Own Exploit and Behind The Scenes Story
 
