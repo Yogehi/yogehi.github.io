@@ -10,6 +10,17 @@ All of my CVEs are documented here.
 
 --------------------------------------------------------
 
+## CVE-2025-20926
+
+Improper export of Android application components in My Files prior to version 15.0.07.5 in Android 14 allows local attackers to access files with My Files' privilege.
+
+### References
+
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2025&month=3](https://security.samsungmobile.com/serviceWeb.smsb?year=2025&month=3) - March 2025 (SVE-2024-2146)
+* Technical details coming soon...
+
+--------------------------------------------------------
+
 ## CVE-2024-49421
 
 Path traversal in Quick Share Agent prior to version 3.5.14.47 in Android 12, 3.5.19.41 in Android 13, and 3.5.19.42 in Android 14 allows adjacent attackers to write file in arbitrary location.
