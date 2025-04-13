@@ -76,7 +76,7 @@ Improper Verification of Cryptographic Signature in SmartSwitch prior to SMR Dec
 
 --------------------------------------------------------
 
-## CVE-2024-4406
+## CVE-2024-4406 / CVE-2024-45346
 
 This vulnerability allows remote attackers to execute arbitrary code on affected installations of Xiaomi Pro 13 smartphones. User interaction is required to exploit this vulnerability in that the target must visit a malicious page or open a malicious file.
 
@@ -84,6 +84,8 @@ This vulnerability allows remote attackers to execute arbitrary code on affected
 
 * [https://www.zerodayinitiative.com/advisories/ZDI-24-419/](https://www.zerodayinitiative.com/advisories/ZDI-24-419/)
 * [https://trust.mi.com/misrc/bulletins/advisory?cveId=545](https://trust.mi.com/misrc/bulletins/advisory?cveId=545)
+* [https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-4406](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-4406)
+* [https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-45346](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-45346)
 * Advisory: [https://www.nccgroup.com/us/research-blog/technical-advisory-xiaomi-13-pro-code-execution-via-getapps-dom-cross-site-scripting-xss/](https://www.nccgroup.com/us/research-blog/technical-advisory-xiaomi-13-pro-code-execution-via-getapps-dom-cross-site-scripting-xss/)
     * Backup advisory - [https://yogehi.github.io/cves/cve-2024-4406.html](/cves/cve-2024-4406.html)
 
@@ -95,7 +97,7 @@ Some versions of the Galaxy App Store on certain versions of Android could have 
 
 ### References
 
-* [https://security.samsungmobile.com/serviceWeb.smsb?year=2023&month=1](https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=4) - January 2023 (SVE-2022-2766)
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2023&month=1](https://security.samsungmobile.com/serviceWeb.smsb?year=2023&month=1) - January 2023 (SVE-2022-2766)
 * Advisory - [https://research.nccgroup.com/2023/01/20/technical-advisory-multiple-vulnerabilities-in-the-galaxy-app-store-cve-2023-21433-cve-2023-21434/](https://research.nccgroup.com/2023/01/20/technical-advisory-multiple-vulnerabilities-in-the-galaxy-app-store-cve-2023-21433-cve-2023-21434/)
     * Backup advisory - [https://yogehi.github.io/cves/cve-2023-21433.html](/cves/cve-2023-21433.html)
 
@@ -107,7 +109,7 @@ Some versions of the Galaxy App Store could have been abused to launch a webview
 
 ### References
 
-* [https://security.samsungmobile.com/serviceWeb.smsb?year=2023&month=1](https://security.samsungmobile.com/serviceWeb.smsb?year=2022&month=4) - January 2023 (SVE-2022-2854)
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2023&month=1](https://security.samsungmobile.com/serviceWeb.smsb?year=2023&month=1) - January 2023 (SVE-2022-2854)
 * Advisory - [https://research.nccgroup.com/2023/01/20/technical-advisory-multiple-vulnerabilities-in-the-galaxy-app-store-cve-2023-21433-cve-2023-21434/](https://research.nccgroup.com/2023/01/20/technical-advisory-multiple-vulnerabilities-in-the-galaxy-app-store-cve-2023-21433-cve-2023-21434/)
     * Backup advisory - [https://yogehi.github.io/cves/cve-2023-21434.html](/cves/cve-2023-21434.html)
 
