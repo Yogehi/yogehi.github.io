@@ -10,6 +10,16 @@ All of my CVEs are documented here.
 
 --------------------------------------------------------
 
+## CVE-yayplaceholder-yay
+
+An exported Content Provider can be abused to read files within the context of the Google TV application.
+
+### References
+
+* [https://yogehi.github.io/cves/cve-yayplaceholder-yay.html](/cves/cve-yayplaceholder-yay.html)
+
+--------------------------------------------------------
+
 ## CVE-2025-20926
 
 Improper export of Android application components in My Files prior to version 15.0.07.5 in Android 14 allows local attackers to access files with My Files' privilege.
