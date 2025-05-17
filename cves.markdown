@@ -16,7 +16,7 @@ An exported Content Provider in Google TV prior to version 4.39.2590.678247678.4
 
 ### References
 
-* [https://yogehi.github.io/cves/cve-2024-yaytempyay.html](/cves/cve-2024-yaytempyay.html)
+* [https://yogehi.github.io/cves/cve-2025-yaytempyay.html](/cves/cve-2025-yaytempyay.html)
 
 --------------------------------------------------------
 
