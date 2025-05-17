@@ -12,11 +12,11 @@ All of my CVEs are documented here.
 
 ## CVE-yayplaceholder-yay
 
-An exported Content Provider can be abused to read files within the context of the Google TV application.
+An exported Content Provider in Google TV prior to version 4.39.2590.678247678.4-release can be abused to read files within the context of the Google TV application.
 
 ### References
 
-* [https://yogehi.github.io/cves/cve-yayplaceholder-yay.html](/cves/cve-yayplaceholder-yay.html)
+* [https://yogehi.github.io/cves/cve-yayplaceholder-yay.html](/cves/cve-2024-yaytempyay.html)
 
 --------------------------------------------------------
 
