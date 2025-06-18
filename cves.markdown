@@ -38,7 +38,8 @@ Path traversal in Quick Share Agent prior to version 3.5.14.47 in Android 12, 3.
 ### References
 
 * [https://security.samsungmobile.com/serviceWeb.smsb?year=2024&month=12](https://security.samsungmobile.com/serviceWeb.smsb?year=2024&month=12) - December 2024 (SVE-2024-2042)
-* Technical details coming soon...
+* White Paper: [https://www.nccgroup.com/us/research-blog/samsung-galaxy-s24-pwn2own-ireland-2024/](https://www.nccgroup.com/us/research-blog/samsung-galaxy-s24-pwn2own-ireland-2024/)
+	* Backup White Paper - [https://yogehi.github.io/published-research/pwn2own-ireland-2024-samsung-s24-attack-chain](/published-research/pwn2own-ireland-2024-samsung-s24-attack-chain)
 
 --------------------------------------------------------
 
@@ -49,7 +50,8 @@ Improper handling of responses in GamingHub prior to version 6.1.04.6 in Korea, 
 ### References
 
 * [https://security.samsungmobile.com/serviceWeb.smsb?year=2024&month=12](https://security.samsungmobile.com/serviceWeb.smsb?year=2024&month=12) - December 2024 (SVE-2024-2040)
-* Technical details coming soon...
+* White Paper: [https://www.nccgroup.com/us/research-blog/samsung-galaxy-s24-pwn2own-ireland-2024/](https://www.nccgroup.com/us/research-blog/samsung-galaxy-s24-pwn2own-ireland-2024/)
+	* Backup White Paper - [https://yogehi.github.io/published-research/pwn2own-ireland-2024-samsung-s24-attack-chain](/published-research/pwn2own-ireland-2024-samsung-s24-attack-chain)
 
 --------------------------------------------------------
 
@@ -60,8 +62,8 @@ Insufficient verification of url authenticity in GamingHub prior to version 6.1.
 ### References
 
 * [https://security.samsungmobile.com/serviceWeb.smsb?year=2024&month=12](https://security.samsungmobile.com/serviceWeb.smsb?year=2024&month=12) - December 2024 (SVE-2024-2039)
-* Technical details coming soon...
-
+* White Paper: [https://www.nccgroup.com/us/research-blog/samsung-galaxy-s24-pwn2own-ireland-2024/](https://www.nccgroup.com/us/research-blog/samsung-galaxy-s24-pwn2own-ireland-2024/)
+	* Backup White Paper - [https://yogehi.github.io/published-research/pwn2own-ireland-2024-samsung-s24-attack-chain](/published-research/pwn2own-ireland-2024-samsung-s24-attack-chain)
 --------------------------------------------------------
 
 ## CVE-2024-49418
@@ -71,7 +73,8 @@ Insufficient verification of url authenticity in GamingHub prior to version 6.1.
 ### References
 
 * [https://security.samsungmobile.com/serviceWeb.smsb?year=2024&month=12](https://security.samsungmobile.com/serviceWeb.smsb?year=2024&month=12) - December 2024 (SVE-2024-2038)
-* Technical details coming soon...
+* White Paper: [https://www.nccgroup.com/us/research-blog/samsung-galaxy-s24-pwn2own-ireland-2024/](https://www.nccgroup.com/us/research-blog/samsung-galaxy-s24-pwn2own-ireland-2024/)
+	* Backup White Paper - [https://yogehi.github.io/published-research/pwn2own-ireland-2024-samsung-s24-attack-chain](/published-research/pwn2own-ireland-2024-samsung-s24-attack-chain)
 
 --------------------------------------------------------
 
@@ -82,7 +85,8 @@ Improper Verification of Cryptographic Signature in SmartSwitch prior to SMR Dec
 ### References
 
 * [https://security.samsungmobile.com/securityUpdate.smsb?year=2024&month=12](https://security.samsungmobile.com/securityUpdate.smsb?year=2024&month=12) - December 2024 (SVE-2024-2044)
-* Technical details coming soon...
+* White Paper: [https://www.nccgroup.com/us/research-blog/samsung-galaxy-s24-pwn2own-ireland-2024/](https://www.nccgroup.com/us/research-blog/samsung-galaxy-s24-pwn2own-ireland-2024/)
+	* Backup White Paper - [https://yogehi.github.io/published-research/pwn2own-ireland-2024-samsung-s24-attack-chain](/published-research/pwn2own-ireland-2024-samsung-s24-attack-chain)
 
 --------------------------------------------------------
 
