@@ -8,6 +8,22 @@ All of my research which were published on other sites are documented here.
 
 **Wanna learn the skills used in some of the research below?** I've started making training coureses. More information here: [https://yogehi.github.io/training-courses/](https://yogehi.github.io/training-courses/)
 
+--------------------------------------------------------
+
+## OffensiveCon25 - Chainspotting 2: The Unofficial Sequel to the 2018 Talk “Chainspotting”
+
+At Pwn2Own Ireland 2024 (sometimes referred to as Mobile Pwn2Own 2024), there were 61 entries targeting...IoT devices and printers. No wonder "mobile" is not in the event's title anymore. Thankfully, there was still 1 entry that targeted, and successfully pwned, the Samsung Galaxy S24. And now that the issues are patched, it is time to disclose those technical details!
+
+The full exploit chain consisted of five different issues across several different applications, resulting in the ability to install arbitrary APKs. This talk will discuss the bugs that were discovered, how they were chained together, and the issues encountered while developing the Pwn2Own entry.
+
+There are no stories about vendors being lame this year. Just pure technical details about the bugs, and how a ""Path Traversal"" issue ended up being the most interesting bug in the entire exploit chain.
+
+* Slide Deck: [NCC Group Blog](https://www.nccgroup.com/media/smbhcb24/offensivecon-2024-talk-chainspotting-2-censored-but-for-real.pdf)
+    * Backup Slide Deck: [https://yogehi.github.io/assets/offensivecon25-talk-stuff/OffensiveCon 2024 Talk - Chainspotting 2.pdf](/assets/offensivecon25-talk-stuff/OffensiveCon%202024%20Talk%20-%20Chainspotting%202.pdf)
+* YouTube Video: [https://www.youtube.com/watch?v=LAIr2laU-So](https://www.youtube.com/watch?v=LAIr2laU-So)
+
+--------------------------------------------------------
+
 ## DEF CON 32 Talk - Xiaomi The Money - Our Toronto Pwn2Own Exploit and Behind The Scenes Story
 
 At Pwn2Own Toronto 2023, NCC Group was one of the two teams that compromised the Xiaomi 13 Pro. The exploit chain involved using a malicious HTML hyperlink and uploading a potentially malicious application to the Xiaomi app store.
