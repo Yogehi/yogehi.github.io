@@ -22,7 +22,7 @@ OffensiveCon25 Assets:
 
 * Slide Deck: [NCC Group Blog](https://www.nccgroup.com/media/smbhcb24/offensivecon-2024-talk-chainspotting-2-censored-but-for-real.pdf)
     * Backup Slide Deck: [https://yogehi.github.io/assets/offensivecon25-talk-stuff/OffensiveCon 2024 Talk - Chainspotting 2.pdf](/assets/offensivecon25-talk-stuff/OffensiveCon%202024%20Talk%20-%20Chainspotting%202.pdf)
-* YouTube Video: [https://www.youtube.com/watch?v=LAIr2laU-So](https://www.youtube.com/watch?v=LAIr2laU-So)
+* Talk YouTube Video: [https://www.youtube.com/watch?v=LAIr2laU-So](https://www.youtube.com/watch?v=LAIr2laU-So)
 
 Links:
 
