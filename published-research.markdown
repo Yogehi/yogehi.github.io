@@ -18,9 +18,18 @@ The full exploit chain consisted of five different issues across several differe
 
 There are no stories about vendors being lame this year. Just pure technical details about the bugs, and how a ""Path Traversal"" issue ended up being the most interesting bug in the entire exploit chain.
 
+OffensiveCon25 Assets:
+
 * Slide Deck: [NCC Group Blog](https://www.nccgroup.com/media/smbhcb24/offensivecon-2024-talk-chainspotting-2-censored-but-for-real.pdf)
     * Backup Slide Deck: [https://yogehi.github.io/assets/offensivecon25-talk-stuff/OffensiveCon 2024 Talk - Chainspotting 2.pdf](/assets/offensivecon25-talk-stuff/OffensiveCon%202024%20Talk%20-%20Chainspotting%202.pdf)
 * YouTube Video: [https://www.youtube.com/watch?v=LAIr2laU-So](https://www.youtube.com/watch?v=LAIr2laU-So)
+
+Links:
+
+* White Paper: [https://www.nccgroup.com/us/research-blog/samsung-galaxy-s24-pwn2own-ireland-2024/](https://www.nccgroup.com/us/research-blog/samsung-galaxy-s24-pwn2own-ireland-2024/)
+    * Backup White Paper - [https://yogehi.github.io/published-research/pwn2own-ireland-2024-samsung-s24-attack-chain](/published-research/pwn2own-ireland-2024-samsung-s24-attack-chain)
+* Pwn2Own Success Tweet - [https://x.com/thezdi/status/1849022145512230983](https://x.com/thezdi/status/1849022145512230983)
+* YouTube Short - [https://www.youtube.com/shorts/eM9dOhHH2AA](https://www.youtube.com/shorts/eM9dOhHH2AA)
 
 --------------------------------------------------------
 
