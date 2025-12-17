@@ -34,7 +34,7 @@ If you already understand how to trace functions and hook methods and want to ex
 
 Learn some Android hacking techniques used in CVE exploits and hacking competitions
 
-Udemy link: [https://www.udemy.com/course/pentesting-exploits-noted-in-smartphones-android-edition/](https://www.udemy.com/course/pentesting-exploits-noted-in-smartphones-android-edition/?referralCode=3436FB58BAF063E4F19F)
+*Course is currently unavailable for now...*
 
 ### Description
 
