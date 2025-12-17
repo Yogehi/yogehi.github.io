@@ -6,9 +6,29 @@ permalink: /training-courses/
 
 Wanna learn some cool hacking shit?
 
-I've started making training courses under my personal company, Malicious Erection LLC.
+I've started making training courses.
 
-Right now, there's only one course, but I have plans for more coureses in the future.
+## Advanced Android Hacking
+
+Learn the current record holder for "most amount of bugs" used in a Pwn2Own chain
+
+Mobile Hacking Lab link: [https://www.mobilehackinglab.com/course/advanced-android-hacking](https://www.mobilehackinglab.com/course/advanced-android-hacking)
+
+### Description
+
+In this course you'll see the mindset, techniques, and strategies behind turning small flaws into full mobile device compromises.
+
+You will then practice those exact steps on interactive mobile devices and specially created labs that recreates the longest Pwn2Own bug chain.
+
+Key takeaways:
+
+* **Exploit Chaining**: Learn how to find logic bugs that can compromise a device
+
+* **Exploitation**: Build remote exploits by chaining multiple vulnerabilities
+
+* **Device Compromise**: Learn to compromise devices remotely
+
+If you already understand how to trace functions and hook methods and want to experience what it is like to chain multiple findings together, this course is for you!
 
 ## Pentesting Exploits Noted In Smartphones (Android Edition)
 

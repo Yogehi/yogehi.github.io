@@ -10,6 +10,39 @@ All of my CVEs are documented here.
 
 --------------------------------------------------------
 
+## CVE-2025-58487
+
+Improper authorization in Samsung Account prior to version 15.5.01.1 allows local attacker to launch arbitrary activity with Samsung Account privilege.
+
+### References
+
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2025&month=12](https://security.samsungmobile.com/serviceWeb.smsb?year=2025&month=12) - December 2025 (SVE-2025-2231)
+* Technical details coming soon...
+
+--------------------------------------------------------
+
+## CVE-2025-58486
+
+Improper input validation in Samsung Account prior to version 15.5.01.1 allows local attacker to execute arbitrary script.
+
+### References
+
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2025&month=12](https://security.samsungmobile.com/serviceWeb.smsb?year=2025&month=12) - December 2025 (SVE-2025-2230)
+* Technical details coming soon...
+
+--------------------------------------------------------
+
+## CVE-2025-21079
+
+Improper input validation in Samsung Members prior to version 5.5.01.3 allows remote attackers to connect arbitrary URL and launch arbitrary activity with Samsung Members privilege. User interaction is required for triggering this vulnerability.
+
+### References
+
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2025&month=11](https://security.samsungmobile.com/serviceWeb.smsb?year=2025&month=11) - November 2025 (SVE-2025-2227)
+* Technical details coming soon...
+
+--------------------------------------------------------
+
 ## CVE-yayplaceholder-yay
 
 An exported Content Provider in Google TV prior to version 4.39.2590.678247678.4-release can be abused to read files within the context of the Google TV application.
