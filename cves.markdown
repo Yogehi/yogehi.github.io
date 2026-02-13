@@ -10,6 +10,18 @@ All of my CVEs are documented here.
 
 --------------------------------------------------------
 
+## CVE-2026-20985
+
+Improper authorization in Samsung Account prior to version 15.5.01.1 allows local attacker to launch arbitrary activity with Samsung Account privilege.
+
+### References
+
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2026&month=2](https://security.samsungmobile.com/serviceWeb.smsb?year=2026&month=2) - February 2026 (SVE-2025-2348)
+* Technical details coming soon...
+
+
+--------------------------------------------------------
+
 ## CVE-2025-58487
 
 Improper authorization in Samsung Account prior to version 15.5.01.1 allows local attacker to launch arbitrary activity with Samsung Account privilege.
