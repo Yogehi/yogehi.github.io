@@ -10,6 +10,7 @@ All of my CVEs are documented here.
 
 --------------------------------------------------------
 
+<<<<<<< HEAD
 ## CVE-2026-20985
 
 Improper authorization in Samsung Account prior to version 15.5.01.1 allows local attacker to launch arbitrary activity with Samsung Account privilege.
@@ -20,6 +21,17 @@ Improper authorization in Samsung Account prior to version 15.5.01.1 allows loca
 * Technical details coming soon...
 
 
+=======
+## CVE-2026-20976
+
+Improper input validation in Galaxy Store prior to version 4.6.02 allows local attacker to execute arbitrary script.
+
+### References
+
+* [https://security.samsungmobile.com/serviceWeb.smsb?year=2026&month=1](https://security.samsungmobile.com/serviceWeb.smsb?year=2026&month=1) - January 2026 (SVE-2025-2080)
+* Technical details coming soon...
+
+>>>>>>> 3e92944a712e54e3d0eec53e5b0ae86bd046d1f4
 --------------------------------------------------------
 
 ## CVE-2025-58487
