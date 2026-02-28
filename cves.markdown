@@ -12,7 +12,7 @@ All of my CVEs are documented here.
 
 ## CVE-2026-20985
 
-Improper authorization in Samsung Account prior to version 15.5.01.1 allows local attacker to launch arbitrary activity with Samsung Account privilege.
+Improper input validation in Samsung Members prior to version 5.6.00.11 allows remote attackers to connect arbitrary URL and launch arbitrary activity with Samsung Members privilege. User interaction is required for triggering this vulnerability.
 
 ### References
 
