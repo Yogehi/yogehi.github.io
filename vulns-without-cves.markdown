@@ -16,6 +16,6 @@ The Google TV Android application (`com.google.android.videos`) had an exported 
 
 ### References
 
-* [https://yogehi.github.io/vulns-without-cves/yaytemplateyay](/vulns-without-cves/yaytemplateyay)
+* [https://yogehi.github.io/vulns-without-cves/2025-google-tv-4.39.2590-path-traversal](/vulns-without-cves/2025-google-tv-4.39.2590-path-traversal)
 
 --------------------------------------------------------
