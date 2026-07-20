@@ -16,7 +16,7 @@ The Meta Quest "System Resource" diagnostic application (`com.oculus.systemresou
 
 ### References
 
-* [https://yogehi.github.io/vulns-without-cves/2026-meta-quest-system-resource-201.0.0.129-dos](/vulns-without-cves/2026-meta-quest-system-resource-201.0.0.129-dos)
+* [https://yogehi.github.io/vulns-without-cves/2026-meta-quest-system-resource-201.0.0.129-dos/](/vulns-without-cves/2026-meta-quest-system-resource-201.0.0.129-dos/)
 * Original post: [https://djini.ai/technical-advisory-meta-quest-system-wide-dos-via-unprotected-memory/](https://djini.ai/technical-advisory-meta-quest-system-wide-dos-via-unprotected-memory/)
 
 --------------------------------------------------------
@@ -27,6 +27,6 @@ The Google TV Android application (`com.google.android.videos`) had an exported 
 
 ### References
 
-* [https://yogehi.github.io/vulns-without-cves/2025-google-tv-4.39.2590-path-traversal](/vulns-without-cves/2025-google-tv-4.39.2590-path-traversal)
+* [https://yogehi.github.io/vulns-without-cves/2025-google-tv-4.39.2590-path-traversal/](/vulns-without-cves/2025-google-tv-4.39.2590-path-traversal/)
 
 --------------------------------------------------------

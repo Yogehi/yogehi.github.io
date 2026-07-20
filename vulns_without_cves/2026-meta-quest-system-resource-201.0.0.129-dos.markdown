@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Technical Advisory – Meta Quest System-Wide DoS via Unprotected Memory
-permalink: /vulns-without-cves/2026-meta-quest-system-resource-201.0.0.129-dos
+permalink: /vulns-without-cves/2026-meta-quest-system-resource-201.0.0.129-dos/
 ---
 
 #### Original post: [https://djini.ai/technical-advisory-meta-quest-system-wide-dos-via-unprotected-memory/](https://djini.ai/technical-advisory-meta-quest-system-wide-dos-via-unprotected-memory/)

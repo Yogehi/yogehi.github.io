@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Google TV 4.39.2590 - Path Traversal
-permalink: /vulns-without-cves/2025-google-tv-4.39.2590-path-traversal
+permalink: /vulns-without-cves/2025-google-tv-4.39.2590-path-traversal/
 ---
 
 |    **Product**    | Google TV version 4.39.2590.678247678.4-release |
