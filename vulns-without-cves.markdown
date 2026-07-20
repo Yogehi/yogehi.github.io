@@ -10,6 +10,17 @@ All of my vulnerabilities that were not assigned a CVE are documented here.
 
 --------------------------------------------------------
 
+## Meta Quest System Resource 201.0.0.129 - System-Wide DoS via Unprotected Memory
+
+The Meta Quest "System Resource" diagnostic application (`com.oculus.systemresource`) exposed an unprotected broadcast receiver and service that any local application could abuse to memory-map an 8.6 GB file, exhausting all physical memory and causing a system-wide denial of service.
+
+### References
+
+* [https://yogehi.github.io/vulns-without-cves/2026-meta-quest-system-resource-201.0.0.129-dos](/vulns-without-cves/2026-meta-quest-system-resource-201.0.0.129-dos)
+* Original post: [https://djini.ai/technical-advisory-meta-quest-system-wide-dos-via-unprotected-memory/](https://djini.ai/technical-advisory-meta-quest-system-wide-dos-via-unprotected-memory/)
+
+--------------------------------------------------------
+
 ## Google TV 4.39.2590 - Path Traversal
 
 The Google TV Android application (`com.google.android.videos`) had an exported Content Provider which contains a Path Traversal vulnerability.
