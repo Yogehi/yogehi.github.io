@@ -10,9 +10,9 @@ All of my vulnerabilities that were not assigned a CVE are documented here.
 
 --------------------------------------------------------
 
-## Vuln-yayplaceholder-yay
+## Google TV 4.39.2590 - Path Traversal
 
-A short description of a vulnerability that never got a CVE goes here.
+The Google TV Android application (`com.google.android.videos`) had an exported Content Provider which contains a Path Traversal vulnerability.
 
 ### References
 
