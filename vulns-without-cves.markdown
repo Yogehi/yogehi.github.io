@@ -10,14 +10,25 @@ All of my vulnerabilities that were not assigned a CVE are documented here.
 
 --------------------------------------------------------
 
+## Samsung Dressroom (Wallpaper & Style) 2.9.50.89 - Arbitrary File Write at System UID
+
+The Samsung Wallpaper & Style / Dressroom app (`com.samsung.android.app.dressroom`) extracted a nested, attacker-supplied ZIP archive during Smart Switch backup restore without any path containment, and neutralized the platform's `ZipPathValidator` defense. This allowed a Zip-Slip arbitrary file write as UID 1000, which could be escalated to bypass `WRITE_SECURE_SETTINGS` entirely by injecting a malicious accessibility service into `settings_secure.xml`.
+
+### References
+
+* [https://djini.ai/technical-advisory-samsung-dressroom-wallpaper-style-arbitrary-file-write-at-system-uid/](https://djini.ai/technical-advisory-samsung-dressroom-wallpaper-style-arbitrary-file-write-at-system-uid/)
+    * Backup Post: [https://yogehi.github.io/vulns-without-cves/2026-samsung-dressroom-2.9.50.89-arbitrary-file-write/](/vulns-without-cves/2026-samsung-dressroom-2.9.50.89-arbitrary-file-write/)
+
+--------------------------------------------------------
+
 ## Meta Quest System Resource 201.0.0.129 - System-Wide DoS via Unprotected Memory
 
 The Meta Quest "System Resource" diagnostic application (`com.oculus.systemresource`) exposed an unprotected broadcast receiver and service that any local application could abuse to memory-map an 8.6 GB file, exhausting all physical memory and causing a system-wide denial of service.
 
 ### References
 
-* [https://yogehi.github.io/vulns-without-cves/2026-meta-quest-system-resource-201.0.0.129-dos/](/vulns-without-cves/2026-meta-quest-system-resource-201.0.0.129-dos/)
-* Original post: [https://djini.ai/technical-advisory-meta-quest-system-wide-dos-via-unprotected-memory/](https://djini.ai/technical-advisory-meta-quest-system-wide-dos-via-unprotected-memory/)
+* [https://djini.ai/technical-advisory-meta-quest-system-wide-dos-via-unprotected-memory/](https://djini.ai/technical-advisory-meta-quest-system-wide-dos-via-unprotected-memory/)
+    * Backup Post: [https://yogehi.github.io/vulns-without-cves/2026-meta-quest-system-resource-201.0.0.129-dos/](/vulns-without-cves/2026-meta-quest-system-resource-201.0.0.129-dos/)
 
 --------------------------------------------------------
 

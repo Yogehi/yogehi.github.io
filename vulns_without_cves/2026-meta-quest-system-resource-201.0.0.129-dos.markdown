@@ -6,8 +6,6 @@ permalink: /vulns-without-cves/2026-meta-quest-system-resource-201.0.0.129-dos/
 
 #### Original post: [https://djini.ai/technical-advisory-meta-quest-system-wide-dos-via-unprotected-memory/](https://djini.ai/technical-advisory-meta-quest-system-wide-dos-via-unprotected-memory/)
 
-`By Ken Gannon — June 17, 2026`
-
 |    **Product**    | Meta Quest **System Resource** (`com.oculus.systemresource`) |
 | **Affected versions** | `201.0.0.129.1682` and below (the v201 OS train) |
 | **Fixed in** | **vros 204** — the `com.oculus.systemresource` application is removed entirely from the build |

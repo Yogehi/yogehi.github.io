@@ -65,16 +65,6 @@ Improper input validation in Samsung Members prior to version 5.5.01.3 allows re
 
 --------------------------------------------------------
 
-## CVE-yayplaceholder-yay
-
-An exported Content Provider in Google TV prior to version 4.39.2590.678247678.4-release can be abused to read files within the context of the Google TV application.
-
-### References
-
-* [https://yogehi.github.io/cves/cve-2025-yaytempyay.html](/cves/cve-2025-yaytempyay.html)
-
---------------------------------------------------------
-
 ## CVE-2025-20926
 
 Improper export of Android application components in My Files prior to version 15.0.07.5 in Android 14 allows local attackers to access files with My Files' privilege.
