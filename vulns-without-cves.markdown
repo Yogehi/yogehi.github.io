@@ -10,6 +10,17 @@ All of my vulnerabilities that were not assigned a CVE are documented here.
 
 --------------------------------------------------------
 
+## Tecno Spark 30 Pro - One Click to RCE
+
+A two-app exploit chain on the Tecno Spark 30 Pro (Optimus Prime edition): a single clicked link could load an attacker-controlled page into AHA Games' (`net.bat.store`) privileged WebView, use it to intent-redirect into Palm Store (`com.transsnet.store`) and force an unauthenticated automatic app install, then have AHA Games silently launch the newly installed (attacker-chosen) app — achieving one-click RCE via a sideloaded Drozer bind shell.
+
+### References
+
+* [https://djini.ai/tecno-spark-30-pro-one-click-rcetechnical-advisory/](https://djini.ai/tecno-spark-30-pro-one-click-rcetechnical-advisory/)
+    * Backup Post: [https://yogehi.github.io/vulns-without-cves/2026-tecno-spark-30-pro-one-click-rce/](/vulns-without-cves/2026-tecno-spark-30-pro-one-click-rce/)
+
+--------------------------------------------------------
+
 ## Meta Horizon Shell 201.0.0.649.547 - Automatic Dangerous Permission Grant via Virtual Input Injection
 
 `GauntletTestPanelActivity` in Meta Horizon Shell (`com.oculus.vrshell`) registered two dynamic broadcast receivers with no sender permission check, letting any installed application inject arbitrary virtual key/mouse events via `VirtualInputDeviceManager`. This let a malicious app automatically navigate and accept all dangerous permission dialogs, silently granting itself camera, microphone, and storage access with zero user interaction.
