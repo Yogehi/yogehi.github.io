@@ -10,6 +10,17 @@ All of my vulnerabilities that were not assigned a CVE are documented here.
 
 --------------------------------------------------------
 
+## Meta Horizon Shell 201.0.0.649.547 - Automatic Dangerous Permission Grant via Virtual Input Injection
+
+`GauntletTestPanelActivity` in Meta Horizon Shell (`com.oculus.vrshell`) registered two dynamic broadcast receivers with no sender permission check, letting any installed application inject arbitrary virtual key/mouse events via `VirtualInputDeviceManager`. This let a malicious app automatically navigate and accept all dangerous permission dialogs, silently granting itself camera, microphone, and storage access with zero user interaction.
+
+### References
+
+* [https://djini.ai/technical-advisory-meta-horizon-shell-automatic-dangerous-permission-grant-via-virtual-input-injection/](https://djini.ai/technical-advisory-meta-horizon-shell-automatic-dangerous-permission-grant-via-virtual-input-injection/)
+    * Backup Post: [https://yogehi.github.io/vulns-without-cves/2026-meta-horizon-shell-201.0.0.649.547-permission-grant/](/vulns-without-cves/2026-meta-horizon-shell-201.0.0.649.547-permission-grant/)
+
+--------------------------------------------------------
+
 ## Samsung Dressroom (Wallpaper & Style) 2.9.50.89 - Arbitrary File Write at System UID
 
 The Samsung Wallpaper & Style / Dressroom app (`com.samsung.android.app.dressroom`) extracted a nested, attacker-supplied ZIP archive during Smart Switch backup restore without any path containment, and neutralized the platform's `ZipPathValidator` defense. This allowed a Zip-Slip arbitrary file write as UID 1000, which could be escalated to bypass `WRITE_SECURE_SETTINGS` entirely by injecting a malicious accessibility service into `settings_secure.xml`.
