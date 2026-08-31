@@ -18,7 +18,7 @@ permalink: /vulns-without-cves/2026-samsung-dressroom-2.9.50.89-arbitrary-file-w
 
 It was found that the Smart Switch backup/restore handler in Dressroom extracts a nested, attacker-supplied ZIP archive (`profiles.zip`) without any path containment, and explicitly neutralises the platform's `ZipPathValidator` defence by installing a callback that overrides no methods. Because Dressroom runs as the system user (`android.uid.system`, UID 1000) and performs no integrity check on the restored archive, an attacker who authors a crafted password-mode Smart Switch backup and social-engineers a victim into restoring it can write attacker-controlled file content to an arbitrary path owned by UID 1000.
 
-By targeting `/data/system/users/0/settings_secure.xml`, the attacker injects arbitrary Secure Settings that the framework loads verbatim on the next boot, bypassing the `WRITE_SECURE_SETTINGS` (signature|privileged) permission entirely.
+By targeting `/data/system/users/0/settings_secure.xml`, the attacker injects arbitrary Secure Settings that the framework loads verbatim on the next boot, bypassing the `WRITE_SECURE_SETTINGS` (signature or privileged) permission entirely.
 
 ## Impact
 
